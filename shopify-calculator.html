@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Calculate your Shopify profit after all fees including platform fees, payment processing, transaction fees, and operating costs. Free Shopify calculator.">
+    <title>Shopify Profit Calculator - CalcPro</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #96BF48 0%, #5F9C3B 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .nav-link {
+            display: inline-block;
+            margin-top: 10px;
+            color: white;
+            text-decoration: none;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+
+        .nav-link:hover {
+            opacity: 1;
+        }
+
+        .calculator-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .plan-selector {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .plan-btn {
+            flex: 1;
+            min-width: 150px;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .plan-btn.active {
+            background: #96BF48;
+            color: white;
+            border-color: #96BF48;
+        }
+
+        .plan-price {
+            font-size: 1.3em;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .plan-name {
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+
+        .input-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+            margin-bottom: 25px;
+        }
+
+        .input-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+            font-size: 0.95em;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #96BF48;
+        }
+
+        .tooltip {
+            font-size: 0.85em;
+            color: #666;
+            margin-top: 5px;
+            font-style: italic;
+        }
+
+        .calculate-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #96BF48 0%, #5F9C3B 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .calculate-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .results {
+            margin-top: 30px;
+            display: none;
+        }
+
+        .results.show {
+            display: block;
+            animation: slideIn 0.4s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .profit-summary {
+            padding: 30px;
+            background: linear-gradient(135deg, #96BF48 0%, #5F9C3B 100%);
+            border-radius: 15px;
+            color: white;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .profit-summary h2 {
+            margin-bottom: 15px;
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .profit-summary .main-value {
+            font-size: 3.5em;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .profit-summary .margin {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .breakdown-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .breakdown-item {
+            padding: 20px;
+            background: #f8f9ff;
+            border-radius: 10px;
+        }
+
+        .breakdown-item h4 {
+            color: #666;
+            font-size: 0.85em;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .breakdown-item .value {
+            font-size: 1.6em;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .fee-breakdown {
+            padding: 25px;
+            background: #f8f9ff;
+            border-radius: 15px;
+        }
+
+        .fee-breakdown h3 {
+            color: #96BF48;
+            margin-bottom: 20px;
+        }
+
+        .fee-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .fee-row:last-child {
+            border-bottom: none;
+            font-weight: 700;
+            padding-top: 15px;
+        }
+
+        .info-section {
+            margin-top: 40px;
+            padding: 30px;
+            background: #f8fff0;
+            border-radius: 15px;
+        }
+
+        .info-section h2 {
+            color: #96BF48;
+            margin-bottom: 15px;
+        }
+
+        .info-section p {
+            line-height: 1.6;
+            color: #555;
+            margin-bottom: 10px;
+        }
+
+        .info-section ul {
+            margin-left: 20px;
+            line-height: 1.8;
+            color: #555;
+        }
+
+        footer {
+            text-align: center;
+            color: white;
+            margin-top: 40px;
+            opacity: 0.9;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8em;
+            }
+
+            .calculator-card {
+                padding: 25px;
+            }
+
+            .input-grid,
+            .breakdown-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .profit-summary .main-value {
+                font-size: 2.5em;
+            }
+
+            .plan-selector {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📊 CalcPro</h1>
+            <p>Shopify Profit Calculator</p>
+            <a href="index.html" class="nav-link">← Back to Home</a>
+        </header>
+
+        <div class="calculator-card">
+            <h3 style="margin-bottom: 15px; color: #333;">Select Your Shopify Plan</h3>
+            <div class="plan-selector">
+                <button class="plan-btn" onclick="selectPlan('basic', 39)">
+                    <div class="plan-price">$39/mo</div>
+                    <div class="plan-name">Basic</div>
+                </button>
+                <button class="plan-btn active" onclick="selectPlan('shopify', 105)">
+                    <div class="plan-price">$105/mo</div>
+                    <div class="plan-name">Shopify</div>
+                </button>
+                <button class="plan-btn" onclick="selectPlan('advanced', 399)">
+                    <div class="plan-price">$399/mo</div>
+                    <div class="plan-name">Advanced</div>
+                </button>
+            </div>
+
+            <div class="input-grid">
+                <div class="input-group">
+                    <label for="revenue">Monthly Revenue ($)</label>
+                    <input type="number" id="revenue" placeholder="e.g., 10000" min="0">
+                    <div class="tooltip">Total sales before any fees</div>
+                </div>
+
+                <div class="input-group">
+                    <label for="orders">Number of Orders</label>
+                    <input type="number" id="orders" placeholder="e.g., 200" min="0">
+                    <div class="tooltip">Total orders per month</div>
+                </div>
+
+                <div class="input-group">
+                    <label for="cogs">Cost of Goods Sold (COGS) %</label>
+                    <input type="number" id="cogs" value="40" min="0" max="100">
+                    <div class="tooltip">Product cost as % of revenue</div>
+                </div>
+
+                <div class="input-group">
+                    <label for="paymentMethod">Payment Method</label>
+                    <select id="paymentMethod">
+                        <option value="shopify">Shopify Payments</option>
+                        <option value="thirdparty">Third-Party Gateway</option>
+                    </select>
+                    <div class="tooltip">Affects transaction fees</div>
+                </div>
+
+                <div class="input-group">
+                    <label for="adSpend">Monthly Ad Spend ($)</label>
+                    <input type="number" id="adSpend" placeholder="e.g., 2000" min="0">
+                    <div class="tooltip">Facebook, Google ads, etc.</div>
+                </div>
+
+                <div class="input-group">
+                    <label for="otherExpenses">Other Monthly Expenses ($)</label>
+                    <input type="number" id="otherExpenses" placeholder="e.g., 500" min="0">
+                    <div class="tooltip">Apps, tools, staff, etc.</div>
+                </div>
+            </div>
+
+            <button class="calculate-btn" onclick="calculateProfit()">Calculate My Profit 💰</button>
+
+            <div class="results" id="results">
+                <div class="profit-summary">
+                    <h2>Net Profit</h2>
+                    <div class="main-value" id="netProfit">$0</div>
+                    <div class="margin">Profit Margin: <span id="profitMargin">0%</span></div>
+                </div>
+
+                <div class="breakdown-grid">
+                    <div class="breakdown-item">
+                        <h4>Total Revenue</h4>
+                        <div class="value" id="totalRevenue">$0</div>
+                    </div>
+                    <div class="breakdown-item">
+                        <h4>Total Costs</h4>
+                        <div class="value" id="totalCosts">$0</div>
+                    </div>
+                    <div class="breakdown-item">
+                        <h4>Return on Ad Spend</h4>
+                        <div class="value" id="roas">0x</div>
+                    </div>
+                    <div class="breakdown-item">
+                        <h4>Profit Per Order</h4>
+                        <div class="value" id="profitPerOrder">$0</div>
+                    </div>
+                </div>
+
+                <div class="fee-breakdown">
+                    <h3>Cost Breakdown</h3>
+                    <div class="fee-row">
+                        <span>Monthly Revenue</span>
+                        <strong id="detailRevenue">$0</strong>
+                    </div>
+                    <div class="fee-row">
+                        <span>Cost of Goods Sold (COGS)</span>
+                        <strong id="detailCogs">-$0</strong>
+                    </div>
+                    <div class="fee-row">
+                        <span>Shopify Subscription Fee</span>
+                        <strong id="detailPlan">-$0</strong>
+                    </div>
+                    <div class="fee-row">
+                        <span>Payment Processing Fees</span>
+                        <strong id="detailPayment">-$0</strong>
+                    </div>
+                    <div class="fee-row">
+                        <span>Transaction Fees</span>
+                        <strong id="detailTransaction">-$0</strong>
+                    </div>
+                    <div class="fee-row">
+                        <span>Advertising Costs</span>
+                        <strong id="detailAds">-$0</strong>
+                    </div>
+                    <div class="fee-row">
+                        <span>Other Expenses</span>
+                        <strong id="detailOther">-$0</strong>
+                    </div>
+                    <div class="fee-row" style="border-top: 2px solid #96BF48; color: #96BF48;">
+                        <span>Net Profit</span>
+                        <strong id="detailProfit">$0</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h2>Understanding Shopify Fees</h2>
+            <p>Shopify charges several types of fees that affect your profitability:</p>
+            
+            <ul>
+                <li><strong>Subscription Fee:</strong> Basic ($39), Shopify ($105), Advanced ($399) per month</li>
+                <li><strong>Payment Processing (Shopify Payments):</strong> 2.9% + 30¢ (Basic), 2.7% + 30¢ (Shopify), 2.5% + 30¢ (Advanced)</li>
+                <li><strong>Transaction Fees (Third-Party Gateway):</strong> 2% (Basic), 1% (Shopify), 0.5% (Advanced)</li>
+                <li><strong>Additional Costs:</strong> Apps ($0-500+), themes ($0-350), ads, staff</li>
+            </ul>
+
+            <p style="margin-top: 15px;"><strong>Typical Profit Margins by Industry:</strong></p>
+            <ul>
+                <li>Fashion/Apparel: 15-25%</li>
+                <li>Electronics: 5-15%</li>
+                <li>Beauty/Cosmetics: 30-50%</li>
+                <li>Home & Garden: 20-35%</li>
+                <li>Digital Products: 80-95%</li>
+            </ul>
+        </div>
+
+        <div class="info-section">
+            <h2>Tips to Increase Shopify Profits</h2>
+            <ul>
+                <li><strong>Use Shopify Payments:</strong> Save on transaction fees vs third-party gateways</li>
+                <li><strong>Optimize Ad Spend:</strong> Target ROAS of 3x minimum for sustainable growth</li>
+                <li><strong>Increase Average Order Value:</strong> Bundles, upsells, and cross-sells</li>
+                <li><strong>Reduce COGS:</strong> Negotiate with suppliers, bulk ordering</li>
+                <li><strong>Minimize App Costs:</strong> Audit monthly - remove unused apps</li>
+                <li><strong>Improve Conversion Rate:</strong> Better product pages = more sales per visitor</li>
+                <li><strong>Email Marketing:</strong> Recover abandoned carts, repeat purchases</li>
+            </ul>
+        </div>
+
+        <footer>
+            <p>&copy; 2026 CalcPro - Free Online Calculators for Creators & Entrepreneurs</p>
+        </footer>
+    </div>
+
+    <script>
+        let selectedPlan = 'shopify';
+        let planFee = 105;
+
+        function selectPlan(plan, fee) {
+            selectedPlan = plan;
+            planFee = fee;
+            
+            document.querySelectorAll('.plan-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.closest('.plan-btn').classList.add('active');
+        }
+
+        function calculateProfit() {
+            const revenue = parseFloat(document.getElementById('revenue').value) || 0;
+            const orders = parseFloat(document.getElementById('orders').value) || 0;
+            const cogsPercent = parseFloat(document.getElementById('cogs').value) || 40;
+            const paymentMethod = document.getElementById('paymentMethod').value;
+            const adSpend = parseFloat(document.getElementById('adSpend').value) || 0;
+            const otherExpenses = parseFloat(document.getElementById('otherExpenses').value) || 0;
+
+            if (revenue === 0 || orders === 0) {
+                alert('Please enter revenue and number of orders');
+                return;
+            }
+
+            // Calculate costs
+            const cogs = revenue * (cogsPercent / 100);
+            
+            // Payment processing fees
+            let paymentRate = 0.029; // 2.9%
+            let transactionFee = 0;
+            
+            if (selectedPlan === 'basic') {
+                paymentRate = 0.029;
+                transactionFee = paymentMethod === 'thirdparty' ? revenue * 0.02 : 0;
+            } else if (selectedPlan === 'shopify') {
+                paymentRate = 0.027;
+                transactionFee = paymentMethod === 'thirdparty' ? revenue * 0.01 : 0;
+            } else {
+                paymentRate = 0.025;
+                transactionFee = paymentMethod === 'thirdparty' ? revenue * 0.005 : 0;
+            }
+            
+            const paymentFees = (revenue * paymentRate) + (orders * 0.30);
+            
+            // Total costs
+            const totalCosts = cogs + planFee + paymentFees + transactionFee + adSpend + otherExpenses;
+            const netProfit = revenue - totalCosts;
+            const profitMargin = (netProfit / revenue) * 100;
+            const roas = adSpend > 0 ? revenue / adSpend : 0;
+            const profitPerOrder = orders > 0 ? netProfit / orders : 0;
+
+            // Display results
+            document.getElementById('netProfit').textContent = '$' + netProfit.toFixed(2);
+            document.getElementById('profitMargin').textContent = profitMargin.toFixed(1) + '%';
+            document.getElementById('totalRevenue').textContent = '$' + revenue.toFixed(2);
+            document.getElementById('totalCosts').textContent = '$' + totalCosts.toFixed(2);
+            document.getElementById('roas').textContent = roas.toFixed(2) + 'x';
+            document.getElementById('profitPerOrder').textContent = '$' + profitPerOrder.toFixed(2);
+
+            // Detailed breakdown
+            document.getElementById('detailRevenue').textContent = '$' + revenue.toFixed(2);
+            document.getElementById('detailCogs').textContent = '-$' + cogs.toFixed(2);
+            document.getElementById('detailPlan').textContent = '-$' + planFee.toFixed(2);
+            document.getElementById('detailPayment').textContent = '-$' + paymentFees.toFixed(2);
+            document.getElementById('detailTransaction').textContent = '-$' + transactionFee.toFixed(2);
+            document.getElementById('detailAds').textContent = '-$' + adSpend.toFixed(2);
+            document.getElementById('detailOther').textContent = '-$' + otherExpenses.toFixed(2);
+            document.getElementById('detailProfit').textContent = '$' + netProfit.toFixed(2);
+
+            document.getElementById('results').classList.add('show');
+            document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Commerce Calculators - CalcPro</title>
+    <meta name="description" content="Free e-commerce profit calculators. Shopify, Amazon FBA, dropshipping, pricing, and break-even analysis.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📊</text></svg>">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 20px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        header { text-align: center; color: white; margin-bottom: 40px; padding: 40px 20px; }
+        header h1 { font-size: 3em; margin-bottom: 15px; }
+        .nav-link { display: inline-block; margin-top: 15px; color: white; text-decoration: none; opacity: 0.8; font-size: 1.1em; }
+        .calculator-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; }
+        .calculator-card { background: white; border-radius: 20px; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); transition: transform 0.3s; text-decoration: none; color: inherit; display: block; }
+        .calculator-card:hover { transform: translateY(-5px); }
+        .card-icon { font-size: 3em; margin-bottom: 15px; }
+        .card-title { font-size: 1.5em; font-weight: 700; margin-bottom: 10px; color: #333; }
+        .card-description { color: #666; line-height: 1.6; margin-bottom: 15px; }
+        .card-tags { display: flex; gap: 8px; flex-wrap: wrap; }
+        .card-tag { padding: 5px 12px; background: #f0f0f0; border-radius: 15px; font-size: 0.85em; font-weight: 600; }
+        footer { text-align: center; color: white; margin-top: 60px; opacity: 0.9; }
+        @media (max-width: 768px) { .calculator-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🛍️ E-Commerce Calculators</h1>
+            <p style="font-size: 1.2em; opacity: 0.9; max-width: 600px; margin: 15px auto;">Calculate profits, fees, and pricing for your online business</p>
+            <a href="index.html" class="nav-link">← Back to Home</a>
+        </header>
+
+        <div class="calculator-grid">
+            <a href="shopify-calculator.html" class="calculator-card" style="border-left: 4px solid #96BF48;">
+                <div class="card-icon">🛒</div>
+                <div class="card-title">Shopify Profit Calculator</div>
+                <div class="card-description">Calculate net profit after all Shopify fees, payment processing, and operating costs. Compare plans and optimize spending.</div>
+                <div class="card-tags">
+                    <span class="card-tag">All Plans</span>
+                    <span class="card-tag">ROAS Included</span>
+                </div>
+            </a>
+
+            <a href="amazon-fba-calculator.html" class="calculator-card" style="border-left: 4px solid #FF9900;">
+                <div class="card-icon">📦</div>
+                <div class="card-title">Amazon FBA Calculator</div>
+                <div class="card-description">Complete breakdown of FBA fees including referral, fulfillment, and storage. Calculate profit per unit and ROI.</div>
+                <div class="card-tags">
+                    <span class="card-tag">All Fees</span>
+                    <span class="card-tag">Size-Based</span>
+                </div>
+            </a>
+
+            <a href="dropshipping-calculator.html" class="calculator-card" style="border-left: 4px solid #4A90E2;">
+                <div class="card-icon">🚚</div>
+                <div class="card-title">Dropshipping Profit Calculator</div>
+                <div class="card-description">Calculate margins including product cost, shipping, platform fees, and ad spend. ROAS and break-even analysis.</div>
+                <div class="card-tags">
+                    <span class="card-tag">ROI Calculator</span>
+                    <span class="card-tag">Ad Spend</span>
+                </div>
+            </a>
+
+            <a href="breakeven-calculator.html" class="calculator-card" style="border-left: 4px solid #8E44AD;">
+                <div class="card-icon">📊</div>
+                <div class="card-title">Break-Even Calculator</div>
+                <div class="card-description">Find out how many units you need to sell to cover costs. Analyze fixed vs variable costs and profitability.</div>
+                <div class="card-tags">
+                    <span class="card-tag">Business Planning</span>
+                    <span class="card-tag">Cost Analysis</span>
+                </div>
+            </a>
+
+            <a href="pricing-calculator.html" class="calculator-card" style="border-left: 4px solid #16A085;">
+                <div class="card-icon">💰</div>
+                <div class="card-title">Product Pricing Calculator</div>
+                <div class="card-description">Set optimal prices using cost-plus, margin, or competitive pricing strategies. Multiple price point recommendations.</div>
+                <div class="card-tags">
+                    <span class="card-tag">3 Methods</span>
+                    <span class="card-tag">Margin Analysis</span>
+                </div>
+            </a>
+        </div>
+
+        <footer>
+            <p>&copy; 2026 CalcPro - Free Tools for E-Commerce</p>
+            <p style="margin-top: 10px;"><a href="index.html" style="color: white;">Home</a> | <a href="creator-calculators.html" style="color: white;">Creator Tools</a></p>
+        </footer>
+    </div>
+</body>
+</html>

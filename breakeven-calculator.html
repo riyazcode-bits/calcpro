@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Calculate how many units you need to sell to break even. Free business break-even point calculator.">
+    <title>Break-Even Calculator - CalcPro</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: linear-gradient(135deg, #8E44AD 0%, #6C3483 100%); min-height: 100vh; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; }
+        header { text-align: center; color: white; margin-bottom: 30px; }
+        header h1 { font-size: 2.5em; margin-bottom: 10px; }
+        .nav-link { display: inline-block; margin-top: 10px; color: white; text-decoration: none; opacity: 0.8; }
+        .calculator-card { background: white; border-radius: 20px; padding: 40px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+        .input-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 25px; margin-bottom: 25px; }
+        label { display: block; margin-bottom: 8px; font-weight: 600; color: #333; font-size: 0.95em; }
+        input { width: 100%; padding: 12px 15px; border: 2px solid #e0e0e0; border-radius: 10px; font-size: 1em; }
+        input:focus { outline: none; border-color: #8E44AD; }
+        .tooltip { font-size: 0.85em; color: #666; margin-top: 5px; font-style: italic; }
+        .calculate-btn { width: 100%; padding: 15px; background: linear-gradient(135deg, #8E44AD 0%, #6C3483 100%); color: white; border: none; border-radius: 10px; font-size: 1.1em; font-weight: 600; cursor: pointer; margin-top: 10px; }
+        .results { margin-top: 30px; display: none; }
+        .results.show { display: block; animation: slideIn 0.4s ease; }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .profit-summary { padding: 30px; background: linear-gradient(135deg, #8E44AD 0%, #6C3483 100%); border-radius: 15px; color: white; text-align: center; margin-bottom: 20px; }
+        .profit-summary .main-value { font-size: 3.5em; font-weight: 700; }
+        .profit-summary .subtitle { font-size: 1.2em; opacity: 0.9; margin-top: 10px; }
+        .breakdown-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-bottom: 20px; }
+        .breakdown-item { padding: 20px; background: #f3e5f5; border-radius: 10px; }
+        .breakdown-item h4 { color: #666; font-size: 0.85em; margin-bottom: 8px; text-transform: uppercase; }
+        .breakdown-item .value { font-size: 1.6em; font-weight: 700; color: #333; }
+        .chart-section { padding: 25px; background: #f3e5f5; border-radius: 15px; margin-top: 20px; }
+        .chart-section h3 { color: #8E44AD; margin-bottom: 20px; }
+        .info-section { margin-top: 40px; padding: 30px; background: #f3e5f5; border-radius: 15px; }
+        .info-section h2 { color: #8E44AD; margin-bottom: 15px; }
+        .info-section ul { margin-left: 20px; line-height: 1.8; color: #555; }
+        footer { text-align: center; color: white; margin-top: 40px; opacity: 0.9; }
+        @media (max-width: 768px) { .input-grid, .breakdown-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📊 CalcPro</h1>
+            <p>Break-Even Calculator</p>
+            <a href="index.html" class="nav-link">← Back to Home</a>
+        </header>
+
+        <div class="calculator-card">
+            <div class="input-grid">
+                <div>
+                    <label for="fixedCosts">Fixed Costs (Monthly $)</label>
+                    <input type="number" id="fixedCosts" placeholder="e.g., 5000">
+                    <div class="tooltip">Rent, salaries, utilities, subscriptions</div>
+                </div>
+                <div>
+                    <label for="pricePerUnit">Price Per Unit ($)</label>
+                    <input type="number" id="pricePerUnit" placeholder="e.g., 50" step="0.01">
+                    <div class="tooltip">What you sell each product for</div>
+                </div>
+                <div>
+                    <label for="variableCostPerUnit">Variable Cost Per Unit ($)</label>
+                    <input type="number" id="variableCostPerUnit" placeholder="e.g., 20" step="0.01">
+                    <div class="tooltip">COGS, packaging, shipping per unit</div>
+                </div>
+                <div>
+                    <label for="currentUnits">Current Monthly Sales (Units)</label>
+                    <input type="number" id="currentUnits" placeholder="e.g., 100">
+                    <div class="tooltip">How many you're selling now</div>
+                </div>
+            </div>
+
+            <button class="calculate-btn" onclick="calculateBreakEven()">Calculate Break-Even Point 📈</button>
+
+            <div class="results" id="results">
+                <div class="profit-summary">
+                    <h2>Break-Even Point</h2>
+                    <div class="main-value" id="breakEvenUnits">0</div>
+                    <div class="subtitle">units per month</div>
+                </div>
+
+                <div class="breakdown-grid">
+                    <div class="breakdown-item">
+                        <h4>Break-Even Revenue</h4>
+                        <div class="value" id="breakEvenRevenue">$0</div>
+                    </div>
+                    <div class="breakdown-item">
+                        <h4>Contribution Margin</h4>
+                        <div class="value" id="contributionMargin">$0</div>
+                    </div>
+                    <div class="breakdown-item">
+                        <h4>Current Status</h4>
+                        <div class="value" id="currentStatus">-</div>
+                    </div>
+                    <div class="breakdown-item">
+                        <h4>Units to Goal</h4>
+                        <div class="value" id="unitsToGoal">0</div>
+                    </div>
+                </div>
+
+                <div class="chart-section">
+                    <h3>Analysis</h3>
+                    <div style="padding: 20px; background: white; border-radius: 10px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
+                            <span><strong>Fixed Costs:</strong></span>
+                            <span id="analysisFixed">$0</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
+                            <span><strong>Variable Cost/Unit:</strong></span>
+                            <span id="analysisVariable">$0</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
+                            <span><strong>Contribution Margin/Unit:</strong></span>
+                            <span id="analysisContribution">$0</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; padding-top: 15px; border-top: 2px solid #8E44AD;">
+                            <span><strong>Current Monthly Profit/Loss:</strong></span>
+                            <span id="analysisCurrent" style="font-weight: 700; color: #8E44AD;">$0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h2>Understanding Break-Even Analysis</h2>
+            <p><strong>Break-Even Point</strong> is when total revenue equals total costs. You're not making profit, but you're not losing money either.</p>
+            <p style="margin-top: 15px;"><strong>Formula:</strong> Break-Even Units = Fixed Costs ÷ (Price - Variable Cost per Unit)</p>
+            <ul style="margin-top: 15px;">
+                <li><strong>Fixed Costs:</strong> Expenses that don't change with production (rent, salaries)</li>
+                <li><strong>Variable Costs:</strong> Costs that increase with each unit sold (materials, shipping)</li>
+                <li><strong>Contribution Margin:</strong> Revenue remaining after variable costs to cover fixed costs</li>
+            </ul>
+        </div>
+
+        <footer><p>&copy; 2026 CalcPro</p></footer>
+    </div>
+
+    <script>
+        function calculateBreakEven() {
+            const fixed = parseFloat(document.getElementById('fixedCosts').value) || 0;
+            const price = parseFloat(document.getElementById('pricePerUnit').value) || 0;
+            const variable = parseFloat(document.getElementById('variableCostPerUnit').value) || 0;
+            const current = parseFloat(document.getElementById('currentUnits').value) || 0;
+
+            if (fixed === 0 || price === 0) {
+                alert('Please enter fixed costs and price per unit');
+                return;
+            }
+
+            const contributionMargin = price - variable;
+            const breakEvenUnits = Math.ceil(fixed / contributionMargin);
+            const breakEvenRevenue = breakEvenUnits * price;
+            const currentRevenue = current * price;
+            const currentCosts = fixed + (current * variable);
+            const currentProfit = currentRevenue - currentCosts;
+            const unitsToGoal = breakEvenUnits - current;
+
+            let status = "Below Break-Even";
+            if (current >= breakEvenUnits) status = "Above Break-Even ✓";
+
+            document.getElementById('breakEvenUnits').textContent = breakEvenUnits.toLocaleString();
+            document.getElementById('breakEvenRevenue').textContent = '$' + breakEvenRevenue.toLocaleString();
+            document.getElementById('contributionMargin').textContent = '$' + contributionMargin.toFixed(2);
+            document.getElementById('currentStatus').textContent = status;
+            document.getElementById('unitsToGoal').textContent = unitsToGoal > 0 ? unitsToGoal : '0 (Profitable!)';
+
+            document.getElementById('analysisFixed').textContent = '$' + fixed.toLocaleString();
+            document.getElementById('analysisVariable').textContent = '$' + variable.toFixed(2);
+            document.getElementById('analysisContribution').textContent = '$' + contributionMargin.toFixed(2);
+            document.getElementById('analysisCurrent').textContent = '$' + currentProfit.toFixed(2);
+
+            document.getElementById('results').classList.add('show');
+            document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>

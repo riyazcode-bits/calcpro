@@ -3,501 +3,127 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <!-- SEO Meta Tags -->
-    <title>CalcPro - Free Calculator Tools for Creators & Entrepreneurs | YouTube, TikTok, Instagram Earnings</title>
-    <meta name="description" content="Free online calculators for content creators. Calculate YouTube earnings, TikTok revenue, Instagram engagement, Twitch income, Patreon profits and more. No signup required.">
-    <meta name="keywords" content="youtube money calculator, tiktok earnings, instagram engagement rate, twitch revenue, patreon income calculator, creator tools">
-    <meta name="author" content="CalcPro">
-    
-    <!-- Open Graph / Social Media -->
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="CalcPro - Free Calculator Tools for Creators">
-    <meta property="og:description" content="Calculate your potential earnings as a content creator. Free tools for YouTube, TikTok, Instagram, Twitch, and Patreon.">
-    <meta property="og:url" content="https://calcpro-eight.vercel.app/">
-    
-    <!-- Favicon (using emoji as placeholder) -->
+    <title>CalcPro - Free Calculator Tools for Creators & Entrepreneurs</title>
+    <meta name="description" content="Free online calculators for creators and entrepreneurs. Calculate earnings, profits, and make data-driven business decisions.">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📊</text></svg>">
-    
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        /* Hero Section */
-        header {
-            text-align: center;
-            color: white;
-            margin-bottom: 30px;
-            padding: 40px 20px 20px 20px;
-        }
-
-        header h1 {
-            font-size: 3.5em;
-            margin-bottom: 15px;
-            font-weight: 700;
-        }
-
-        header p {
-            font-size: 1.3em;
-            opacity: 0.95;
-            max-width: 600px;
-            margin: 0 auto 25px auto;
-            line-height: 1.6;
-        }
-
-        .trust-badges {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            flex-wrap: wrap;
-            margin-top: 20px;
-        }
-
-        .badge {
-            background: rgba(255,255,255,0.2);
-            backdrop-filter: blur(10px);
-            padding: 12px 24px;
-            border-radius: 30px;
-            font-weight: 600;
-            font-size: 0.95em;
-        }
-
-        .cta-button {
-            display: inline-block;
-            background: white;
-            color: #667eea;
-            padding: 15px 40px;
-            border-radius: 30px;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 1.1em;
-            margin-top: 20px;
-            transition: transform 0.3s, box-shadow 0.3s;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
-        }
-
-        .cta-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
-        }
-
-        /* Stats Section */
-        .stats-section {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin: 40px 0;
-        }
-
-        .stat-card {
-            background: rgba(255,255,255,0.15);
-            backdrop-filter: blur(10px);
-            padding: 25px;
-            border-radius: 15px;
-            text-align: center;
-            color: white;
-        }
-
-        .stat-number {
-            font-size: 2.5em;
-            font-weight: 700;
-            margin-bottom: 5px;
-        }
-
-        .stat-label {
-            opacity: 0.9;
-            font-size: 0.95em;
-        }
-
-        /* Calculator Grid */
-        .section-header {
-            color: white;
-            font-size: 2em;
-            margin: 50px 0 30px 0;
-            text-align: center;
-            font-weight: 600;
-        }
-
-        .calculator-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 25px;
-            margin-bottom: 40px;
-        }
-
-        .calculator-card {
-            background: white;
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            transition: transform 0.3s, box-shadow 0.3s;
-            cursor: pointer;
-            text-decoration: none;
-            color: inherit;
-            display: block;
-            position: relative;
-        }
-
-        .calculator-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
-        }
-
-        .card-icon {
-            font-size: 3em;
-            margin-bottom: 15px;
-        }
-
-        .card-title {
-            font-size: 1.5em;
-            font-weight: 700;
-            margin-bottom: 10px;
-            color: #333;
-        }
-
-        .card-description {
-            color: #666;
-            line-height: 1.6;
-            margin-bottom: 15px;
-        }
-
-        .card-tags {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-
-        .card-tag {
-            display: inline-block;
-            padding: 5px 12px;
-            background: #f0f0f0;
-            border-radius: 15px;
-            font-size: 0.85em;
-            color: #666;
-            font-weight: 600;
-        }
-
-        .tag-popular {
-            background: #ffeaa7;
-            color: #d63031;
-        }
-
-        .youtube { border-left: 4px solid #FF0000; }
-        .tiktok { border-left: 4px solid #000000; }
-        .instagram { border-left: 4px solid #E4405F; }
-        .twitch { border-left: 4px solid #6441a5; }
-        .patreon { border-left: 4px solid #ff424d; }
-
-        .coming-soon {
-            opacity: 0.7;
-        }
-
-        .coming-soon::after {
-            content: "Coming Soon";
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: #667eea;
-            color: white;
-            padding: 5px 12px;
-            border-radius: 12px;
-            font-size: 0.75em;
-            font-weight: 600;
-        }
-
-        /* Features Section */
-        .features-section {
-            background: rgba(255,255,255,0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 40px;
-            margin: 50px 0;
-            color: white;
-        }
-
-        .features-section h2 {
-            text-align: center;
-            font-size: 2em;
-            margin-bottom: 30px;
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
-        }
-
-        .feature {
-            text-align: center;
-        }
-
-        .feature-icon {
-            font-size: 3em;
-            margin-bottom: 15px;
-        }
-
-        .feature h3 {
-            margin-bottom: 10px;
-            font-size: 1.3em;
-        }
-
-        .feature p {
-            opacity: 0.9;
-            line-height: 1.6;
-        }
-
-        /* Footer */
-        footer {
-            text-align: center;
-            color: white;
-            margin-top: 60px;
-            padding: 40px 20px;
-            border-top: 1px solid rgba(255,255,255,0.2);
-        }
-
-        .footer-content {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .footer-links {
-            margin: 20px 0;
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            flex-wrap: wrap;
-        }
-
-        .footer-links a {
-            color: white;
-            text-decoration: none;
-            opacity: 0.8;
-            transition: opacity 0.3s;
-        }
-
-        .footer-links a:hover {
-            opacity: 1;
-            text-decoration: underline;
-        }
-
-        .footer-bottom {
-            margin-top: 30px;
-            opacity: 0.7;
-            font-size: 0.9em;
-        }
-
-        @media (max-width: 768px) {
-            header h1 {
-                font-size: 2.5em;
-            }
-
-            header p {
-                font-size: 1.1em;
-            }
-
-            .calculator-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .trust-badges {
-                gap: 15px;
-            }
-
-            .stat-number {
-                font-size: 2em;
-            }
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 20px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        header { text-align: center; color: white; margin-bottom: 30px; padding: 40px 20px 20px; }
+        header h1 { font-size: 3.5em; margin-bottom: 15px; font-weight: 700; }
+        header p { font-size: 1.3em; opacity: 0.95; max-width: 600px; margin: 0 auto 25px; line-height: 1.6; }
+        .trust-badges { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; margin-top: 20px; }
+        .badge { background: rgba(255,255,255,0.2); backdrop-filter: blur(10px); padding: 12px 24px; border-radius: 30px; font-weight: 600; }
+        .stats-section { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin: 40px 0; }
+        .stat-card { background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); padding: 25px; border-radius: 15px; text-align: center; color: white; }
+        .stat-number { font-size: 2.5em; font-weight: 700; }
+        .category-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; margin: 40px 0; }
+        .category-card { background: white; border-radius: 20px; padding: 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); text-decoration: none; color: inherit; display: block; transition: transform 0.3s; }
+        .category-card:hover { transform: translateY(-5px); }
+        .category-icon { font-size: 4em; margin-bottom: 20px; }
+        .category-title { font-size: 2em; font-weight: 700; color: #333; margin-bottom: 15px; }
+        .category-desc { color: #666; line-height: 1.6; margin-bottom: 20px; }
+        .category-count { display: inline-block; padding: 8px 16px; background: #f0f0f0; border-radius: 20px; font-size: 0.9em; font-weight: 600; color: #667eea; }
+        .cta-section { text-align: center; padding: 50px 20px; background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); border-radius: 20px; margin: 50px 0; color: white; }
+        .cta-section h2 { font-size: 2.5em; margin-bottom: 20px; }
+        .cta-section p { font-size: 1.2em; opacity: 0.9; margin-bottom: 30px; }
+        footer { text-align: center; color: white; margin-top: 60px; padding: 40px 20px; border-top: 1px solid rgba(255,255,255,0.2); }
+        .footer-links { margin: 20px 0; display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; }
+        .footer-links a { color: white; text-decoration: none; opacity: 0.8; transition: opacity 0.3s; }
+        .footer-links a:hover { opacity: 1; }
+        @media (max-width: 768px) { header h1 { font-size: 2.5em; } .category-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Hero Section -->
         <header>
             <h1>📊 CalcPro</h1>
-            <p>Free calculator tools for creators and entrepreneurs. Calculate your earnings, plan your growth, and make data-driven decisions.</p>
-            
+            <p>Free calculator tools for creators and entrepreneurs. Make data-driven decisions with confidence.</p>
             <div class="trust-badges">
-                <div class="badge">✓ 100% Free</div>
+                <div class="badge">✓ 100% Free Forever</div>
                 <div class="badge">✓ No Sign-Up Required</div>
-                <div class="badge">✓ Privacy Focused</div>
+                <div class="badge">✓ Privacy First</div>
             </div>
-
-            <a href="#calculators" class="cta-button">Explore Calculators →</a>
         </header>
 
-        <!-- Stats Section -->
         <div class="stats-section">
             <div class="stat-card">
-                <div class="stat-number">5</div>
-                <div class="stat-label">Live Calculators</div>
+                <div class="stat-number">10+</div>
+                <div>Live Calculators</div>
             </div>
             <div class="stat-card">
-                <div class="stat-number">3+</div>
-                <div class="stat-label">More Coming Soon</div>
+                <div class="stat-number">3</div>
+                <div>Categories</div>
             </div>
             <div class="stat-card">
                 <div class="stat-number">100%</div>
-                <div class="stat-label">Free Forever</div>
+                <div>Free & Open</div>
             </div>
         </div>
 
-        <!-- Calculator Section -->
-        <h2 class="section-header" id="calculators">🎨 Creator Economy Calculators</h2>
-        
-        <div class="calculator-grid">
-            <a href="youtube-calculator.html" class="calculator-card youtube">
-                <div class="card-icon">📺</div>
-                <div class="card-title">YouTube Money Calculator</div>
-                <div class="card-description">Estimate your YouTube earnings based on views, subscribers, and CPM rates across different niches.</div>
-                <div class="card-tags">
-                    <span class="card-tag tag-popular">⭐ Most Popular</span>
-                    <span class="card-tag">CPM by Niche</span>
-                </div>
+        <h2 style="color: white; text-align: center; font-size: 2em; margin: 50px 0 30px;">Choose Your Category</h2>
+
+        <div class="category-grid">
+            <a href="creator-calculators.html" class="category-card">
+                <div class="category-icon">🎨</div>
+                <div class="category-title">Creator Economy</div>
+                <div class="category-desc">Calculate earnings from YouTube, TikTok, Instagram, Twitch, and Patreon. Perfect for content creators and influencers.</div>
+                <span class="category-count">5 Calculators</span>
             </a>
 
-            <a href="tiktok-calculator.html" class="calculator-card tiktok">
-                <div class="card-icon">🎵</div>
-                <div class="card-title">TikTok Money Calculator</div>
-                <div class="card-description">Calculate potential earnings from Creator Fund, brand deals, and live gifts with location-based rates.</div>
-                <div class="card-tags">
-                    <span class="card-tag">3 Revenue Streams</span>
-                </div>
+            <a href="ecommerce-calculators.html" class="category-card">
+                <div class="category-icon">🛍️</div>
+                <div class="category-title">E-Commerce</div>
+                <div class="category-desc">Profit calculators for Shopify, Amazon FBA, dropshipping, pricing strategy, and break-even analysis.</div>
+                <span class="category-count">5 Calculators</span>
             </a>
 
-            <a href="instagram-calculator.html" class="calculator-card instagram">
-                <div class="card-icon">📸</div>
-                <div class="card-title">Instagram Engagement Calculator</div>
-                <div class="card-description">Measure your engagement rate and estimate brand deal value based on your followers and interaction.</div>
-                <div class="card-tags">
-                    <span class="card-tag">Industry Benchmarks</span>
-                    <span class="card-tag">Brand Deal Estimator</span>
-                </div>
-            </a>
-
-            <a href="twitch-calculator.html" class="calculator-card twitch">
-                <div class="card-icon">🎮</div>
-                <div class="card-title">Twitch Revenue Calculator</div>
-                <div class="card-description">Calculate earnings from subscriptions, bits, ads, and donations. Partner vs Affiliate comparison included.</div>
-                <div class="card-tags">
-                    <span class="card-tag">Full Breakdown</span>
-                    <span class="card-tag">Partner vs Affiliate</span>
-                </div>
-            </a>
-
-            <a href="patreon-calculator.html" class="calculator-card patreon">
-                <div class="card-icon">💝</div>
-                <div class="card-title">Patreon Income Calculator</div>
-                <div class="card-description">Calculate net income from multiple membership tiers with accurate platform and payment processing fee breakdowns.</div>
-                <div class="card-tags">
-                    <span class="card-tag">Multi-Tier Support</span>
-                    <span class="card-tag">Fee Breakdown</span>
-                </div>
+            <a href="more-calculators.html" class="category-card" style="opacity: 0.8;">
+                <div class="category-icon">💰</div>
+                <div class="category-title">More Categories</div>
+                <div class="category-desc">Finance, marketing, productivity calculators coming soon. Vote for what you want next!</div>
+                <span class="category-count">Coming Soon</span>
             </a>
         </div>
 
-        <!-- Features Section -->
-        <div class="features-section">
-            <h2>Why Choose CalcPro?</h2>
-            <div class="features-grid">
-                <div class="feature">
-                    <div class="feature-icon">⚡</div>
-                    <h3>Instant Results</h3>
-                    <p>Get accurate calculations in seconds. No waiting, no loading times.</p>
+        <div class="cta-section">
+            <h2>Why CalcPro?</h2>
+            <p>Fast, accurate, and completely free tools designed for modern entrepreneurs</p>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; margin-top: 30px; text-align: center;">
+                <div>
+                    <div style="font-size: 3em; margin-bottom: 10px;">⚡</div>
+                    <div style="font-weight: 600;">Instant Results</div>
                 </div>
-                <div class="feature">
-                    <div class="feature-icon">🔒</div>
-                    <h3>Privacy First</h3>
-                    <p>All calculations happen in your browser. We don't store any of your data.</p>
+                <div>
+                    <div style="font-size: 3em; margin-bottom: 10px;">🔒</div>
+                    <div style="font-weight: 600;">Privacy First</div>
                 </div>
-                <div class="feature">
-                    <div class="feature-icon">📱</div>
-                    <h3>Mobile Friendly</h3>
-                    <p>Works perfectly on any device - phone, tablet, or desktop.</p>
+                <div>
+                    <div style="font-size: 3em; margin-bottom: 10px;">📱</div>
+                    <div style="font-weight: 600;">Mobile Ready</div>
                 </div>
-                <div class="feature">
-                    <div class="feature-icon">🎓</div>
-                    <h3>Educational</h3>
-                    <p>Learn how earnings work with detailed explanations and industry benchmarks.</p>
+                <div>
+                    <div style="font-size: 3em; margin-bottom: 10px;">🎓</div>
+                    <div style="font-weight: 600;">Educational</div>
                 </div>
             </div>
         </div>
 
-        <!-- Coming Soon Section -->
-        <h2 class="section-header">🛍️ E-Commerce Calculators (Coming Soon)</h2>
-        
-        <div class="calculator-grid">
-            <div class="calculator-card coming-soon" style="border-left: 4px solid #96BF48;">
-                <div class="card-icon">🛒</div>
-                <div class="card-title">Shopify Profit Calculator</div>
-                <div class="card-description">Calculate your net profit after all Shopify fees, payment processing, and operating costs.</div>
-                <div class="card-tags">
-                    <span class="card-tag">All Fees Included</span>
-                </div>
-            </div>
-
-            <div class="calculator-card coming-soon" style="border-left: 4px solid #FF9900;">
-                <div class="card-icon">📦</div>
-                <div class="card-title">Amazon FBA Calculator</div>
-                <div class="card-description">Complete breakdown of Amazon FBA fees including fulfillment, storage, and referral fees.</div>
-                <div class="card-tags">
-                    <span class="card-tag">FBA vs FBM</span>
-                </div>
-            </div>
-
-            <div class="calculator-card coming-soon" style="border-left: 4px solid #4A90E2;">
-                <div class="card-icon">🚚</div>
-                <div class="card-title">Dropshipping Profit Calculator</div>
-                <div class="card-description">Calculate margins on dropshipping products including supplier costs and advertising spend.</div>
-                <div class="card-tags">
-                    <span class="card-tag">ROI Calculator</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Footer -->
         <footer>
-            <div class="footer-content">
-                <p style="font-size: 1.2em; margin-bottom: 15px; font-weight: 600;">CalcPro</p>
-                <p style="opacity: 0.9; margin-bottom: 20px;">Empowering creators and entrepreneurs with free, accurate calculation tools.</p>
-                
-                <div class="footer-links">
-                    <a href="#calculators">Calculators</a>
-                    <a href="mailto:support@calcpro.com">Contact</a>
-                    <a href="#privacy">Privacy Policy</a>
-                    <a href="#terms">Terms of Use</a>
-                </div>
-
-                <div class="footer-bottom">
-                    <p>&copy; 2026 CalcPro. All calculators are free to use.</p>
-                    <p style="margin-top: 10px;">Made with ❤️ for creators worldwide</p>
-                </div>
+            <p style="font-size: 1.2em; margin-bottom: 15px; font-weight: 600;">CalcPro</p>
+            <p style="opacity: 0.9; margin-bottom: 20px;">Empowering creators and entrepreneurs worldwide</p>
+            <div class="footer-links">
+                <a href="creator-calculators.html">Creator Tools</a>
+                <a href="ecommerce-calculators.html">E-Commerce Tools</a>
+                <a href="privacy-policy.html">Privacy Policy</a>
+                <a href="terms-of-use.html">Terms of Use</a>
+            </div>
+            <div style="margin-top: 30px; opacity: 0.7;">
+                <p>&copy; 2026 CalcPro. All calculators are free to use.</p>
+                <p style="margin-top: 10px;">Made with ❤️ for creators worldwide</p>
             </div>
         </footer>
     </div>
-
-    <!-- Simple Analytics (Page Views) -->
-    <script>
-        // Track page view
-        if (window.localStorage) {
-            let views = parseInt(localStorage.getItem('calcpro_views') || '0');
-            views++;
-            localStorage.setItem('calcpro_views', views.toString());
-        }
-    </script>
 </body>
 </html>

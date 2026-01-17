@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Calculate the optimal price for your products based on costs and desired profit margin. Free pricing strategy calculator.">
+    <title>Product Pricing Calculator - CalcPro</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: linear-gradient(135deg, #16A085 0%, #0E6655 100%); min-height: 100vh; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; }
+        header { text-align: center; color: white; margin-bottom: 30px; }
+        header h1 { font-size: 2.5em; margin-bottom: 10px; }
+        .nav-link { display: inline-block; margin-top: 10px; color: white; text-decoration: none; opacity: 0.8; }
+        .calculator-card { background: white; border-radius: 20px; padding: 40px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+        .pricing-method { display: flex; gap: 10px; margin-bottom: 30px; }
+        .method-btn { flex: 1; padding: 15px; border: 2px solid #e0e0e0; background: white; border-radius: 10px; cursor: pointer; transition: all 0.3s; text-align: center; }
+        .method-btn.active { background: #16A085; color: white; border-color: #16A085; }
+        .input-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 25px; margin-bottom: 25px; }
+        label { display: block; margin-bottom: 8px; font-weight: 600; color: #333; font-size: 0.95em; }
+        input, select { width: 100%; padding: 12px 15px; border: 2px solid #e0e0e0; border-radius: 10px; font-size: 1em; }
+        input:focus { outline: none; border-color: #16A085; }
+        .tooltip { font-size: 0.85em; color: #666; margin-top: 5px; font-style: italic; }
+        .calculate-btn { width: 100%; padding: 15px; background: linear-gradient(135deg, #16A085 0%, #0E6655 100%); color: white; border: none; border-radius: 10px; font-size: 1.1em; font-weight: 600; cursor: pointer; }
+        .results { margin-top: 30px; display: none; }
+        .results.show { display: block; animation: slideIn 0.4s ease; }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .price-summary { padding: 30px; background: linear-gradient(135deg, #16A085 0%, #0E6655 100%); border-radius: 15px; color: white; text-align: center; margin-bottom: 20px; }
+        .price-summary .main-value { font-size: 3.5em; font-weight: 700; }
+        .price-options { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin: 20px 0; }
+        .price-option { padding: 20px; background: white; border-radius: 10px; text-align: center; }
+        .price-option h4 { color: #666; font-size: 0.85em; margin-bottom: 10px; }
+        .price-option .value { font-size: 1.8em; font-weight: 700; color: #16A085; }
+        .breakdown-item { padding: 20px; background: #e8f5f1; border-radius: 10px; margin-bottom: 15px; }
+        .breakdown-item h4 { color: #666; font-size: 0.85em; margin-bottom: 8px; }
+        .breakdown-item .value { font-size: 1.4em; font-weight: 700; color: #333; }
+        .info-section { margin-top: 40px; padding: 30px; background: #e8f5f1; border-radius: 15px; }
+        .info-section h2 { color: #16A085; margin-bottom: 15px; }
+        .info-section ul { margin-left: 20px; line-height: 1.8; color: #555; }
+        footer { text-align: center; color: white; margin-top: 40px; opacity: 0.9; }
+        @media (max-width: 768px) { .input-grid, .price-options { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📊 CalcPro</h1>
+            <p>Product Pricing Calculator</p>
+            <a href="index.html" class="nav-link">← Back to Home</a>
+        </header>
+
+        <div class="calculator-card">
+            <h3 style="margin-bottom: 15px; color: #333;">Select Pricing Method</h3>
+            <div class="pricing-method">
+                <button class="method-btn active" onclick="selectMethod('markup')">Cost-Plus (Markup)</button>
+                <button class="method-btn" onclick="selectMethod('margin')">Profit Margin</button>
+                <button class="method-btn" onclick="selectMethod('competitive')">Competitive Pricing</button>
+            </div>
+
+            <div class="input-grid">
+                <div>
+                    <label for="productCost">Product Cost ($)</label>
+                    <input type="number" id="productCost" placeholder="e.g., 25.00" step="0.01">
+                    <div class="tooltip">Manufacturing or wholesale cost</div>
+                </div>
+                <div id="markupField">
+                    <label for="markup">Desired Markup (%)</label>
+                    <input type="number" id="markup" value="100" min="0">
+                    <div class="tooltip">Percentage added to cost</div>
+                </div>
+                <div id="marginField" style="display: none;">
+                    <label for="margin">Desired Profit Margin (%)</label>
+                    <input type="number" id="margin" value="50" min="0" max="100">
+                    <div class="tooltip">Profit as % of selling price</div>
+                </div>
+                <div id="competitorField" style="display: none;">
+                    <label for="competitorPrice">Competitor Price ($)</label>
+                    <input type="number" id="competitorPrice" placeholder="e.g., 49.99" step="0.01">
+                    <div class="tooltip">What competitors charge</div>
+                </div>
+                <div>
+                    <label for="operatingCost">Operating Cost Per Unit ($)</label>
+                    <input type="number" id="operatingCost" placeholder="e.g., 5.00" step="0.01" value="0">
+                    <div class="tooltip">Shipping, fees, labor per unit</div>
+                </div>
+            </div>
+
+            <button class="calculate-btn" onclick="calculatePrice()">Calculate Optimal Price 💰</button>
+
+            <div class="results" id="results">
+                <div class="price-summary">
+                    <h2>Recommended Selling Price</h2>
+                    <div class="main-value" id="recommendedPrice">$0.00</div>
+                    <p style="opacity: 0.9; margin-top: 10px;">Profit per unit: <span id="profitPerUnit">$0.00</span></p>
+                </div>
+
+                <div class="price-options">
+                    <div class="price-option">
+                        <h4>Minimum Price</h4>
+                        <div class="value" id="minPrice">$0</div>
+                        <div class="tooltip">(Break-even)</div>
+                    </div>
+                    <div class="price-option">
+                        <h4>Optimal Price</h4>
+                        <div class="value" id="optimalPrice">$0</div>
+                        <div class="tooltip">(Recommended)</div>
+                    </div>
+                    <div class="price-option">
+                        <h4>Premium Price</h4>
+                        <div class="value" id="premiumPrice">$0</div>
+                        <div class="tooltip">(High margin)</div>
+                    </div>
+                </div>
+
+                <div class="breakdown-item">
+                    <h4>Total Cost Per Unit</h4>
+                    <div class="value" id="totalCost">$0.00</div>
+                </div>
+
+                <div class="breakdown-item">
+                    <h4>Profit Margin</h4>
+                    <div class="value" id="profitMargin">0%</div>
+                </div>
+
+                <div class="breakdown-item">
+                    <h4>Markup Percentage</h4>
+                    <div class="value" id="markupPercent">0%</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h2>Pricing Strategy Guide</h2>
+            <p><strong>Cost-Plus (Markup):</strong> Add percentage to cost. Simple, guarantees profit.</p>
+            <p><strong>Profit Margin:</strong> Set desired profit as % of price. More strategic for competitive markets.</p>
+            <p><strong>Competitive Pricing:</strong> Price based on competitors while maintaining profitability.</p>
+            
+            <h3 style="margin-top: 20px; color: #16A085;">Common Markup by Industry:</h3>
+            <ul>
+                <li>Groceries: 10-20%</li>
+                <li>Clothing: 100-150%</li>
+                <li>Electronics: 20-40%</li>
+                <li>Handmade/Custom: 200-400%</li>
+                <li>Digital Products: 500-1000%+</li>
+            </ul>
+        </div>
+
+        <footer><p>&copy; 2026 CalcPro</p></footer>
+    </div>
+
+    <script>
+        let pricingMethod = 'markup';
+
+        function selectMethod(method) {
+            pricingMethod = method;
+            document.querySelectorAll('.method-btn').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+
+            document.getElementById('markupField').style.display = method === 'markup' ? 'block' : 'none';
+            document.getElementById('marginField').style.display = method === 'margin' ? 'block' : 'none';
+            document.getElementById('competitorField').style.display = method === 'competitive' ? 'block' : 'none';
+        }
+
+        function calculatePrice() {
+            const cost = parseFloat(document.getElementById('productCost').value) || 0;
+            const operating = parseFloat(document.getElementById('operatingCost').value) || 0;
+            const totalCost = cost + operating;
+
+            if (cost === 0) {
+                alert('Please enter product cost');
+                return;
+            }
+
+            let price = 0;
+
+            if (pricingMethod === 'markup') {
+                const markup = parseFloat(document.getElementById('markup').value) || 100;
+                price = totalCost * (1 + markup / 100);
+            } else if (pricingMethod === 'margin') {
+                const margin = parseFloat(document.getElementById('margin').value) || 50;
+                price = totalCost / (1 - margin / 100);
+            } else {
+                const competitor = parseFloat(document.getElementById('competitorPrice').value) || 0;
+                price = competitor * 0.95; // 5% below competitor
+            }
+
+            const profit = price - totalCost;
+            const margin = (profit / price) * 100;
+            const markup = (profit / totalCost) * 100;
+
+            const minPrice = totalCost;
+            const premiumPrice = price * 1.2;
+
+            document.getElementById('recommendedPrice').textContent = '$' + price.toFixed(2);
+            document.getElementById('profitPerUnit').textContent = '$' + profit.toFixed(2);
+            document.getElementById('minPrice').textContent = '$' + minPrice.toFixed(2);
+            document.getElementById('optimalPrice').textContent = '$' + price.toFixed(2);
+            document.getElementById('premiumPrice').textContent = '$' + premiumPrice.toFixed(2);
+            document.getElementById('totalCost').textContent = '$' + totalCost.toFixed(2);
+            document.getElementById('profitMargin').textContent = margin.toFixed(1) + '%';
+            document.getElementById('markupPercent').textContent = markup.toFixed(1) + '%';
+
+            document.getElementById('results').classList.add('show');
+            document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>

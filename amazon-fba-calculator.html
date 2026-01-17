@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Calculate Amazon FBA fees including referral fees, fulfillment fees, storage costs, and more. Free Amazon FBA profit calculator.">
+    <title>Amazon FBA Fee Calculator - CalcPro</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #FF9900 0%, #FF6600 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .nav-link {
+            display: inline-block;
+            margin-top: 10px;
+            color: white;
+            text-decoration: none;
+            opacity: 0.8;
+        }
+
+        .nav-link:hover {
+            opacity: 1;
+        }
+
+        .calculator-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .input-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+            margin-bottom: 25px;
+        }
+
+        .input-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+            font-size: 0.95em;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1em;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #FF9900;
+        }
+
+        .tooltip {
+            font-size: 0.85em;
+            color: #666;
+            margin-top: 5px;
+            font-style: italic;
+        }
+
+        .calculate-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #FF9900 0%, #FF6600 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .results {
+            margin-top: 30px;
+            display: none;
+        }
+
+        .results.show {
+            display: block;
+            animation: slideIn 0.4s ease;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .profit-summary {
+            padding: 30px;
+            background: linear-gradient(135deg, #FF9900 0%, #FF6600 100%);
+            border-radius: 15px;
+            color: white;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .profit-summary .main-value {
+            font-size: 3.5em;
+            font-weight: 700;
+        }
+
+        .breakdown-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .breakdown-item {
+            padding: 20px;
+            background: #fff5eb;
+            border-radius: 10px;
+        }
+
+        .breakdown-item h4 {
+            color: #666;
+            font-size: 0.85em;
+            margin-bottom: 8px;
+        }
+
+        .breakdown-item .value {
+            font-size: 1.6em;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .fee-breakdown {
+            padding: 25px;
+            background: #fff5eb;
+            border-radius: 15px;
+        }
+
+        .fee-breakdown h3 {
+            color: #FF9900;
+            margin-bottom: 20px;
+        }
+
+        .fee-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .info-section {
+            margin-top: 40px;
+            padding: 30px;
+            background: #fff5eb;
+            border-radius: 15px;
+        }
+
+        footer {
+            text-align: center;
+            color: white;
+            margin-top: 40px;
+            opacity: 0.9;
+        }
+
+        @media (max-width: 768px) {
+            .input-grid, .breakdown-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📊 CalcPro</h1>
+            <p>Amazon FBA Fee Calculator</p>
+            <a href="index.html" class="nav-link">← Back to Home</a>
+        </header>
+
+        <div class="calculator-card">
+            <div class="input-grid">
+                <div class="input-group">
+                    <label for="sellingPrice">Selling Price ($)</label>
+                    <input type="number" id="sellingPrice" placeholder="e.g., 29.99" step="0.01" min="0">
+                    <div class="tooltip">Your product's sale price</div>
+                </div>
+
+                <div class="input-group">
+                    <label for="category">Product Category</label>
+                    <select id="category">
+                        <option value="15">Most Categories (15%)</option>
+                        <option value="8">Electronics (8%)</option>
+                        <option value="45">Amazon Device Accessories (45%)</option>
+                        <option value="12">Books (15% + $1.80)</option>
+                    </select>
+                    <div class="tooltip">Amazon referral fee varies by category</div>
+                </div>
+
+                <div class="input-group">
+                    <label for="productCost">Product Cost ($)</label>
+                    <input type="number" id="productCost" placeholder="e.g., 10.00" step="0.01" min="0">
+                    <div class="tooltip">What you pay to manufacture/buy</div>
+                </div>
+
+                <div class="input-group">
+                    <label for="sizeCategory">Size Category</label>
+                    <select id="sizeCategory">
+                        <option value="small">Small Standard (≤12 oz)</option>
+                        <option value="large">Large Standard (≤3 lbs)</option>
+                        <option value="oversize">Oversize (>3 lbs)</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label for="weight">Item Weight (lbs)</label>
+                    <input type="number" id="weight" placeholder="e.g., 1.5" step="0.1" min="0">
+                    <div class="tooltip">Shipping weight of product</div>
+                </div>
+
+                <div class="input-group">
+                    <label for="monthlyUnits">Monthly Units Sold</label>
+                    <input type="number" id="monthlyUnits" placeholder="e.g., 100" min="0">
+                    <div class="tooltip">For storage fee calculation</div>
+                </div>
+            </div>
+
+            <button class="calculate-btn" onclick="calculateFBA()">Calculate FBA Fees 📦</button>
+
+            <div class="results" id="results">
+                <div class="profit-summary">
+                    <h2>Net Profit Per Unit</h2>
+                    <div class="main-value" id="netProfit">$0</div>
+                    <p style="opacity: 0.9; margin-top: 10px;">ROI: <span id="roi">0%</span></p>
+                </div>
+
+                <div class="breakdown-grid">
+                    <div class="breakdown-item">
+                        <h4>Selling Price</h4>
+                        <div class="value" id="totalPrice">$0</div>
+                    </div>
+                    <div class="breakdown-item">
+                        <h4>Total Amazon Fees</h4>
+                        <div class="value" id="totalFees">$0</div>
+                    </div>
+                    <div class="breakdown-item">
+                        <h4>Monthly Profit</h4>
+                        <div class="value" id="monthlyProfit">$0</div>
+                    </div>
+                    <div class="breakdown-item">
+                        <h4>Profit Margin</h4>
+                        <div class="value" id="margin">0%</div>
+                    </div>
+                </div>
+
+                <div class="fee-breakdown">
+                    <h3>Fee Breakdown Per Unit</h3>
+                    <div class="fee-row">
+                        <span>Selling Price</span>
+                        <strong id="detailPrice">$0</strong>
+                    </div>
+                    <div class="fee-row">
+                        <span>Referral Fee</span>
+                        <strong id="detailReferral">-$0</strong>
+                    </div>
+                    <div class="fee-row">
+                        <span>FBA Fulfillment Fee</span>
+                        <strong id="detailFulfillment">-$0</strong>
+                    </div>
+                    <div class="fee-row">
+                        <span>Monthly Storage Fee</span>
+                        <strong id="detailStorage">-$0</strong>
+                    </div>
+                    <div class="fee-row">
+                        <span>Product Cost</span>
+                        <strong id="detailCost">-$0</strong>
+                    </div>
+                    <div class="fee-row" style="border-top: 2px solid #FF9900; color: #FF9900;">
+                        <span>Net Profit</span>
+                        <strong id="detailProfit">$0</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h2>Understanding Amazon FBA Fees</h2>
+            <ul>
+                <li><strong>Referral Fee:</strong> 8-45% of sale price depending on category</li>
+                <li><strong>FBA Fulfillment Fee:</strong> $3-15+ based on size and weight</li>
+                <li><strong>Storage Fee:</strong> $0.75-2.40 per cubic foot per month</li>
+                <li><strong>Long-term Storage:</strong> Additional fees after 365 days</li>
+            </ul>
+        </div>
+
+        <footer>
+            <p>&copy; 2026 CalcPro</p>
+        </footer>
+    </div>
+
+    <script>
+        function calculateFBA() {
+            const price = parseFloat(document.getElementById('sellingPrice').value) || 0;
+            const categoryFee = parseFloat(document.getElementById('category').value);
+            const cost = parseFloat(document.getElementById('productCost').value) || 0;
+            const size = document.getElementById('sizeCategory').value;
+            const weight = parseFloat(document.getElementById('weight').value) || 0;
+            const units = parseFloat(document.getElementById('monthlyUnits').value) || 0;
+
+            if (price === 0 || cost === 0) {
+                alert('Please enter selling price and product cost');
+                return;
+            }
+
+            const referralFee = price * (categoryFee / 100);
+            
+            let fulfillmentFee = 3.22;
+            if (size === 'large') {
+                fulfillmentFee = 4.75 + (weight > 1 ? (weight - 1) * 0.38 : 0);
+            } else if (size === 'oversize') {
+                fulfillmentFee = 9.73 + (weight > 2 ? (weight - 2) * 0.39 : 0);
+            }
+
+            const storageFeePerUnit = (0.75 * 0.01) / 30;
+            const totalFees = referralFee + fulfillmentFee + storageFeePerUnit;
+            const netProfit = price - totalFees - cost;
+            const roi = cost > 0 ? ((netProfit / cost) * 100) : 0;
+            const margin = ((netProfit / price) * 100);
+            const monthlyProfit = netProfit * units;
+
+            document.getElementById('netProfit').textContent = '$' + netProfit.toFixed(2);
+            document.getElementById('roi').textContent = roi.toFixed(1) + '%';
+            document.getElementById('totalPrice').textContent = '$' + price.toFixed(2);
+            document.getElementById('totalFees').textContent = '$' + totalFees.toFixed(2);
+            document.getElementById('monthlyProfit').textContent = '$' + monthlyProfit.toFixed(2);
+            document.getElementById('margin').textContent = margin.toFixed(1) + '%';
+
+            document.getElementById('detailPrice').textContent = '$' + price.toFixed(2);
+            document.getElementById('detailReferral').textContent = '-$' + referralFee.toFixed(2);
+            document.getElementById('detailFulfillment').textContent = '-$' + fulfillmentFee.toFixed(2);
+            document.getElementById('detailStorage').textContent = '-$' + storageFeePerUnit.toFixed(3);
+            document.getElementById('detailCost').textContent = '-$' + cost.toFixed(2);
+            document.getElementById('detailProfit').textContent = '$' + netProfit.toFixed(2);
+
+            document.getElementById('results').classList.add('show');
+            document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>

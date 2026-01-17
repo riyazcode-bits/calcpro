@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creator Economy Calculators - CalcPro</title>
+    <meta name="description" content="Free calculators for content creators. Calculate YouTube, TikTok, Instagram, Twitch, and Patreon earnings.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📊</text></svg>">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 20px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        header { text-align: center; color: white; margin-bottom: 40px; padding: 40px 20px; }
+        header h1 { font-size: 3em; margin-bottom: 15px; }
+        .nav-link { display: inline-block; margin-top: 15px; color: white; text-decoration: none; opacity: 0.8; font-size: 1.1em; }
+        .nav-link:hover { opacity: 1; }
+        .calculator-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; margin-bottom: 40px; }
+        .calculator-card { background: white; border-radius: 20px; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); transition: transform 0.3s; text-decoration: none; color: inherit; display: block; }
+        .calculator-card:hover { transform: translateY(-5px); }
+        .card-icon { font-size: 3em; margin-bottom: 15px; }
+        .card-title { font-size: 1.5em; font-weight: 700; margin-bottom: 10px; color: #333; }
+        .card-description { color: #666; line-height: 1.6; margin-bottom: 15px; }
+        .card-tags { display: flex; gap: 8px; flex-wrap: wrap; }
+        .card-tag { padding: 5px 12px; background: #f0f0f0; border-radius: 15px; font-size: 0.85em; font-weight: 600; }
+        .youtube { border-left: 4px solid #FF0000; }
+        .tiktok { border-left: 4px solid #000000; }
+        .instagram { border-left: 4px solid #E4405F; }
+        .twitch { border-left: 4px solid #6441a5; }
+        .patreon { border-left: 4px solid #ff424d; }
+        footer { text-align: center; color: white; margin-top: 60px; opacity: 0.9; }
+        @media (max-width: 768px) { .calculator-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎨 Creator Economy Calculators</h1>
+            <p style="font-size: 1.2em; opacity: 0.9; max-width: 600px; margin: 15px auto;">Calculate your potential earnings across all major creator platforms</p>
+            <a href="index.html" class="nav-link">← Back to Home</a>
+        </header>
+
+        <div class="calculator-grid">
+            <a href="youtube-calculator.html" class="calculator-card youtube">
+                <div class="card-icon">📺</div>
+                <div class="card-title">YouTube Money Calculator</div>
+                <div class="card-description">Estimate earnings based on views, CPM rates, and niche. Includes industry benchmarks and tips to increase revenue.</div>
+                <div class="card-tags">
+                    <span class="card-tag">⭐ Popular</span>
+                    <span class="card-tag">CPM by Niche</span>
+                </div>
+            </a>
+
+            <a href="tiktok-calculator.html" class="calculator-card tiktok">
+                <div class="card-icon">🎵</div>
+                <div class="card-title">TikTok Money Calculator</div>
+                <div class="card-description">Calculate Creator Fund, brand deal, and live gift earnings. Compare revenue streams and optimize your strategy.</div>
+                <div class="card-tags">
+                    <span class="card-tag">3 Revenue Streams</span>
+                    <span class="card-tag">Location-Based</span>
+                </div>
+            </a>
+
+            <a href="instagram-calculator.html" class="calculator-card instagram">
+                <div class="card-icon">📸</div>
+                <div class="card-title">Instagram Engagement Calculator</div>
+                <div class="card-description">Measure engagement rate and estimate brand deal value. Compare against industry benchmarks by account size.</div>
+                <div class="card-tags">
+                    <span class="card-tag">Benchmarks</span>
+                    <span class="card-tag">Brand Deals</span>
+                </div>
+            </a>
+
+            <a href="twitch-calculator.html" class="calculator-card twitch">
+                <div class="card-icon">🎮</div>
+                <div class="card-title">Twitch Revenue Calculator</div>
+                <div class="card-description">Calculate subs, bits, ads, and donations. Compare Partner vs Affiliate revenue splits and maximize earnings.</div>
+                <div class="card-tags">
+                    <span class="card-tag">Full Breakdown</span>
+                    <span class="card-tag">Partner vs Affiliate</span>
+                </div>
+            </a>
+
+            <a href="patreon-calculator.html" class="calculator-card patreon">
+                <div class="card-icon">💝</div>
+                <div class="card-title">Patreon Income Calculator</div>
+                <div class="card-description">Calculate net income from multiple membership tiers. Accurate fee breakdowns for all Patreon plan types.</div>
+                <div class="card-tags">
+                    <span class="card-tag">Multi-Tier</span>
+                    <span class="card-tag">Fee Calculator</span>
+                </div>
+            </a>
+        </div>
+
+        <footer>
+            <p>&copy; 2026 CalcPro - Free Tools for Creators</p>
+            <p style="margin-top: 10px;"><a href="index.html" style="color: white;">Home</a> | <a href="ecommerce-calculators.html" style="color: white;">E-Commerce Tools</a></p>
+        </footer>
+    </div>
+</body>
+</html>

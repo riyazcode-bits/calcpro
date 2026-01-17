@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Calculate dropshipping profit margins including product cost, shipping, platform fees, and ad spend. Free dropshipping ROI calculator.">
+    <title>Dropshipping Profit Calculator - CalcPro</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: linear-gradient(135deg, #4A90E2 0%, #2E5C8A 100%); min-height: 100vh; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; }
+        header { text-align: center; color: white; margin-bottom: 30px; }
+        header h1 { font-size: 2.5em; margin-bottom: 10px; }
+        .nav-link { display: inline-block; margin-top: 10px; color: white; text-decoration: none; opacity: 0.8; }
+        .calculator-card { background: white; border-radius: 20px; padding: 40px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+        .input-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 25px; margin-bottom: 25px; }
+        .input-group { margin-bottom: 25px; }
+        label { display: block; margin-bottom: 8px; font-weight: 600; color: #333; font-size: 0.95em; }
+        input, select { width: 100%; padding: 12px 15px; border: 2px solid #e0e0e0; border-radius: 10px; font-size: 1em; }
+        input:focus { outline: none; border-color: #4A90E2; }
+        .tooltip { font-size: 0.85em; color: #666; margin-top: 5px; font-style: italic; }
+        .calculate-btn { width: 100%; padding: 15px; background: linear-gradient(135deg, #4A90E2 0%, #2E5C8A 100%); color: white; border: none; border-radius: 10px; font-size: 1.1em; font-weight: 600; cursor: pointer; }
+        .results { margin-top: 30px; display: none; }
+        .results.show { display: block; animation: slideIn 0.4s ease; }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .profit-summary { padding: 30px; background: linear-gradient(135deg, #4A90E2 0%, #2E5C8A 100%); border-radius: 15px; color: white; text-align: center; margin-bottom: 20px; }
+        .profit-summary .main-value { font-size: 3.5em; font-weight: 700; }
+        .breakdown-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
+        .breakdown-item { padding: 20px; background: #e3f2fd; border-radius: 10px; }
+        .breakdown-item h4 { color: #666; font-size: 0.85em; margin-bottom: 8px; }
+        .breakdown-item .value { font-size: 1.6em; font-weight: 700; color: #333; }
+        .fee-breakdown { padding: 25px; background: #e3f2fd; border-radius: 15px; margin-top: 20px; }
+        .fee-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #e0e0e0; }
+        footer { text-align: center; color: white; margin-top: 40px; opacity: 0.9; }
+        @media (max-width: 768px) { .input-grid, .breakdown-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📊 CalcPro</h1>
+            <p>Dropshipping Profit Calculator</p>
+            <a href="index.html" class="nav-link">← Back to Home</a>
+        </header>
+
+        <div class="calculator-card">
+            <div class="input-grid">
+                <div class="input-group">
+                    <label for="sellingPrice">Selling Price ($)</label>
+                    <input type="number" id="sellingPrice" placeholder="e.g., 49.99" step="0.01">
+                    <div class="tooltip">Price customers pay</div>
+                </div>
+                <div class="input-group">
+                    <label for="productCost">Product Cost ($)</label>
+                    <input type="number" id="productCost" placeholder="e.g., 15.00" step="0.01">
+                    <div class="tooltip">Supplier's price</div>
+                </div>
+                <div class="input-group">
+                    <label for="shippingCost">Shipping Cost ($)</label>
+                    <input type="number" id="shippingCost" placeholder="e.g., 5.00" step="0.01">
+                    <div class="tooltip">Cost to ship to customer</div>
+                </div>
+                <div class="input-group">
+                    <label for="adCost">Cost Per Acquisition ($)</label>
+                    <input type="number" id="adCost" placeholder="e.g., 10.00" step="0.01">
+                    <div class="tooltip">How much you spend to get one sale</div>
+                </div>
+                <div class="input-group">
+                    <label for="platform">Platform</label>
+                    <select id="platform">
+                        <option value="3">Shopify (~3% fees)</option>
+                        <option value="0">Own Website (0% fees)</option>
+                        <option value="15">Marketplace (15% fees)</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label for="monthlyOrders">Monthly Orders</label>
+                    <input type="number" id="monthlyOrders" placeholder="e.g., 100">
+                    <div class="tooltip">Expected monthly sales</div>
+                </div>
+            </div>
+
+            <button class="calculate-btn" onclick="calculateDropship()">Calculate Profit 🚚</button>
+
+            <div class="results" id="results">
+                <div class="profit-summary">
+                    <h2>Net Profit Per Order</h2>
+                    <div class="main-value" id="netProfit">$0</div>
+                    <p style="opacity: 0.9; margin-top: 10px;">Profit Margin: <span id="margin">0%</span></p>
+                </div>
+
+                <div class="breakdown-grid">
+                    <div class="breakdown-item">
+                        <h4>Monthly Revenue</h4>
+                        <div class="value" id="monthlyRevenue">$0</div>
+                    </div>
+                    <div class="breakdown-item">
+                        <h4>Monthly Profit</h4>
+                        <div class="value" id="monthlyProfit">$0</div>
+                    </div>
+                    <div class="breakdown-item">
+                        <h4>Return on Ad Spend</h4>
+                        <div class="value" id="roas">0x</div>
+                    </div>
+                    <div class="breakdown-item">
+                        <h4>Break-Even Orders</h4>
+                        <div class="value" id="breakeven">0</div>
+                    </div>
+                </div>
+
+                <div class="fee-breakdown">
+                    <h3 style="color: #4A90E2; margin-bottom: 20px;">Cost Breakdown</h3>
+                    <div class="fee-row"><span>Selling Price</span><strong id="d1">$0</strong></div>
+                    <div class="fee-row"><span>Product Cost</span><strong id="d2">-$0</strong></div>
+                    <div class="fee-row"><span>Shipping</span><strong id="d3">-$0</strong></div>
+                    <div class="fee-row"><span>Platform Fees</span><strong id="d4">-$0</strong></div>
+                    <div class="fee-row"><span>Ad Cost</span><strong id="d5">-$0</strong></div>
+                    <div class="fee-row" style="border-top: 2px solid #4A90E2;"><span>Net Profit</span><strong id="d6" style="color: #4A90E2;">$0</strong></div>
+                </div>
+            </div>
+        </div>
+
+        <footer><p>&copy; 2026 CalcPro</p></footer>
+    </div>
+
+    <script>
+        function calculateDropship() {
+            const price = parseFloat(document.getElementById('sellingPrice').value) || 0;
+            const cost = parseFloat(document.getElementById('productCost').value) || 0;
+            const shipping = parseFloat(document.getElementById('shippingCost').value) || 0;
+            const adCost = parseFloat(document.getElementById('adCost').value) || 0;
+            const platformFee = parseFloat(document.getElementById('platform').value);
+            const orders = parseFloat(document.getElementById('monthlyOrders').value) || 0;
+
+            const fees = price * (platformFee / 100);
+            const netProfit = price - cost - shipping - fees - adCost;
+            const margin = (netProfit / price) * 100;
+            const monthlyRevenue = price * orders;
+            const monthlyProfit = netProfit * orders;
+            const roas = adCost > 0 ? price / adCost : 0;
+            const breakeven = netProfit > 0 ? Math.ceil(100 / margin) : 0;
+
+            document.getElementById('netProfit').textContent = '$' + netProfit.toFixed(2);
+            document.getElementById('margin').textContent = margin.toFixed(1) + '%';
+            document.getElementById('monthlyRevenue').textContent = '$' + monthlyRevenue.toFixed(2);
+            document.getElementById('monthlyProfit').textContent = '$' + monthlyProfit.toFixed(2);
+            document.getElementById('roas').textContent = roas.toFixed(2) + 'x';
+            document.getElementById('breakeven').textContent = breakeven;
+
+            document.getElementById('d1').textContent = '$' + price.toFixed(2);
+            document.getElementById('d2').textContent = '-$' + cost.toFixed(2);
+            document.getElementById('d3').textContent = '-$' + shipping.toFixed(2);
+            document.getElementById('d4').textContent = '-$' + fees.toFixed(2);
+            document.getElementById('d5').textContent = '-$' + adCost.toFixed(2);
+            document.getElementById('d6').textContent = '$' + netProfit.toFixed(2);
+
+            document.getElementById('results').classList.add('show');
+        }
+    </script>
+</body>
+</html>
