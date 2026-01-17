@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Calculate your potential TikTok earnings from Creator Fund, brand deals, and live gifts. Free TikTok money calculator with real estimates.">
+    <title>TikTok Money Calculator - CalcPro</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #ee0979 0%, #ff6a00 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .nav-link {
+            display: inline-block;
+            margin-top: 10px;
+            color: white;
+            text-decoration: none;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+
+        .nav-link:hover {
+            opacity: 1;
+        }
+
+        .calculator-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .tab {
+            padding: 12px 20px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            color: #999;
+            transition: all 0.3s;
+            border-bottom: 3px solid transparent;
+        }
+
+        .tab.active {
+            color: #ee0979;
+            border-bottom-color: #ee0979;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .input-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+            font-size: 0.95em;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #ee0979;
+        }
+
+        .tooltip {
+            font-size: 0.85em;
+            color: #666;
+            margin-top: 5px;
+            font-style: italic;
+        }
+
+        .calculate-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #ee0979 0%, #ff6a00 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+            margin-top: 10px;
+        }
+
+        .calculate-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .results {
+            margin-top: 30px;
+            padding: 25px;
+            background: #fff5f8;
+            border-radius: 15px;
+            display: none;
+        }
+
+        .results.show {
+            display: block;
+            animation: slideIn 0.4s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .result-item {
+            padding: 15px;
+            margin-bottom: 15px;
+            background: white;
+            border-radius: 10px;
+            border-left: 4px solid #ee0979;
+        }
+
+        .result-item h3 {
+            color: #ee0979;
+            margin-bottom: 5px;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .result-item .value {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .info-section {
+            margin-top: 40px;
+            padding: 30px;
+            background: #fff5f8;
+            border-radius: 15px;
+        }
+
+        .info-section h2 {
+            color: #ee0979;
+            margin-bottom: 15px;
+        }
+
+        .info-section p {
+            line-height: 1.6;
+            color: #555;
+            margin-bottom: 10px;
+        }
+
+        .info-section ul {
+            margin-left: 20px;
+            line-height: 1.8;
+            color: #555;
+        }
+
+        footer {
+            text-align: center;
+            color: white;
+            margin-top: 40px;
+            opacity: 0.9;
+        }
+
+        @media (max-width: 600px) {
+            header h1 {
+                font-size: 1.8em;
+            }
+
+            .calculator-card {
+                padding: 25px;
+            }
+
+            .tabs {
+                overflow-x: auto;
+            }
+
+            .tab {
+                white-space: nowrap;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📊 CalcPro</h1>
+            <p>TikTok Money Calculator</p>
+            <a href="index.html" class="nav-link">← Back to Home</a>
+        </header>
+
+        <div class="calculator-card">
+            <div class="tabs">
+                <button class="tab active" onclick="switchTab('creator-fund')">Creator Fund</button>
+                <button class="tab" onclick="switchTab('brand-deals')">Brand Deals</button>
+                <button class="tab" onclick="switchTab('live-gifts')">Live Gifts</button>
+            </div>
+
+            <!-- Creator Fund Tab -->
+            <div id="creator-fund" class="tab-content active">
+                <div class="input-group">
+                    <label for="views">Monthly Video Views</label>
+                    <input type="number" id="views" placeholder="e.g., 1000000" min="0">
+                    <div class="tooltip">Total views per month across all videos</div>
+                </div>
+
+                <div class="input-group">
+                    <label for="location">Primary Audience Location</label>
+                    <select id="location">
+                        <option value="0.02">USA/UK/Canada ($0.02-0.04 per 1K views)</option>
+                        <option value="0.015">Europe ($0.015-0.025 per 1K views)</option>
+                        <option value="0.01" selected>Other Countries ($0.01-0.02 per 1K views)</option>
+                    </select>
+                    <div class="tooltip">Creator Fund rates vary significantly by location</div>
+                </div>
+
+                <button class="calculate-btn" onclick="calculateCreatorFund()">Calculate Earnings 💰</button>
+
+                <div class="results" id="results-fund">
+                    <div class="result-item">
+                        <h3>Estimated Monthly Earnings</h3>
+                        <div class="value" id="monthlyFund">$0</div>
+                    </div>
+
+                    <div class="result-item">
+                        <h3>Estimated Yearly Earnings</h3>
+                        <div class="value" id="yearlyFund">$0</div>
+                    </div>
+
+                    <div class="result-item">
+                        <h3>Rate Per 1,000 Views</h3>
+                        <div class="value" id="ratePer1k">$0</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Brand Deals Tab -->
+            <div id="brand-deals" class="tab-content">
+                <div class="input-group">
+                    <label for="followers">Follower Count</label>
+                    <input type="number" id="followers" placeholder="e.g., 100000" min="0">
+                    <div class="tooltip">Your total TikTok followers</div>
+                </div>
+
+                <div class="input-group">
+                    <label for="engagement">Engagement Rate (%)</label>
+                    <input type="number" id="engagement" value="5" min="0" max="100" step="0.1">
+                    <div class="tooltip">Average likes + comments / followers × 100</div>
+                </div>
+
+                <div class="input-group">
+                    <label for="niche">Content Niche</label>
+                    <select id="niche">
+                        <option value="0.01">Fashion/Beauty ($0.01-0.02 per follower)</option>
+                        <option value="0.008" selected>Lifestyle/Entertainment ($0.008-0.015)</option>
+                        <option value="0.012">Tech/Finance ($0.012-0.025)</option>
+                        <option value="0.015">Health/Fitness ($0.015-0.03)</option>
+                    </select>
+                </div>
+
+                <button class="calculate-btn" onclick="calculateBrandDeals()">Calculate Brand Deal Value 💰</button>
+
+                <div class="results" id="results-brand">
+                    <div class="result-item">
+                        <h3>Per Post Rate (Low End)</h3>
+                        <div class="value" id="brandLow">$0</div>
+                    </div>
+
+                    <div class="result-item">
+                        <h3>Per Post Rate (High End)</h3>
+                        <div class="value" id="brandHigh">$0</div>
+                    </div>
+
+                    <div class="result-item">
+                        <h3>Monthly Potential (4 Sponsored Posts)</h3>
+                        <div class="value" id="brandMonthly">$0</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Live Gifts Tab -->
+            <div id="live-gifts" class="tab-content">
+                <div class="input-group">
+                    <label for="liveViewers">Average Live Stream Viewers</label>
+                    <input type="number" id="liveViewers" placeholder="e.g., 500" min="0">
+                    <div class="tooltip">Concurrent viewers during live streams</div>
+                </div>
+
+                <div class="input-group">
+                    <label for="liveHours">Hours Streamed Per Month</label>
+                    <input type="number" id="liveHours" value="20" min="0">
+                    <div class="tooltip">Total live streaming hours monthly</div>
+                </div>
+
+                <div class="input-group">
+                    <label for="giftRate">Gift Conversion Rate</label>
+                    <select id="giftRate">
+                        <option value="0.5">Low Engagement (0.5%)</option>
+                        <option value="1" selected>Average (1%)</option>
+                        <option value="2">High Engagement (2%)</option>
+                        <option value="3">Very High (3%+)</option>
+                    </select>
+                    <div class="tooltip">Percentage of viewers who send gifts</div>
+                </div>
+
+                <button class="calculate-btn" onclick="calculateLiveGifts()">Calculate Gift Earnings 💰</button>
+
+                <div class="results" id="results-gifts">
+                    <div class="result-item">
+                        <h3>Estimated Monthly Earnings</h3>
+                        <div class="value" id="giftMonthly">$0</div>
+                    </div>
+
+                    <div class="result-item">
+                        <h3>Estimated Per Stream</h3>
+                        <div class="value" id="giftPerStream">$0</div>
+                    </div>
+
+                    <div class="result-item">
+                        <h3>Yearly Potential</h3>
+                        <div class="value" id="giftYearly">$0</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h2>How TikTok Creators Make Money</h2>
+            <p>TikTok offers multiple monetization methods for creators:</p>
+            
+            <ul>
+                <li><strong>Creator Fund:</strong> Earn $0.02-$0.04 per 1,000 views (varies by country). Requires 10K+ followers and 100K views in 30 days.</li>
+                <li><strong>Brand Partnerships:</strong> Companies pay for sponsored content. Rates typically range from $0.01-$0.03 per follower.</li>
+                <li><strong>Live Gifts:</strong> Viewers send virtual gifts during live streams. TikTok takes 50% commission; you keep the rest.</li>
+                <li><strong>TikTok Shop:</strong> Sell products directly through TikTok with affiliate commissions.</li>
+                <li><strong>External Links:</strong> Drive traffic to YouTube, Patreon, or your own products.</li>
+            </ul>
+
+            <p style="margin-top: 15px;"><strong>Note:</strong> TikTok earnings are highly variable. These are estimates based on industry averages.</p>
+        </div>
+
+        <div class="info-section">
+            <h2>Tips to Increase TikTok Earnings</h2>
+            <ul>
+                <li>Post consistently (1-3 times daily) to maximize reach</li>
+                <li>Create content in trending sounds and formats</li>
+                <li>Engage with comments to boost engagement rate</li>
+                <li>Go live regularly to build loyal audience and earn gifts</li>
+                <li>Build followers in high-CPM countries (US, UK, Canada)</li>
+                <li>Focus on niches with high brand deal potential (beauty, tech, finance)</li>
+                <li>Use CTAs to drive traffic to other platforms for additional income</li>
+            </ul>
+        </div>
+
+        <footer>
+            <p>&copy; 2026 CalcPro - Free Online Calculators for Creators & Entrepreneurs</p>
+        </footer>
+    </div>
+
+    <script>
+        function switchTab(tabName) {
+            const tabs = document.querySelectorAll('.tab');
+            const contents = document.querySelectorAll('.tab-content');
+            
+            tabs.forEach(tab => tab.classList.remove('active'));
+            contents.forEach(content => content.classList.remove('active'));
+            
+            event.target.classList.add('active');
+            document.getElementById(tabName).classList.add('active');
+        }
+
+        function calculateCreatorFund() {
+            const views = parseFloat(document.getElementById('views').value) || 0;
+            const rate = parseFloat(document.getElementById('location').value);
+
+            if (views === 0) {
+                alert('Please enter your monthly views');
+                return;
+            }
+
+            const monthlyEarnings = (views / 1000) * rate;
+            const yearlyEarnings = monthlyEarnings * 12;
+
+            document.getElementById('monthlyFund').textContent = '$' + monthlyEarnings.toFixed(2);
+            document.getElementById('yearlyFund').textContent = '$' + yearlyEarnings.toFixed(2);
+            document.getElementById('ratePer1k').textContent = '$' + rate.toFixed(3);
+
+            document.getElementById('results-fund').classList.add('show');
+            document.getElementById('results-fund').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        function calculateBrandDeals() {
+            const followers = parseFloat(document.getElementById('followers').value) || 0;
+            const engagement = parseFloat(document.getElementById('engagement').value) || 5;
+            const baseRate = parseFloat(document.getElementById('niche').value);
+
+            if (followers === 0) {
+                alert('Please enter your follower count');
+                return;
+            }
+
+            const engagementMultiplier = engagement > 5 ? 1.5 : engagement > 3 ? 1.2 : 1;
+            const lowRate = followers * baseRate * engagementMultiplier;
+            const highRate = followers * baseRate * 2 * engagementMultiplier;
+            const monthlyPotential = (lowRate + highRate) / 2 * 4;
+
+            document.getElementById('brandLow').textContent = '$' + lowRate.toFixed(0);
+            document.getElementById('brandHigh').textContent = '$' + highRate.toFixed(0);
+            document.getElementById('brandMonthly').textContent = '$' + monthlyPotential.toFixed(0);
+
+            document.getElementById('results-brand').classList.add('show');
+            document.getElementById('results-brand').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        function calculateLiveGifts() {
+            const viewers = parseFloat(document.getElementById('liveViewers').value) || 0;
+            const hours = parseFloat(document.getElementById('liveHours').value) || 20;
+            const giftRate = parseFloat(document.getElementById('giftRate').value);
+
+            if (viewers === 0) {
+                alert('Please enter average live viewers');
+                return;
+            }
+
+            const avgGiftValue = 5;
+            const giftersPerStream = viewers * (giftRate / 100);
+            const earningsPerHour = giftersPerStream * avgGiftValue * 0.5;
+            const monthlyEarnings = earningsPerHour * hours;
+            const perStream = earningsPerHour * 1;
+            const yearlyEarnings = monthlyEarnings * 12;
+
+            document.getElementById('giftMonthly').textContent = '$' + monthlyEarnings.toFixed(2);
+            document.getElementById('giftPerStream').textContent = '$' + perStream.toFixed(2);
+            document.getElementById('giftYearly').textContent = '$' + yearlyEarnings.toFixed(2);
+
+            document.getElementById('results-gifts').classList.add('show');
+            document.getElementById('results-gifts').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+    </script>
+</body>
+</html>

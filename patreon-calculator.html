@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Calculate your potential Patreon earnings with multiple membership tiers. Free Patreon calculator with fee breakdowns and growth projections.">
+    <title>Patreon Income Calculator - CalcPro</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #ff424d 0%, #fa5252 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .nav-link {
+            display: inline-block;
+            margin-top: 10px;
+            color: white;
+            text-decoration: none;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+
+        .nav-link:hover {
+            opacity: 1;
+        }
+
+        .calculator-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .tier-section {
+            margin-bottom: 30px;
+            padding: 25px;
+            background: #f8f9ff;
+            border-radius: 15px;
+            border-left: 4px solid #ff424d;
+        }
+
+        .tier-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .tier-header h3 {
+            color: #ff424d;
+            font-size: 1.2em;
+        }
+
+        .tier-inputs {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 15px;
+        }
+
+        .input-group {
+            margin-bottom: 0;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+            font-size: 0.9em;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #ff424d;
+        }
+
+        .tooltip {
+            font-size: 0.85em;
+            color: #666;
+            margin-top: 5px;
+            font-style: italic;
+        }
+
+        .add-tier-btn {
+            width: 100%;
+            padding: 12px;
+            background: white;
+            color: #ff424d;
+            border: 2px dashed #ff424d;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 20px;
+        }
+
+        .add-tier-btn:hover {
+            background: #fff5f6;
+        }
+
+        .platform-fee-info {
+            padding: 20px;
+            background: #fff5f6;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .platform-fee-info h4 {
+            color: #ff424d;
+            margin-bottom: 10px;
+        }
+
+        .fee-options {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .fee-option {
+            flex: 1;
+            padding: 10px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .fee-option.active {
+            border-color: #ff424d;
+            background: #fff5f6;
+        }
+
+        .fee-option strong {
+            display: block;
+            color: #ff424d;
+            margin-bottom: 3px;
+        }
+
+        .calculate-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #ff424d 0%, #fa5252 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .calculate-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .results {
+            margin-top: 30px;
+            display: none;
+        }
+
+        .results.show {
+            display: block;
+            animation: slideIn 0.4s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .revenue-summary {
+            padding: 30px;
+            background: linear-gradient(135deg, #ff424d 0%, #fa5252 100%);
+            border-radius: 15px;
+            color: white;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .revenue-summary h2 {
+            margin-bottom: 15px;
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .revenue-summary .main-value {
+            font-size: 3.5em;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .revenue-summary .sub-value {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .breakdown-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .breakdown-item {
+            padding: 20px;
+            background: #f8f9ff;
+            border-radius: 10px;
+        }
+
+        .breakdown-item h4 {
+            color: #666;
+            font-size: 0.85em;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .breakdown-item .value {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .tier-breakdown {
+            padding: 25px;
+            background: #f8f9ff;
+            border-radius: 15px;
+        }
+
+        .tier-breakdown h3 {
+            color: #ff424d;
+            margin-bottom: 20px;
+        }
+
+        .tier-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .tier-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .info-section {
+            margin-top: 40px;
+            padding: 30px;
+            background: #fff5f6;
+            border-radius: 15px;
+        }
+
+        .info-section h2 {
+            color: #ff424d;
+            margin-bottom: 15px;
+        }
+
+        .info-section p {
+            line-height: 1.6;
+            color: #555;
+            margin-bottom: 10px;
+        }
+
+        .info-section ul {
+            margin-left: 20px;
+            line-height: 1.8;
+            color: #555;
+        }
+
+        footer {
+            text-align: center;
+            color: white;
+            margin-top: 40px;
+            opacity: 0.9;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8em;
+            }
+
+            .calculator-card {
+                padding: 25px;
+            }
+
+            .tier-inputs {
+                grid-template-columns: 1fr;
+            }
+
+            .breakdown-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .revenue-summary .main-value {
+                font-size: 2.5em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📊 CalcPro</h1>
+            <p>Patreon Income Calculator</p>
+            <a href="index.html" class="nav-link">← Back to Home</a>
+        </header>
+
+        <div class="calculator-card">
+            <div class="platform-fee-info">
+                <h4>Select Your Patreon Plan</h4>
+                <div class="fee-options">
+                    <div class="fee-option active" onclick="selectPlan('lite', 5)">
+                        <strong>Lite</strong>
+                        <div>5% fee</div>
+                    </div>
+                    <div class="fee-option" onclick="selectPlan('pro', 8)">
+                        <strong>Pro</strong>
+                        <div>8% fee</div>
+                    </div>
+                    <div class="fee-option" onclick="selectPlan('premium', 12)">
+                        <strong>Premium</strong>
+                        <div>12% fee</div>
+                    </div>
+                </div>
+                <div class="tooltip">Plus payment processing fees (~2.9% + $0.30 per transaction)</div>
+            </div>
+
+            <div id="tiersContainer">
+                <div class="tier-section">
+                    <div class="tier-header">
+                        <h3>Tier 1</h3>
+                    </div>
+                    <div class="tier-inputs">
+                        <div class="input-group">
+                            <label>Number of Patrons</label>
+                            <input type="number" class="tier-patrons" placeholder="e.g., 50" min="0">
+                        </div>
+                        <div class="input-group">
+                            <label>Monthly Price ($)</label>
+                            <input type="number" class="tier-price" placeholder="e.g., 5" min="0" step="0.01">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tier-section">
+                    <div class="tier-header">
+                        <h3>Tier 2</h3>
+                    </div>
+                    <div class="tier-inputs">
+                        <div class="input-group">
+                            <label>Number of Patrons</label>
+                            <input type="number" class="tier-patrons" placeholder="e.g., 20" min="0">
+                        </div>
+                        <div class="input-group">
+                            <label>Monthly Price ($)</label>
+                            <input type="number" class="tier-price" placeholder="e.g., 10" min="0" step="0.01">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tier-section">
+                    <div class="tier-header">
+                        <h3>Tier 3</h3>
+                    </div>
+                    <div class="tier-inputs">
+                        <div class="input-group">
+                            <label>Number of Patrons</label>
+                            <input type="number" class="tier-patrons" placeholder="e.g., 5" min="0">
+                        </div>
+                        <div class="input-group">
+                            <label>Monthly Price ($)</label>
+                            <input type="number" class="tier-price" placeholder="e.g., 25" min="0" step="0.01">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="calculate-btn" onclick="calculatePatreon()">Calculate My Income 💰</button>
+
+            <div class="results" id="results">
+                <div class="revenue-summary">
+                    <h2>Net Monthly Income</h2>
+                    <div class="main-value" id="netMonthly">$0</div>
+                    <div class="sub-value">After Patreon fees | Yearly: <span id="netYearly">$0</span></div>
+                </div>
+
+                <div class="breakdown-grid">
+                    <div class="breakdown-item">
+                        <h4>Gross Revenue</h4>
+                        <div class="value" id="grossRevenue">$0</div>
+                    </div>
+                    <div class="breakdown-item">
+                        <h4>Total Patrons</h4>
+                        <div class="value" id="totalPatrons">0</div>
+                    </div>
+                    <div class="breakdown-item">
+                        <h4>Platform Fees</h4>
+                        <div class="value" id="platformFees">$0</div>
+                    </div>
+                    <div class="breakdown-item">
+                        <h4>Payment Processing</h4>
+                        <div class="value" id="processingFees">$0</div>
+                    </div>
+                </div>
+
+                <div class="tier-breakdown">
+                    <h3>Revenue by Tier</h3>
+                    <div id="tierBreakdown"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h2>How Patreon Works</h2>
+            <p>Patreon is a membership platform that allows creators to earn recurring income from their supporters (patrons).</p>
+            
+            <ul>
+                <li><strong>Membership Tiers:</strong> Offer different reward levels at various price points</li>
+                <li><strong>Recurring Revenue:</strong> Patrons pay monthly for ongoing access to exclusive content</li>
+                <li><strong>Platform Fees:</strong> Patreon takes 5-12% depending on your plan, plus payment processing (~2.9% + $0.30)</li>
+                <li><strong>Lite Plan (5%):</strong> Basic tools, community, business insights</li>
+                <li><strong>Pro Plan (8%):</strong> + Unlimited app integrations, analytics, promotion</li>
+                <li><strong>Premium Plan (12%):</strong> + Priority support, team accounts, merch for membership</li>
+            </ul>
+
+            <p style="margin-top: 15px;"><strong>Note:</strong> This calculator accounts for Patreon's platform fee and estimated payment processing fees. Actual fees may vary slightly based on patron location and payment method.</p>
+        </div>
+
+        <div class="info-section">
+            <h2>Tips to Grow Your Patreon</h2>
+            <ul>
+                <li><strong>Clear Value Proposition:</strong> Explain exactly what patrons get at each tier</li>
+                <li><strong>Start Small:</strong> Begin with 2-3 tiers, add more as you grow</li>
+                <li><strong>Price Strategically:</strong> Common tiers: $3-5 (entry), $10-15 (mid), $25+ (premium)</li>
+                <li><strong>Deliver Consistently:</strong> Set realistic goals and always meet them</li>
+                <li><strong>Exclusive Content:</strong> Behind-the-scenes, early access, patron-only posts</li>
+                <li><strong>Engage Your Community:</strong> Polls, Q&As, patron shoutouts</li>
+                <li><strong>Promote Regularly:</strong> Mention Patreon in every video/post/stream</li>
+                <li><strong>Show Impact:</strong> Share how patron support helps your work</li>
+                <li><strong>Offer Flexibility:</strong> Annual billing discounts, pause options</li>
+            </ul>
+        </div>
+
+        <footer>
+            <p>&copy; 2026 CalcPro - Free Online Calculators for Creators & Entrepreneurs</p>
+        </footer>
+    </div>
+
+    <script>
+        let selectedPlan = 'lite';
+        let platformFeePercent = 5;
+
+        function selectPlan(plan, fee) {
+            selectedPlan = plan;
+            platformFeePercent = fee;
+            
+            document.querySelectorAll('.fee-option').forEach(option => {
+                option.classList.remove('active');
+            });
+            event.target.closest('.fee-option').classList.add('active');
+        }
+
+        function calculatePatreon() {
+            const patronInputs = document.querySelectorAll('.tier-patrons');
+            const priceInputs = document.querySelectorAll('.tier-price');
+
+            let grossRevenue = 0;
+            let totalPatrons = 0;
+            const tiers = [];
+
+            for (let i = 0; i < patronInputs.length; i++) {
+                const patrons = parseFloat(patronInputs[i].value) || 0;
+                const price = parseFloat(priceInputs[i].value) || 0;
+                
+                if (patrons > 0 && price > 0) {
+                    const tierRevenue = patrons * price;
+                    grossRevenue += tierRevenue;
+                    totalPatrons += patrons;
+                    tiers.push({
+                        name: `Tier ${i + 1}`,
+                        patrons: patrons,
+                        price: price,
+                        revenue: tierRevenue
+                    });
+                }
+            }
+
+            if (grossRevenue === 0) {
+                alert('Please enter at least one tier with patrons and price');
+                return;
+            }
+
+            const platformFee = grossRevenue * (platformFeePercent / 100);
+            const processingFee = (grossRevenue * 0.029) + (totalPatrons * 0.30);
+            const totalFees = platformFee + processingFee;
+            const netMonthly = grossRevenue - totalFees;
+            const netYearly = netMonthly * 12;
+
+            document.getElementById('grossRevenue').textContent = '$' + grossRevenue.toFixed(2);
+            document.getElementById('totalPatrons').textContent = totalPatrons;
+            document.getElementById('platformFees').textContent = '$' + platformFee.toFixed(2);
+            document.getElementById('processingFees').textContent = '$' + processingFee.toFixed(2);
+            document.getElementById('netMonthly').textContent = '$' + netMonthly.toFixed(2);
+            document.getElementById('netYearly').textContent = '$' + netYearly.toFixed(2);
+
+            let tierBreakdownHTML = '';
+            tiers.forEach(tier => {
+                tierBreakdownHTML += `
+                    <div class="tier-row">
+                        <div>
+                            <strong>${tier.name}</strong>
+                            <div style="font-size: 0.9em; color: #666;">
+                                ${tier.patrons} patrons × $${tier.price.toFixed(2)}
+                            </div>
+                        </div>
+                        <div style="font-size: 1.3em; font-weight: 600;">
+                            $${tier.revenue.toFixed(2)}
+                        </div>
+                    </div>
+                `;
+            });
+            document.getElementById('tierBreakdown').innerHTML = tierBreakdownHTML;
+
+            document.getElementById('results').classList.add('show');
+            document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+    </script>
+</body>
+</html>

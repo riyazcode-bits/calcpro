@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Calculate your potential Twitch earnings from subs, bits, ads, and donations. Free Twitch money calculator with Partner vs Affiliate comparison.">
+    <title>Twitch Revenue Calculator - CalcPro</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #6441a5 0%, #2a0845 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .nav-link {
+            display: inline-block;
+            margin-top: 10px;
+            color: white;
+            text-decoration: none;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+
+        .nav-link:hover {
+            opacity: 1;
+        }
+
+        .calculator-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .status-toggle {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            justify-content: center;
+        }
+
+        .status-btn {
+            padding: 12px 30px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .status-btn.active {
+            background: #6441a5;
+            color: white;
+            border-color: #6441a5;
+        }
+
+        .input-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+            margin-bottom: 25px;
+        }
+
+        .input-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+            font-size: 0.95em;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #6441a5;
+        }
+
+        .tooltip {
+            font-size: 0.85em;
+            color: #666;
+            margin-top: 5px;
+            font-style: italic;
+        }
+
+        .calculate-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #6441a5 0%, #2a0845 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+            margin-top: 10px;
+        }
+
+        .calculate-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .results {
+            margin-top: 30px;
+            display: none;
+        }
+
+        .results.show {
+            display: block;
+            animation: slideIn 0.4s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .result-item {
+            padding: 20px;
+            background: #f8f9ff;
+            border-radius: 10px;
+            border-left: 4px solid #6441a5;
+        }
+
+        .result-item h3 {
+            color: #6441a5;
+            margin-bottom: 5px;
+            font-size: 0.85em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .result-item .value {
+            font-size: 1.6em;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .total-revenue {
+            padding: 30px;
+            background: linear-gradient(135deg, #6441a5 0%, #2a0845 100%);
+            border-radius: 15px;
+            text-align: center;
+            color: white;
+            margin-top: 20px;
+        }
+
+        .total-revenue h2 {
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .total-revenue .value {
+            font-size: 3em;
+            font-weight: 700;
+        }
+
+        .breakdown {
+            margin-top: 20px;
+            padding: 25px;
+            background: #f8f9ff;
+            border-radius: 15px;
+        }
+
+        .breakdown h3 {
+            color: #6441a5;
+            margin-bottom: 15px;
+        }
+
+        .breakdown-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .breakdown-item:last-child {
+            border-bottom: none;
+        }
+
+        .info-section {
+            margin-top: 40px;
+            padding: 30px;
+            background: #f8f9ff;
+            border-radius: 15px;
+        }
+
+        .info-section h2 {
+            color: #6441a5;
+            margin-bottom: 15px;
+        }
+
+        .info-section p {
+            line-height: 1.6;
+            color: #555;
+            margin-bottom: 10px;
+        }
+
+        .info-section ul {
+            margin-left: 20px;
+            line-height: 1.8;
+            color: #555;
+        }
+
+        .comparison-table {
+            margin-top: 20px;
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .comparison-table th {
+            background: #6441a5;
+            color: white;
+            font-weight: 600;
+        }
+
+        footer {
+            text-align: center;
+            color: white;
+            margin-top: 40px;
+            opacity: 0.9;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8em;
+            }
+
+            .calculator-card {
+                padding: 25px;
+            }
+
+            .input-grid,
+            .results-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .total-revenue .value {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📊 CalcPro</h1>
+            <p>Twitch Revenue Calculator</p>
+            <a href="index.html" class="nav-link">← Back to Home</a>
+        </header>
+
+        <div class="calculator-card">
+            <div class="status-toggle">
+                <button class="status-btn active" onclick="setStatus('partner')">Twitch Partner</button>
+                <button class="status-btn" onclick="setStatus('affiliate')">Twitch Affiliate</button>
+            </div>
+
+            <div class="input-grid">
+                <div class="input-group">
+                    <label for="tier1Subs">Tier 1 Subscribers ($4.99)</label>
+                    <input type="number" id="tier1Subs" placeholder="e.g., 100" min="0">
+                    <div class="tooltip">Number of $4.99/month subs</div>
+                </div>
+
+                <div class="input-group">
+                    <label for="tier2Subs">Tier 2 Subscribers ($9.99)</label>
+                    <input type="number" id="tier2Subs" placeholder="e.g., 20" min="0">
+                    <div class="tooltip">Number of $9.99/month subs</div>
+                </div>
+
+                <div class="input-group">
+                    <label for="tier3Subs">Tier 3 Subscribers ($24.99)</label>
+                    <input type="number" id="tier3Subs" placeholder="e.g., 5" min="0">
+                    <div class="tooltip">Number of $24.99/month subs</div>
+                </div>
+
+                <div class="input-group">
+                    <label for="primeSubs">Prime Subscriptions</label>
+                    <input type="number" id="primeSubs" placeholder="e.g., 50" min="0">
+                    <div class="tooltip">Free subs from Amazon Prime</div>
+                </div>
+            </div>
+
+            <div class="input-grid">
+                <div class="input-group">
+                    <label for="bits">Monthly Bits</label>
+                    <input type="number" id="bits" placeholder="e.g., 10000" min="0">
+                    <div class="tooltip">Total bits cheered per month</div>
+                </div>
+
+                <div class="input-group">
+                    <label for="avgViewers">Average Concurrent Viewers</label>
+                    <input type="number" id="avgViewers" placeholder="e.g., 75" min="0">
+                    <div class="tooltip">For ad revenue calculation</div>
+                </div>
+
+                <div class="input-group">
+                    <label for="streamHours">Hours Streamed Per Month</label>
+                    <input type="number" id="streamHours" value="80" min="0">
+                    <div class="tooltip">Total streaming hours monthly</div>
+                </div>
+
+                <div class="input-group">
+                    <label for="donations">Monthly Donations</label>
+                    <input type="number" id="donations" placeholder="e.g., 500" min="0">
+                    <div class="tooltip">Direct donations (PayPal, etc.)</div>
+                </div>
+            </div>
+
+            <button class="calculate-btn" onclick="calculateRevenue()">Calculate My Revenue 💰</button>
+
+            <div class="results" id="results">
+                <div class="results-grid">
+                    <div class="result-item">
+                        <h3>Subscription Revenue</h3>
+                        <div class="value" id="subRevenue">$0</div>
+                    </div>
+
+                    <div class="result-item">
+                        <h3>Bits Revenue</h3>
+                        <div class="value" id="bitsRevenue">$0</div>
+                    </div>
+
+                    <div class="result-item">
+                        <h3>Ad Revenue</h3>
+                        <div class="value" id="adRevenue">$0</div>
+                    </div>
+
+                    <div class="result-item">
+                        <h3>Donations</h3>
+                        <div class="value" id="donationRevenue">$0</div>
+                    </div>
+                </div>
+
+                <div class="total-revenue">
+                    <h2>Total Monthly Revenue</h2>
+                    <div class="value" id="totalMonthly">$0</div>
+                    <p style="opacity: 0.9; margin-top: 10px;">Yearly Projection: <span id="yearlyRevenue">$0</span></p>
+                </div>
+
+                <div class="breakdown">
+                    <h3>Revenue Breakdown</h3>
+                    <div class="breakdown-item">
+                        <span>Total Subscribers:</span>
+                        <strong id="totalSubs">0</strong>
+                    </div>
+                    <div class="breakdown-item">
+                        <span>Sub Split Rate:</span>
+                        <strong id="splitRate">50%</strong>
+                    </div>
+                    <div class="breakdown-item">
+                        <span>Estimated CPM:</span>
+                        <strong id="cpmRate">$3.50</strong>
+                    </div>
+                    <div class="breakdown-item">
+                        <span>Revenue Per Hour Streamed:</span>
+                        <strong id="revenuePerHour">$0</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h2>How Twitch Monetization Works</h2>
+            <p>Twitch offers multiple revenue streams for content creators:</p>
+            
+            <ul>
+                <li><strong>Subscriptions:</strong> Monthly recurring revenue at $4.99, $9.99, or $24.99 tiers</li>
+                <li><strong>Bits:</strong> Virtual currency viewers buy to cheer in chat (100 bits = $1 for streamer)</li>
+                <li><strong>Ads:</strong> Pre-roll and mid-roll ads generate CPM-based revenue</li>
+                <li><strong>Donations:</strong> Direct payments through PayPal, StreamLabs, etc.</li>
+                <li><strong>Sponsorships:</strong> Brand deals for product placement or endorsements</li>
+            </ul>
+
+            <h3 style="margin-top: 25px;">Partner vs Affiliate Split</h3>
+            <table class="comparison-table">
+                <tr>
+                    <th>Feature</th>
+                    <th>Affiliate</th>
+                    <th>Partner</th>
+                </tr>
+                <tr>
+                    <td>Subscription Split</td>
+                    <td>50%</td>
+                    <td>50-70% (negotiable)</td>
+                </tr>
+                <tr>
+                    <td>Bits Split</td>
+                    <td>100%</td>
+                    <td>100%</td>
+                </tr>
+                <tr>
+                    <td>Ad Revenue</td>
+                    <td>Limited</td>
+                    <td>Full access + control</td>
+                </tr>
+                <tr>
+                    <td>Requirements</td>
+                    <td>50 followers, 8 hrs streamed, 7 days</td>
+                    <td>Invitation only</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="info-section">
+            <h2>Tips to Maximize Twitch Earnings</h2>
+            <ul>
+                <li><strong>Consistent Schedule:</strong> Stream at the same times to build viewer habits</li>
+                <li><strong>Engage Your Audience:</strong> Read chat, respond to viewers, create community</li>
+                <li><strong>Enable Sub-Only Mode:</strong> During hype moments to convert viewers</li>
+                <li><strong>Run Ads Strategically:</strong> During breaks, not gameplay (1-2 min every hour)</li>
+                <li><strong>Emote Strategy:</strong> Create unique emotes that encourage subscriptions</li>
+                <li><strong>Multi-Stream Income:</strong> Combine Twitch with YouTube, TikTok, Discord</li>
+                <li><strong>Network with Other Streamers:</strong> Raids and collaborations grow audience</li>
+                <li><strong>Offer Value Beyond Streams:</strong> Discord perks, exclusive content for subs</li>
+            </ul>
+        </div>
+
+        <footer>
+            <p>&copy; 2026 CalcPro - Free Online Calculators for Creators & Entrepreneurs</p>
+        </footer>
+    </div>
+
+    <script>
+        let currentStatus = 'partner';
+
+        function setStatus(status) {
+            currentStatus = status;
+            document.querySelectorAll('.status-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
+
+        function calculateRevenue() {
+            const tier1 = parseFloat(document.getElementById('tier1Subs').value) || 0;
+            const tier2 = parseFloat(document.getElementById('tier2Subs').value) || 0;
+            const tier3 = parseFloat(document.getElementById('tier3Subs').value) || 0;
+            const prime = parseFloat(document.getElementById('primeSubs').value) || 0;
+            const bits = parseFloat(document.getElementById('bits').value) || 0;
+            const avgViewers = parseFloat(document.getElementById('avgViewers').value) || 0;
+            const streamHours = parseFloat(document.getElementById('streamHours').value) || 80;
+            const donations = parseFloat(document.getElementById('donations').value) || 0;
+
+            const subSplit = currentStatus === 'partner' ? 0.6 : 0.5;
+
+            const tier1Revenue = tier1 * 4.99 * subSplit;
+            const tier2Revenue = tier2 * 9.99 * subSplit;
+            const tier3Revenue = tier3 * 24.99 * subSplit;
+            const primeRevenue = prime * 4.99 * subSplit;
+            
+            const totalSubRevenue = tier1Revenue + tier2Revenue + tier3Revenue + primeRevenue;
+
+            const bitsRevenue = bits * 0.01;
+
+            const cpm = currentStatus === 'partner' ? 3.5 : 2.5;
+            const adRevenue = (avgViewers * streamHours * cpm) / 1000;
+
+            const totalMonthly = totalSubRevenue + bitsRevenue + adRevenue + donations;
+            const totalYearly = totalMonthly * 12;
+            const totalSubs = tier1 + tier2 + tier3 + prime;
+            const revenuePerHour = totalMonthly / streamHours;
+
+            document.getElementById('subRevenue').textContent = '$' + totalSubRevenue.toFixed(2);
+            document.getElementById('bitsRevenue').textContent = '$' + bitsRevenue.toFixed(2);
+            document.getElementById('adRevenue').textContent = '$' + adRevenue.toFixed(2);
+            document.getElementById('donationRevenue').textContent = '$' + donations.toFixed(2);
+            document.getElementById('totalMonthly').textContent = '$' + totalMonthly.toFixed(2);
+            document.getElementById('yearlyRevenue').textContent = '$' + totalYearly.toFixed(2);
+            document.getElementById('totalSubs').textContent = totalSubs;
+            document.getElementById('splitRate').textContent = (subSplit * 100) + '%';
+            document.getElementById('cpmRate').textContent = '$' + cpm.toFixed(2);
+            document.getElementById('revenuePerHour').textContent = '$' + revenuePerHour.toFixed(2);
+
+            document.getElementById('results').classList.add('show');
+            document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+    </script>
+</body>
+</html>

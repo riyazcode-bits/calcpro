@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Calculate your Instagram engagement rate and discover how you compare to industry benchmarks. Free Instagram calculator with brand deal estimates.">
+    <title>Instagram Engagement Rate Calculator - CalcPro</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .nav-link {
+            display: inline-block;
+            margin-top: 10px;
+            color: white;
+            text-decoration: none;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+
+        .nav-link:hover {
+            opacity: 1;
+        }
+
+        .calculator-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .input-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+            font-size: 0.95em;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #e6683c;
+        }
+
+        .tooltip {
+            font-size: 0.85em;
+            color: #666;
+            margin-top: 5px;
+            font-style: italic;
+        }
+
+        .post-inputs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .calculate-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+            margin-top: 10px;
+        }
+
+        .calculate-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .results {
+            margin-top: 30px;
+            padding: 25px;
+            background: #fff5f8;
+            border-radius: 15px;
+            display: none;
+        }
+
+        .results.show {
+            display: block;
+            animation: slideIn 0.4s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .result-item {
+            padding: 15px;
+            margin-bottom: 15px;
+            background: white;
+            border-radius: 10px;
+            border-left: 4px solid #e6683c;
+        }
+
+        .result-item h3 {
+            color: #e6683c;
+            margin-bottom: 5px;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .result-item .value {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .benchmark {
+            margin-top: 20px;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+        }
+
+        .benchmark h3 {
+            color: #e6683c;
+            margin-bottom: 15px;
+        }
+
+        .benchmark-bar {
+            position: relative;
+            height: 30px;
+            background: #f0f0f0;
+            border-radius: 15px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .benchmark-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #f09433 0%, #dc2743 100%);
+            border-radius: 15px;
+            transition: width 0.5s ease;
+        }
+
+        .benchmark-label {
+            position: absolute;
+            top: 50%;
+            left: 10px;
+            transform: translateY(-50%);
+            color: white;
+            font-weight: 600;
+            font-size: 0.9em;
+        }
+
+        .benchmark-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .stat {
+            text-align: center;
+            padding: 15px;
+            background: #f8f9ff;
+            border-radius: 10px;
+        }
+
+        .stat-label {
+            font-size: 0.85em;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .stat-value {
+            font-size: 1.3em;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .info-section {
+            margin-top: 40px;
+            padding: 30px;
+            background: #fff5f8;
+            border-radius: 15px;
+        }
+
+        .info-section h2 {
+            color: #e6683c;
+            margin-bottom: 15px;
+        }
+
+        .info-section p {
+            line-height: 1.6;
+            color: #555;
+            margin-bottom: 10px;
+        }
+
+        .info-section ul {
+            margin-left: 20px;
+            line-height: 1.8;
+            color: #555;
+        }
+
+        footer {
+            text-align: center;
+            color: white;
+            margin-top: 40px;
+            opacity: 0.9;
+        }
+
+        @media (max-width: 600px) {
+            header h1 {
+                font-size: 1.8em;
+            }
+
+            .calculator-card {
+                padding: 25px;
+            }
+
+            .post-inputs {
+                grid-template-columns: 1fr;
+            }
+
+            .benchmark-stats {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📊 CalcPro</h1>
+            <p>Instagram Engagement Rate Calculator</p>
+            <a href="index.html" class="nav-link">← Back to Home</a>
+        </header>
+
+        <div class="calculator-card">
+            <div class="input-group">
+                <label for="followers">Total Followers</label>
+                <input type="number" id="followers" placeholder="e.g., 50000" min="0">
+                <div class="tooltip">Your current Instagram follower count</div>
+            </div>
+
+            <div class="input-group">
+                <label>Recent Post Engagement (Last 5-10 Posts)</label>
+                <div class="tooltip">Add likes and comments from your recent posts for accurate calculation</div>
+                
+                <div class="post-inputs" id="postInputs">
+                    <input type="number" placeholder="Post 1 Likes" id="likes1" min="0">
+                    <input type="number" placeholder="Post 1 Comments" id="comments1" min="0">
+                    <input type="number" placeholder="Post 2 Likes" id="likes2" min="0">
+                    <input type="number" placeholder="Post 2 Comments" id="comments2" min="0">
+                    <input type="number" placeholder="Post 3 Likes" id="likes3" min="0">
+                    <input type="number" placeholder="Post 3 Comments" id="comments3" min="0">
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label for="accountType">Account Type</label>
+                <select id="accountType">
+                    <option value="nano">Nano (1K-10K followers)</option>
+                    <option value="micro">Micro (10K-100K followers)</option>
+                    <option value="mid">Mid-tier (100K-500K followers)</option>
+                    <option value="macro">Macro (500K-1M followers)</option>
+                    <option value="mega">Mega (1M+ followers)</option>
+                </select>
+            </div>
+
+            <button class="calculate-btn" onclick="calculateEngagement()">Calculate Engagement Rate 📈</button>
+
+            <div class="results" id="results">
+                <div class="result-item">
+                    <h3>Your Engagement Rate</h3>
+                    <div class="value" id="engagementRate">0%</div>
+                </div>
+
+                <div class="result-item">
+                    <h3>Average Likes Per Post</h3>
+                    <div class="value" id="avgLikes">0</div>
+                </div>
+
+                <div class="result-item">
+                    <h3>Average Comments Per Post</h3>
+                    <div class="value" id="avgComments">0</div>
+                </div>
+
+                <div class="benchmark">
+                    <h3>How You Compare</h3>
+                    <div class="benchmark-bar">
+                        <div class="benchmark-fill" id="benchmarkFill" style="width: 0%">
+                            <span class="benchmark-label" id="benchmarkLabel">Calculating...</span>
+                        </div>
+                    </div>
+
+                    <div class="benchmark-stats">
+                        <div class="stat">
+                            <div class="stat-label">Poor</div>
+                            <div class="stat-value">&lt;1%</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-label">Average</div>
+                            <div class="stat-value">1-3%</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-label">Excellent</div>
+                            <div class="stat-value">&gt;5%</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="result-item" id="brandDealEstimate" style="display: none;">
+                    <h3>Estimated Brand Deal Value</h3>
+                    <div class="value" id="brandValue">$0 - $0</div>
+                    <div class="tooltip" style="margin-top: 10px;">Based on your followers and engagement rate</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h2>Understanding Instagram Engagement Rate</h2>
+            <p><strong>Engagement Rate</strong> measures how actively your audience interacts with your content. It's calculated as:</p>
+            
+            <p style="text-align: center; font-weight: 600; margin: 15px 0; font-size: 1.1em;">
+                (Total Likes + Comments) ÷ Followers × 100
+            </p>
+
+            <p><strong>Industry Benchmarks by Account Size:</strong></p>
+            <ul>
+                <li><strong>Nano (1K-10K):</strong> 5-8% average engagement</li>
+                <li><strong>Micro (10K-100K):</strong> 3-5% average engagement</li>
+                <li><strong>Mid-tier (100K-500K):</strong> 2-3% average engagement</li>
+                <li><strong>Macro (500K-1M):</strong> 1.5-2% average engagement</li>
+                <li><strong>Mega (1M+):</strong> 1-1.5% average engagement</li>
+            </ul>
+
+            <p style="margin-top: 15px;"><strong>Why It Matters:</strong> Brands care more about engagement than follower count. A 10K account with 8% engagement is more valuable than a 100K account with 1% engagement.</p>
+        </div>
+
+        <div class="info-section">
+            <h2>How to Improve Your Engagement Rate</h2>
+            <ul>
+                <li><strong>Post at optimal times:</strong> When your audience is most active (check Insights)</li>
+                <li><strong>Use compelling captions:</strong> Ask questions, share stories, encourage interaction</li>
+                <li><strong>Engage with your audience:</strong> Respond to comments within the first hour</li>
+                <li><strong>Use Reels and Stories:</strong> Video content gets 2-3x more engagement</li>
+                <li><strong>Create shareable content:</strong> Educational, inspirational, or entertaining posts get saved/shared</li>
+                <li><strong>Collaborate with others:</strong> Cross-promotion boosts reach and engagement</li>
+                <li><strong>Use relevant hashtags:</strong> 5-10 targeted hashtags perform better than 30 generic ones</li>
+                <li><strong>Be authentic:</strong> Genuine content resonates more than overly polished posts</li>
+            </ul>
+        </div>
+
+        <footer>
+            <p>&copy; 2026 CalcPro - Free Online Calculators for Creators & Entrepreneurs</p>
+        </footer>
+    </div>
+
+    <script>
+        function calculateEngagement() {
+            const followers = parseFloat(document.getElementById('followers').value) || 0;
+            
+            if (followers === 0) {
+                alert('Please enter your follower count');
+                return;
+            }
+
+            let totalLikes = 0;
+            let totalComments = 0;
+            let postCount = 0;
+
+            for (let i = 1; i <= 3; i++) {
+                const likes = parseFloat(document.getElementById('likes' + i).value) || 0;
+                const comments = parseFloat(document.getElementById('comments' + i).value) || 0;
+                
+                if (likes > 0 || comments > 0) {
+                    totalLikes += likes;
+                    totalComments += comments;
+                    postCount++;
+                }
+            }
+
+            if (postCount === 0) {
+                alert('Please enter engagement data for at least one post');
+                return;
+            }
+
+            const avgLikes = totalLikes / postCount;
+            const avgComments = totalComments / postCount;
+            const totalEngagement = avgLikes + avgComments;
+            const engagementRate = (totalEngagement / followers) * 100;
+
+            document.getElementById('engagementRate').textContent = engagementRate.toFixed(2) + '%';
+            document.getElementById('avgLikes').textContent = Math.round(avgLikes).toLocaleString();
+            document.getElementById('avgComments').textContent = Math.round(avgComments).toLocaleString();
+
+            const benchmarkPercentage = Math.min((engagementRate / 8) * 100, 100);
+            document.getElementById('benchmarkFill').style.width = benchmarkPercentage + '%';
+
+            let benchmarkText = '';
+            if (engagementRate < 1) {
+                benchmarkText = 'Below Average';
+            } else if (engagementRate < 2) {
+                benchmarkText = 'Average';
+            } else if (engagementRate < 3.5) {
+                benchmarkText = 'Good';
+            } else if (engagementRate < 5) {
+                benchmarkText = 'Very Good';
+            } else {
+                benchmarkText = 'Excellent!';
+            }
+            document.getElementById('benchmarkLabel').textContent = benchmarkText;
+
+            const accountType = document.getElementById('accountType').value;
+            let baseRate = 0;
+            
+            switch(accountType) {
+                case 'nano':
+                    baseRate = 0.01;
+                    break;
+                case 'micro':
+                    baseRate = 0.015;
+                    break;
+                case 'mid':
+                    baseRate = 0.012;
+                    break;
+                case 'macro':
+                    baseRate = 0.008;
+                    break;
+                case 'mega':
+                    baseRate = 0.005;
+                    break;
+            }
+
+            const engagementMultiplier = engagementRate > 5 ? 1.8 : engagementRate > 3 ? 1.4 : engagementRate > 1.5 ? 1.1 : 0.8;
+            const lowEstimate = followers * baseRate * engagementMultiplier;
+            const highEstimate = followers * baseRate * 2 * engagementMultiplier;
+
+            document.getElementById('brandValue').textContent = 
+                '$' + Math.round(lowEstimate).toLocaleString() + ' - $' + Math.round(highEstimate).toLocaleString();
+            document.getElementById('brandDealEstimate').style.display = 'block';
+
+            document.getElementById('results').classList.add('show');
+            document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+    </script>
+</body>
+</html>

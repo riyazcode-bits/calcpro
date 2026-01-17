@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Calculate your potential YouTube earnings based on views, subscribers, and CPM. Free YouTube money calculator with industry benchmarks.">
-    <title>YouTube Money Calculator - CalcPro</title>
+    <meta name="description" content="Free online calculators for creators and entrepreneurs. Calculate YouTube earnings, TikTok revenue, Instagram engagement, Twitch income, and more.">
+    <title>CalcPro - Free Calculator Tools for Creators & Entrepreneurs</title>
     <style>
         * {
             margin: 0;
@@ -20,176 +20,140 @@
         }
 
         .container {
-            max-width: 800px;
+            max-width: 1200px;
             margin: 0 auto;
         }
 
         header {
             text-align: center;
             color: white;
-            margin-bottom: 30px;
+            margin-bottom: 50px;
+            padding: 40px 20px;
         }
 
         header h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
+            font-size: 3.5em;
+            margin-bottom: 15px;
+            font-weight: 700;
         }
 
         header p {
-            font-size: 1.1em;
-            opacity: 0.9;
+            font-size: 1.3em;
+            opacity: 0.95;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .calculator-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
         }
 
         .calculator-card {
             background: white;
             border-radius: 20px;
-            padding: 40px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-        }
-
-        .input-group {
-            margin-bottom: 25px;
-        }
-
-        label {
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
             display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
+        }
+
+        .calculator-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+
+        .card-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+
+        .card-title {
+            font-size: 1.5em;
+            font-weight: 700;
+            margin-bottom: 10px;
             color: #333;
-            font-size: 0.95em;
         }
 
-        input, select {
-            width: 100%;
-            padding: 12px 15px;
-            border: 2px solid #e0e0e0;
-            border-radius: 10px;
-            font-size: 1em;
-            transition: border-color 0.3s;
+        .card-description {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 15px;
         }
 
-        input:focus, select:focus {
-            outline: none;
-            border-color: #667eea;
-        }
-
-        .tooltip {
+        .card-tag {
+            display: inline-block;
+            padding: 5px 12px;
+            background: #f0f0f0;
+            border-radius: 15px;
             font-size: 0.85em;
             color: #666;
-            margin-top: 5px;
-            font-style: italic;
-        }
-
-        .calculate-btn {
-            width: 100%;
-            padding: 15px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 1.1em;
             font-weight: 600;
-            cursor: pointer;
-            transition: transform 0.2s;
-            margin-top: 10px;
         }
 
-        .calculate-btn:hover {
-            transform: translateY(-2px);
+        .youtube { border-left: 4px solid #FF0000; }
+        .tiktok { border-left: 4px solid #000000; }
+        .instagram { border-left: 4px solid #E4405F; }
+        .twitch { border-left: 4px solid #6441a5; }
+        .patreon { border-left: 4px solid #ff424d; }
+
+        .section-header {
+            color: white;
+            font-size: 2em;
+            margin: 50px 0 30px 0;
+            text-align: center;
+            font-weight: 600;
         }
 
-        .calculate-btn:active {
-            transform: translateY(0);
+        .coming-soon {
+            opacity: 0.7;
+            position: relative;
         }
 
-        .results {
-            margin-top: 30px;
-            padding: 25px;
-            background: #f8f9ff;
-            border-radius: 15px;
-            display: none;
-        }
-
-        .results.show {
-            display: block;
-            animation: slideIn 0.4s ease;
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .result-item {
-            padding: 15px;
-            margin-bottom: 15px;
-            background: white;
-            border-radius: 10px;
-            border-left: 4px solid #667eea;
-        }
-
-        .result-item h3 {
-            color: #667eea;
-            margin-bottom: 5px;
-            font-size: 0.9em;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .result-item .value {
-            font-size: 1.8em;
-            font-weight: 700;
-            color: #333;
-        }
-
-        .info-section {
-            margin-top: 40px;
-            padding: 30px;
-            background: #f8f9ff;
-            border-radius: 15px;
-        }
-
-        .info-section h2 {
-            color: #667eea;
-            margin-bottom: 15px;
-        }
-
-        .info-section p {
-            line-height: 1.6;
-            color: #555;
-            margin-bottom: 10px;
-        }
-
-        .info-section ul {
-            margin-left: 20px;
-            line-height: 1.8;
-            color: #555;
+        .coming-soon::after {
+            content: "Coming Soon";
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #667eea;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 12px;
+            font-size: 0.75em;
+            font-weight: 600;
         }
 
         footer {
             text-align: center;
             color: white;
-            margin-top: 40px;
+            margin-top: 60px;
+            padding: 30px;
             opacity: 0.9;
         }
 
-        @media (max-width: 600px) {
+        footer a {
+            color: white;
+            text-decoration: underline;
+            margin: 0 10px;
+        }
+
+        @media (max-width: 768px) {
             header h1 {
-                font-size: 1.8em;
+                font-size: 2.5em;
             }
 
-            .calculator-card {
-                padding: 25px;
+            header p {
+                font-size: 1.1em;
             }
 
-            .result-item .value {
-                font-size: 1.4em;
+            .calculator-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -198,156 +162,82 @@
     <div class="container">
         <header>
             <h1>📊 CalcPro</h1>
-            <p>YouTube Money Calculator</p>
+            <p>Free calculator tools for creators and entrepreneurs. Calculate your earnings, plan your growth, and make data-driven decisions.</p>
         </header>
 
-        <div class="calculator-card">
-            <div class="input-group">
-                <label for="views">Daily Video Views</label>
-                <input type="number" id="views" placeholder="e.g., 10000" min="0">
-                <div class="tooltip">Average views per day across all your videos</div>
-            </div>
+        <h2 class="section-header">🎨 Creator Economy Calculators</h2>
+        
+        <div class="calculator-grid">
+            <a href="youtube-calculator.html" class="calculator-card youtube">
+                <div class="card-icon">📺</div>
+                <div class="card-title">YouTube Money Calculator</div>
+                <div class="card-description">Estimate your YouTube earnings based on views, subscribers, and CPM rates across different niches.</div>
+                <span class="card-tag">Most Popular</span>
+            </a>
 
-            <div class="input-group">
-                <label for="cpm">CPM (Cost Per 1000 Views)</label>
-                <select id="cpm">
-                    <option value="2">$2 - Low (Gaming, Vlogs)</option>
-                    <option value="5" selected>$5 - Average (General Content)</option>
-                    <option value="8">$8 - Good (Tech, Education)</option>
-                    <option value="12">$12 - High (Finance, Business)</option>
-                    <option value="20">$20 - Premium (Investment, Legal)</option>
-                    <option value="custom">Custom CPM</option>
-                </select>
-                <div class="tooltip">CPM varies by niche and audience location</div>
-            </div>
+            <a href="tiktok-calculator.html" class="calculator-card tiktok">
+                <div class="card-icon">🎵</div>
+                <div class="card-title">TikTok Money Calculator</div>
+                <div class="card-description">Calculate potential earnings from Creator Fund, brand deals, and live gifts.</div>
+                <span class="card-tag">3 Revenue Streams</span>
+            </a>
 
-            <div class="input-group" id="customCpmGroup" style="display: none;">
-                <label for="customCpm">Enter Custom CPM ($)</label>
-                <input type="number" id="customCpm" placeholder="e.g., 7.50" step="0.01" min="0">
-            </div>
+            <a href="instagram-calculator.html" class="calculator-card instagram">
+                <div class="card-icon">📸</div>
+                <div class="card-title">Instagram Engagement Calculator</div>
+                <div class="card-description">Measure your engagement rate and estimate brand deal value based on your followers and interaction.</div>
+                <span class="card-tag">With Benchmarks</span>
+            </a>
 
-            <div class="input-group">
-                <label for="adRate">Ad View Rate (%)</label>
-                <input type="number" id="adRate" value="50" min="0" max="100">
-                <div class="tooltip">Percentage of views that see ads (typically 40-60%)</div>
-            </div>
+            <a href="twitch-calculator.html" class="calculator-card twitch">
+                <div class="card-icon">🎮</div>
+                <div class="card-title">Twitch Revenue Calculator</div>
+                <div class="card-description">Calculate earnings from subscriptions, bits, ads, and donations. Partner vs Affiliate comparison.</div>
+                <span class="card-tag">Full Breakdown</span>
+            </a>
 
-            <button class="calculate-btn" onclick="calculateEarnings()">Calculate My Earnings 💰</button>
-
-            <div class="results" id="results">
-                <div class="result-item">
-                    <h3>Estimated Daily Earnings</h3>
-                    <div class="value" id="dailyEarnings">$0</div>
-                </div>
-
-                <div class="result-item">
-                    <h3>Estimated Monthly Earnings</h3>
-                    <div class="value" id="monthlyEarnings">$0</div>
-                </div>
-
-                <div class="result-item">
-                    <h3>Estimated Yearly Earnings</h3>
-                    <div class="value" id="yearlyEarnings">$0</div>
-                </div>
-
-                <div class="result-item">
-                    <h3>Monetized Views Per Day</h3>
-                    <div class="value" id="monetizedViews">0</div>
-                </div>
-            </div>
+            <a href="patreon-calculator.html" class="calculator-card patreon">
+                <div class="card-icon">💝</div>
+                <div class="card-title">Patreon Income Calculator</div>
+                <div class="card-description">Calculate net income from multiple membership tiers with accurate fee breakdowns.</div>
+                <span class="card-tag">Multi-Tier</span>
+            </a>
         </div>
 
-        <div class="info-section">
-            <h2>How YouTube Earnings Work</h2>
-            <p><strong>CPM (Cost Per Mille)</strong> is the amount advertisers pay per 1,000 ad impressions on your videos. Your actual earnings depend on several factors:</p>
-            
-            <ul>
-                <li><strong>Niche:</strong> Finance and business content typically earns $10-20 CPM, while entertainment earns $2-5 CPM</li>
-                <li><strong>Audience Location:</strong> Viewers from US, UK, Canada generate higher CPMs than developing countries</li>
-                <li><strong>Watch Time:</strong> Longer videos with higher retention earn more</li>
-                <li><strong>Ad Types:</strong> Skippable ads, non-skippable ads, and mid-roll ads affect earnings</li>
-                <li><strong>Seasonality:</strong> Q4 (Oct-Dec) typically has 30-50% higher CPMs due to holiday advertising</li>
-            </ul>
+        <h2 class="section-header">🛍️ E-Commerce Calculators (Coming Soon)</h2>
+        
+        <div class="calculator-grid">
+            <div class="calculator-card coming-soon" style="border-left: 4px solid #96BF48;">
+                <div class="card-icon">🛒</div>
+                <div class="card-title">Shopify Profit Calculator</div>
+                <div class="card-description">Calculate your net profit after all Shopify fees, payment processing, and operating costs.</div>
+                <span class="card-tag">Coming Soon</span>
+            </div>
 
-            <p style="margin-top: 15px;"><strong>Note:</strong> This calculator provides estimates. Actual earnings vary based on many factors including viewer demographics, ad blockers, and YouTube's algorithm.</p>
-        </div>
+            <div class="calculator-card coming-soon" style="border-left: 4px solid #FF9900;">
+                <div class="card-icon">📦</div>
+                <div class="card-title">Amazon FBA Calculator</div>
+                <div class="card-description">Complete breakdown of Amazon FBA fees including fulfillment, storage, and referral fees.</div>
+                <span class="card-tag">Coming Soon</span>
+            </div>
 
-        <div class="info-section">
-            <h2>Tips to Increase Your YouTube Earnings</h2>
-            <ul>
-                <li>Create content in high-CPM niches (finance, tech, education, business)</li>
-                <li>Target audiences in countries with higher ad rates (US, UK, Canada, Australia)</li>
-                <li>Make videos over 8 minutes to enable mid-roll ads</li>
-                <li>Improve watch time and audience retention</li>
-                <li>Post consistently to grow your subscriber base</li>
-                <li>Optimize titles, thumbnails, and descriptions for SEO</li>
-            </ul>
+            <div class="calculator-card coming-soon" style="border-left: 4px solid #4A90E2;">
+                <div class="card-icon">🚚</div>
+                <div class="card-title">Dropshipping Profit Calculator</div>
+                <div class="card-description">Calculate margins on dropshipping products including supplier costs and advertising spend.</div>
+                <span class="card-tag">Coming Soon</span>
+            </div>
         </div>
 
         <footer>
-            <p>&copy; 2026 CalcPro - Free Online Calculators for Creators & Entrepreneurs</p>
+            <p style="font-size: 1.2em; margin-bottom: 15px;"><strong>CalcPro</strong> - Empowering creators and entrepreneurs with free calculation tools</p>
+            <p>&copy; 2026 CalcPro. All calculators are free to use.</p>
+            <div style="margin-top: 15px;">
+                <a href="#about">About</a>
+                <a href="#contact">Contact</a>
+                <a href="#privacy">Privacy</a>
+            </div>
         </footer>
     </div>
-
-    <script>
-        const cpmSelect = document.getElementById('cpm');
-        const customCpmGroup = document.getElementById('customCpmGroup');
-
-        cpmSelect.addEventListener('change', function() {
-            if (this.value === 'custom') {
-                customCpmGroup.style.display = 'block';
-            } else {
-                customCpmGroup.style.display = 'none';
-            }
-        });
-
-        function calculateEarnings() {
-            const views = parseFloat(document.getElementById('views').value) || 0;
-            let cpm = parseFloat(document.getElementById('cpm').value);
-            
-            if (cpmSelect.value === 'custom') {
-                cpm = parseFloat(document.getElementById('customCpm').value) || 0;
-            }
-            
-            const adRate = parseFloat(document.getElementById('adRate').value) || 50;
-
-            if (views === 0) {
-                alert('Please enter your daily video views');
-                return;
-            }
-
-            if (cpm === 0) {
-                alert('Please enter a valid CPM');
-                return;
-            }
-
-            // Calculate monetized views
-            const monetizedViews = views * (adRate / 100);
-
-            // Calculate earnings (CPM is per 1000 views)
-            const dailyEarnings = (monetizedViews / 1000) * cpm;
-            const monthlyEarnings = dailyEarnings * 30;
-            const yearlyEarnings = dailyEarnings * 365;
-
-            // Display results
-            document.getElementById('dailyEarnings').textContent = '$' + dailyEarnings.toFixed(2);
-            document.getElementById('monthlyEarnings').textContent = '$' + monthlyEarnings.toFixed(2);
-            document.getElementById('yearlyEarnings').textContent = '$' + yearlyEarnings.toFixed(2);
-            document.getElementById('monetizedViews').textContent = monetizedViews.toLocaleString();
-
-            // Show results
-            document.getElementById('results').classList.add('show');
-
-            // Scroll to results
-            document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        }
-
-        // Allow Enter key to calculate
-        document.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                calculateEarnings();
-            }
-        });
-    </script>
 </body>
 </html>
