@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health & Fitness Calculators - CalcPro</title>
+    <meta name="description" content="Free health calculators: BMI, calorie needs, body fat, TDEE, pregnancy. Track your health and fitness goals with accurate calculations.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📊</text></svg>">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 20px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        header { text-align: center; color: white; margin-bottom: 40px; padding: 40px 20px; }
+        header h1 { font-size: 3em; margin-bottom: 15px; }
+        .nav-link { display: inline-block; margin-top: 15px; color: white; text-decoration: none; opacity: 0.8; font-size: 1.1em; }
+        .nav-link:hover { opacity: 1; }
+        .calculator-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; margin-bottom: 40px; }
+        .calculator-card { background: white; border-radius: 20px; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); transition: transform 0.3s; text-decoration: none; color: inherit; display: block; }
+        .calculator-card:hover { transform: translateY(-5px); }
+        .card-icon { font-size: 3em; margin-bottom: 15px; }
+        .card-title { font-size: 1.5em; font-weight: 700; margin-bottom: 10px; color: #333; }
+        .card-description { color: #666; line-height: 1.6; margin-bottom: 15px; }
+        .card-tags { display: flex; gap: 8px; flex-wrap: wrap; }
+        .card-tag { padding: 5px 12px; background: #f0f0f0; border-radius: 15px; font-size: 0.85em; font-weight: 600; }
+        .tag-popular { background: #ffeaa7; color: #d63031; }
+        .bmi { border-left: 4px solid #00BCD4; }
+        .calorie { border-left: 4px solid #FF6B6B; }
+        .bodyfat { border-left: 4px solid #9C27B0; }
+        .tdee { border-left: 4px solid #43A047; }
+        .pregnancy { border-left: 4px solid #EC407A; }
+        footer { text-align: center; color: white; margin-top: 60px; opacity: 0.9; }
+        @media (max-width: 768px) { .calculator-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🏃 Health & Fitness Calculators</h1>
+            <p style="font-size: 1.2em; opacity: 0.9; max-width: 700px; margin: 15px auto;">Track your health goals with these essential calculators for fitness, nutrition, and wellness</p>
+            <a href="index.html" class="nav-link">← Back to Home</a>
+        </header>
+
+        <div class="calculator-grid">
+            <a href="bmi-calculator.html" class="calculator-card bmi">
+                <div class="card-icon">📏</div>
+                <div class="card-title">BMI Calculator</div>
+                <div class="card-description">Calculate your Body Mass Index and find your healthy weight range. Supports both metric and imperial units with category breakdown.</div>
+                <div class="card-tags">
+                    <span class="card-tag tag-popular">⭐ Most Popular</span>
+                    <span class="card-tag">Quick Check</span>
+                </div>
+            </a>
+
+            <a href="calorie-calculator.html" class="calculator-card calorie">
+                <div class="card-icon">🔥</div>
+                <div class="card-title">Calorie Calculator</div>
+                <div class="card-description">Calculate daily calorie needs for weight loss, maintenance, or muscle gain. Includes macro breakdown for protein, carbs, and fats.</div>
+                <div class="card-tags">
+                    <span class="card-tag">Weight Goals</span>
+                    <span class="card-tag">Macro Planning</span>
+                </div>
+            </a>
+
+            <a href="bodyfat-calculator.html" class="calculator-card bodyfat">
+                <div class="card-icon">💪</div>
+                <div class="card-title">Body Fat Calculator</div>
+                <div class="card-description">Estimate body fat percentage using US Navy method. Get lean body mass and fat mass breakdown with fitness category.</div>
+                <div class="card-tags">
+                    <span class="card-tag">Fitness Level</span>
+                    <span class="card-tag">Body Composition</span>
+                </div>
+            </a>
+
+            <a href="tdee-calculator.html" class="calculator-card tdee">
+                <div class="card-icon">⚡</div>
+                <div class="card-title">TDEE Calculator</div>
+                <div class="card-description">Calculate Total Daily Energy Expenditure based on activity level. Understand your BMR and total calorie burn for better planning.</div>
+                <div class="card-tags">
+                    <span class="card-tag">Energy Balance</span>
+                    <span class="card-tag">Activity Based</span>
+                </div>
+            </a>
+
+            <a href="pregnancy-calculator.html" class="calculator-card pregnancy">
+                <div class="card-icon">👶</div>
+                <div class="card-title">Pregnancy Calculator</div>
+                <div class="card-description">Calculate due date and track pregnancy progress. Multiple input methods: last period, conception date, or due date.</div>
+                <div class="card-tags">
+                    <span class="card-tag">Due Date</span>
+                    <span class="card-tag">Trimester Tracking</span>
+                </div>
+            </a>
+        </div>
+
+        <div style="background: rgba(255,255,255,0.1); padding: 40px; border-radius: 20px; color: white; margin-top: 40px;">
+            <h2 style="margin-bottom: 20px; text-align: center;">Understanding Your Health Metrics</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; margin-top: 20px;">
+                <div>
+                    <h3 style="margin-bottom: 10px;">📊 Track Progress</h3>
+                    <p style="opacity: 0.9;">Monitor your health metrics over time to see real progress</p>
+                </div>
+                <div>
+                    <h3 style="margin-bottom: 10px;">🎯 Set Realistic Goals</h3>
+                    <p style="opacity: 0.9;">Use data to create achievable fitness and nutrition targets</p>
+                </div>
+                <div>
+                    <h3 style="margin-bottom: 10px;">💡 Make Informed Choices</h3>
+                    <p style="opacity: 0.9;">Understand what your body needs for optimal health</p>
+                </div>
+            </div>
+            <p style="text-align: center; margin-top: 30px; opacity: 0.8; font-size: 0.9em;">
+                <strong>Disclaimer:</strong> These calculators provide estimates for educational purposes. Always consult healthcare professionals for medical advice.
+            </p>
+        </div>
+
+        <footer>
+            <p>&copy; 2026 CalcPro - Free Health & Fitness Tools</p>
+            <p style="margin-top: 10px;">
+                <a href="index.html" style="color: white;">Home</a> | 
+                <a href="finance-calculators.html" style="color: white; margin-left: 15px;">Finance Tools</a> | 
+                <a href="creator-calculators.html" style="color: white; margin-left: 15px;">Creator Tools</a> | 
+                <a href="ecommerce-calculators.html" style="color: white; margin-left: 15px;">E-Commerce</a>
+            </p>
+        </footer>
+    </div>
+</body>
+</html>

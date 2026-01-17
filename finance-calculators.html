@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finance & Investment Calculators - CalcPro</title>
+    <meta name="description" content="Free finance calculators: mortgage, loan, compound interest, retirement, EMI. Plan your financial future with accurate calculations.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📊</text></svg>">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 20px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        header { text-align: center; color: white; margin-bottom: 40px; padding: 40px 20px; }
+        header h1 { font-size: 3em; margin-bottom: 15px; }
+        .nav-link { display: inline-block; margin-top: 15px; color: white; text-decoration: none; opacity: 0.8; font-size: 1.1em; }
+        .nav-link:hover { opacity: 1; }
+        .calculator-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; margin-bottom: 40px; }
+        .calculator-card { background: white; border-radius: 20px; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); transition: transform 0.3s; text-decoration: none; color: inherit; display: block; }
+        .calculator-card:hover { transform: translateY(-5px); }
+        .card-icon { font-size: 3em; margin-bottom: 15px; }
+        .card-title { font-size: 1.5em; font-weight: 700; margin-bottom: 10px; color: #333; }
+        .card-description { color: #666; line-height: 1.6; margin-bottom: 15px; }
+        .card-tags { display: flex; gap: 8px; flex-wrap: wrap; }
+        .card-tag { padding: 5px 12px; background: #f0f0f0; border-radius: 15px; font-size: 0.85em; font-weight: 600; }
+        .tag-popular { background: #ffeaa7; color: #d63031; }
+        .compound { border-left: 4px solid #2E7D32; }
+        .mortgage { border-left: 4px solid #1976D2; }
+        .loan { border-left: 4px solid #F57C00; }
+        .emi { border-left: 4px solid #C2185B; }
+        .retirement { border-left: 4px solid #5E35B1; }
+        footer { text-align: center; color: white; margin-top: 60px; opacity: 0.9; }
+        @media (max-width: 768px) { .calculator-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>💰 Finance & Investment Calculators</h1>
+            <p style="font-size: 1.2em; opacity: 0.9; max-width: 700px; margin: 15px auto;">Plan your financial future with these essential calculators for loans, investments, and retirement planning</p>
+            <a href="index.html" class="nav-link">← Back to Home</a>
+        </header>
+
+        <div class="calculator-grid">
+            <a href="compound-interest-calculator.html" class="calculator-card compound">
+                <div class="card-icon">📈</div>
+                <div class="card-title">Compound Interest Calculator</div>
+                <div class="card-description">Calculate compound interest with monthly contributions. See year-by-year breakdown and understand the power of compounding over time.</div>
+                <div class="card-tags">
+                    <span class="card-tag">Investment Growth</span>
+                    <span class="card-tag">Long-term Planning</span>
+                </div>
+            </a>
+
+            <a href="mortgage-calculator.html" class="calculator-card mortgage">
+                <div class="card-icon">🏠</div>
+                <div class="card-title">Mortgage Calculator</div>
+                <div class="card-description">Calculate monthly mortgage payments including taxes and insurance. Compare different loan terms and see total interest paid.</div>
+                <div class="card-tags">
+                    <span class="card-tag tag-popular">⭐ Most Popular</span>
+                    <span class="card-tag">Home Buying</span>
+                </div>
+            </a>
+
+            <a href="loan-calculator.html" class="calculator-card loan">
+                <div class="card-icon">💵</div>
+                <div class="card-title">Loan Calculator</div>
+                <div class="card-description">Calculate payments for personal loans, auto loans, and student loans. Understand total interest and monthly obligations.</div>
+                <div class="card-tags">
+                    <span class="card-tag">Personal Finance</span>
+                    <span class="card-tag">Debt Planning</span>
+                </div>
+            </a>
+
+            <a href="emi-calculator.html" class="calculator-card emi">
+                <div class="card-icon">🏦</div>
+                <div class="card-title">EMI Calculator</div>
+                <div class="card-description">Calculate Equated Monthly Installments for home loans, car loans, and personal loans. Popular in India and Asia.</div>
+                <div class="card-tags">
+                    <span class="card-tag">EMI Planning</span>
+                    <span class="card-tag">Indian Banks</span>
+                </div>
+            </a>
+
+            <a href="retirement-calculator.html" class="calculator-card retirement">
+                <div class="card-icon">🎯</div>
+                <div class="card-title">Retirement Calculator</div>
+                <div class="card-description">Plan your retirement savings with 401k and IRA projections. See if you're on track to meet your retirement goals.</div>
+                <div class="card-tags">
+                    <span class="card-tag">Long-term Planning</span>
+                    <span class="card-tag">Financial Security</span>
+                </div>
+            </a>
+        </div>
+
+        <div style="background: rgba(255,255,255,0.1); padding: 40px; border-radius: 20px; color: white; margin-top: 40px;">
+            <h2 style="margin-bottom: 20px; text-align: center;">Why Use Financial Calculators?</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; margin-top: 20px;">
+                <div>
+                    <h3 style="margin-bottom: 10px;">💡 Make Informed Decisions</h3>
+                    <p style="opacity: 0.9;">Understand the true cost of loans and investments before committing</p>
+                </div>
+                <div>
+                    <h3 style="margin-bottom: 10px;">📊 Compare Options</h3>
+                    <p style="opacity: 0.9;">Test different scenarios to find the best financial strategy</p>
+                </div>
+                <div>
+                    <h3 style="margin-bottom: 10px;">🎯 Set Goals</h3>
+                    <p style="opacity: 0.9;">Plan for retirement, home buying, or debt payoff with confidence</p>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>&copy; 2026 CalcPro - Free Financial Tools</p>
+            <p style="margin-top: 10px;">
+                <a href="index.html" style="color: white;">Home</a> | 
+                <a href="health-calculators.html" style="color: white; margin-left: 15px;">Health Tools</a> | 
+                <a href="creator-calculators.html" style="color: white; margin-left: 15px;">Creator Tools</a> | 
+                <a href="ecommerce-calculators.html" style="color: white; margin-left: 15px;">E-Commerce</a>
+            </p>
+        </footer>
+    </div>
+</body>
+</html>
