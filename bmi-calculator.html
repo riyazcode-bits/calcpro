@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Calculate your BMI (Body Mass Index) and find your healthy weight range. Free BMI calculator with metric and imperial units.">
+    <title>BMI Calculator - CalcPro</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: linear-gradient(135deg, #00BCD4 0%, #0097A7 100%); min-height: 100vh; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; }
+        header { text-align: center; color: white; margin-bottom: 30px; }
+        header h1 { font-size: 2.5em; margin-bottom: 10px; }
+        .nav-link { display: inline-block; margin-top: 10px; color: white; text-decoration: none; opacity: 0.8; }
+        .calculator-card { background: white; border-radius: 20px; padding: 40px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+        .unit-toggle { display: flex; gap: 10px; margin-bottom: 30px; justify-content: center; }
+        .unit-btn { padding: 12px 30px; border: 2px solid #e0e0e0; background: white; border-radius: 10px; cursor: pointer; transition: all 0.3s; }
+        .unit-btn.active { background: #00BCD4; color: white; border-color: #00BCD4; }
+        .input-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 25px; margin-bottom: 25px; }
+        label { display: block; margin-bottom: 8px; font-weight: 600; color: #333; font-size: 0.95em; }
+        input { width: 100%; padding: 12px 15px; border: 2px solid #e0e0e0; border-radius: 10px; font-size: 1em; }
+        input:focus { outline: none; border-color: #00BCD4; }
+        .calculate-btn { width: 100%; padding: 15px; background: linear-gradient(135deg, #00BCD4 0%, #0097A7 100%); color: white; border: none; border-radius: 10px; font-size: 1.1em; font-weight: 600; cursor: pointer; }
+        .results { margin-top: 30px; display: none; }
+        .results.show { display: block; animation: slideIn 0.4s ease; }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .summary { padding: 30px; background: linear-gradient(135deg, #00BCD4 0%, #0097A7 100%); border-radius: 15px; color: white; text-align: center; margin-bottom: 20px; }
+        .summary .main-value { font-size: 3.5em; font-weight: 700; }
+        .category { padding: 20px; background: #E0F7FA; border-radius: 10px; margin-bottom: 15px; text-align: center; }
+        .category h3 { color: #00BCD4; margin-bottom: 10px; }
+        .range-bar { height: 30px; background: linear-gradient(to right, #4CAF50, #8BC34A, #FFEB3B, #FF9800, #F44336); border-radius: 15px; position: relative; margin: 20px 0; }
+        .range-marker { position: absolute; top: -10px; width: 4px; height: 50px; background: #333; }
+        footer { text-align: center; color: white; margin-top: 40px; opacity: 0.9; }
+        @media (max-width: 768px) { .input-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📊 CalcPro</h1>
+            <p>BMI Calculator</p>
+            <a href="index.html" class="nav-link">← Back to Home</a>
+        </header>
+
+        <div class="calculator-card">
+            <div class="unit-toggle">
+                <button class="unit-btn active" onclick="setUnits('metric')">Metric (kg, cm)</button>
+                <button class="unit-btn" onclick="setUnits('imperial')">Imperial (lbs, ft/in)</button>
+            </div>
+
+            <div id="metricInputs">
+                <div class="input-grid">
+                    <div>
+                        <label for="weight">Weight (kg)</label>
+                        <input type="number" id="weight" placeholder="e.g., 70" step="0.1">
+                    </div>
+                    <div>
+                        <label for="height">Height (cm)</label>
+                        <input type="number" id="height" placeholder="e.g., 175">
+                    </div>
+                </div>
+            </div>
+
+            <div id="imperialInputs" style="display: none;">
+                <div class="input-grid">
+                    <div>
+                        <label for="weightLbs">Weight (lbs)</label>
+                        <input type="number" id="weightLbs" placeholder="e.g., 154">
+                    </div>
+                    <div>
+                        <label for="heightFt">Height (feet)</label>
+                        <input type="number" id="heightFt" placeholder="e.g., 5">
+                    </div>
+                    <div style="grid-column: 2;">
+                        <label for="heightIn">Height (inches)</label>
+                        <input type="number" id="heightIn" placeholder="e.g., 9">
+                    </div>
+                </div>
+            </div>
+
+            <button class="calculate-btn" onclick="calculateBMI()">Calculate BMI 📏</button>
+
+            <div class="results" id="results">
+                <div class="summary">
+                    <h2>Your BMI</h2>
+                    <div class="main-value" id="bmiValue">0</div>
+                </div>
+
+                <div class="category">
+                    <h3 id="categoryName">Category</h3>
+                    <p id="categoryDesc" style="color: #666;"></p>
+                </div>
+
+                <div class="range-bar">
+                    <div class="range-marker" id="marker"></div>
+                </div>
+                <div style="display: flex; justify-content: space-between; font-size: 0.85em; color: #666; margin-top: 10px;">
+                    <span>Underweight (&lt;18.5)</span>
+                    <span>Normal (18.5-24.9)</span>
+                    <span>Overweight (25-29.9)</span>
+                    <span>Obese (30+)</span>
+                </div>
+            </div>
+        </div>
+
+        <footer><p>&copy; 2026 CalcPro</p></footer>
+    </div>
+
+    <script>
+        let currentUnits = 'metric';
+
+        function setUnits(unit) {
+            currentUnits = unit;
+            document.querySelectorAll('.unit-btn').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+            document.getElementById('metricInputs').style.display = unit === 'metric' ? 'block' : 'none';
+            document.getElementById('imperialInputs').style.display = unit === 'imperial' ? 'block' : 'none';
+        }
+
+        function calculateBMI() {
+            let weightKg, heightM;
+
+            if (currentUnits === 'metric') {
+                weightKg = parseFloat(document.getElementById('weight').value);
+                heightM = parseFloat(document.getElementById('height').value) / 100;
+            } else {
+                const lbs = parseFloat(document.getElementById('weightLbs').value);
+                const ft = parseFloat(document.getElementById('heightFt').value) || 0;
+                const inches = parseFloat(document.getElementById('heightIn').value) || 0;
+                weightKg = lbs * 0.453592;
+                heightM = ((ft * 12) + inches) * 0.0254;
+            }
+
+            if (!weightKg || !heightM) {
+                alert('Please fill all fields');
+                return;
+            }
+
+            const bmi = weightKg / (heightM * heightM);
+            let category, desc, markerPos;
+
+            if (bmi < 18.5) {
+                category = 'Underweight';
+                desc = 'You may need to gain weight';
+                markerPos = (bmi / 18.5) * 25;
+            } else if (bmi < 25) {
+                category = 'Normal Weight';
+                desc = 'You have a healthy weight';
+                markerPos = 25 + ((bmi - 18.5) / 6.5) * 25;
+            } else if (bmi < 30) {
+                category = 'Overweight';
+                desc = 'You may benefit from weight loss';
+                markerPos = 50 + ((bmi - 25) / 5) * 25;
+            } else {
+                category = 'Obese';
+                desc = 'Consider consulting a healthcare provider';
+                markerPos = Math.min(75 + ((bmi - 30) / 10) * 25, 95);
+            }
+
+            document.getElementById('bmiValue').textContent = bmi.toFixed(1);
+            document.getElementById('categoryName').textContent = category;
+            document.getElementById('categoryDesc').textContent = desc;
+            document.getElementById('marker').style.left = markerPos + '%';
+
+            document.getElementById('results').classList.add('show');
+        }
+    </script>
+</body>
+</html>

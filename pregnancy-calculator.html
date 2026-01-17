@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Calculate your pregnancy due date and track pregnancy progress. Free pregnancy calculator with week-by-week timeline.">
+    <title>Pregnancy Calculator - CalcPro</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: linear-gradient(135deg, #EC407A 0%, #D81B60 100%); min-height: 100vh; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; }
+        header { text-align: center; color: white; margin-bottom: 30px; }
+        header h1 { font-size: 2.5em; margin-bottom: 10px; }
+        .nav-link { display: inline-block; margin-top: 10px; color: white; text-decoration: none; opacity: 0.8; }
+        .calculator-card { background: white; border-radius: 20px; padding: 40px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+        .method-toggle { display: flex; gap: 10px; margin-bottom: 30px; }
+        .method-btn { flex: 1; padding: 12px; border: 2px solid #e0e0e0; background: white; border-radius: 10px; cursor: pointer; transition: all 0.3s; text-align: center; }
+        .method-btn.active { background: #EC407A; color: white; border-color: #EC407A; }
+        label { display: block; margin-bottom: 8px; font-weight: 600; color: #333; font-size: 0.95em; }
+        input { width: 100%; padding: 12px 15px; border: 2px solid #e0e0e0; border-radius: 10px; font-size: 1em; }
+        input:focus { outline: none; border-color: #EC407A; }
+        .tooltip { font-size: 0.85em; color: #666; margin-top: 5px; font-style: italic; }
+        .calculate-btn { width: 100%; padding: 15px; background: linear-gradient(135deg, #EC407A 0%, #D81B60 100%); color: white; border: none; border-radius: 10px; font-size: 1.1em; font-weight: 600; cursor: pointer; margin-top: 20px; }
+        .results { margin-top: 30px; display: none; }
+        .results.show { display: block; animation: slideIn 0.4s ease; }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .summary { padding: 30px; background: linear-gradient(135deg, #EC407A 0%, #D81B60 100%); border-radius: 15px; color: white; text-align: center; margin-bottom: 20px; }
+        .summary .main-value { font-size: 3em; font-weight: 700; }
+        .milestone-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-bottom: 20px; }
+        .milestone { padding: 20px; background: #FCE4EC; border-radius: 10px; }
+        .milestone h4 { color: #666; font-size: 0.85em; margin-bottom: 8px; }
+        .milestone .value { font-size: 1.4em; font-weight: 700; color: #333; }
+        .timeline { padding: 25px; background: #FCE4EC; border-radius: 15px; }
+        .timeline h3 { color: #EC407A; margin-bottom: 20px; }
+        .week-row { padding: 12px 0; border-bottom: 1px solid #F8BBD0; }
+        footer { text-align: center; color: white; margin-top: 40px; opacity: 0.9; }
+        @media (max-width: 768px) { .milestone-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📊 CalcPro</h1>
+            <p>Pregnancy Calculator</p>
+            <a href="index.html" class="nav-link">← Back to Home</a>
+        </header>
+
+        <div class="calculator-card">
+            <div class="method-toggle">
+                <button class="method-btn active" onclick="setMethod('lmp')">Last Menstrual Period</button>
+                <button class="method-btn" onclick="setMethod('conception')">Conception Date</button>
+                <button class="method-btn" onclick="setMethod('due')">Due Date</button>
+            </div>
+
+            <div id="lmpInput">
+                <label for="lmpDate">First Day of Last Period</label>
+                <input type="date" id="lmpDate">
+                <div class="tooltip">The first day of your last menstrual period</div>
+            </div>
+
+            <div id="conceptionInput" style="display: none;">
+                <label for="conceptionDate">Conception Date</label>
+                <input type="date" id="conceptionDate">
+                <div class="tooltip">Estimated date of conception</div>
+            </div>
+
+            <div id="dueInput" style="display: none;">
+                <label for="dueDate">Due Date</label>
+                <input type="date" id="dueDate">
+                <div class="tooltip">Your expected due date</div>
+            </div>
+
+            <button class="calculate-btn" onclick="calculatePregnancy()">Calculate Due Date 👶</button>
+
+            <div class="results" id="results">
+                <div class="summary">
+                    <h2>Estimated Due Date</h2>
+                    <div class="main-value" id="dueDateResult">January 1, 2027</div>
+                    <p style="opacity: 0.9; margin-top: 10px;">You are <span id="weeksPregnant">0 weeks</span> pregnant</p>
+                </div>
+
+                <div class="milestone-grid">
+                    <div class="milestone">
+                        <h4>Days Until Due Date</h4>
+                        <div class="value" id="daysLeft">0</div>
+                    </div>
+                    <div class="milestone">
+                        <h4>Current Trimester</h4>
+                        <div class="value" id="trimester">First</div>
+                    </div>
+                    <div class="milestone">
+                        <h4>Conception Date</h4>
+                        <div class="value" id="conceptionEst">---</div>
+                    </div>
+                    <div class="milestone">
+                        <h4>Weeks Remaining</h4>
+                        <div class="value" id="weeksLeft">0</div>
+                    </div>
+                </div>
+
+                <div class="timeline">
+                    <h3>Key Milestones</h3>
+                    <div class="week-row">
+                        <strong>End of First Trimester:</strong> <span id="trim1">---</span>
+                    </div>
+                    <div class="week-row">
+                        <strong>End of Second Trimester:</strong> <span id="trim2">---</span>
+                    </div>
+                    <div class="week-row" style="border-bottom: none;">
+                        <strong>Full Term (37 weeks):</strong> <span id="fullTerm">---</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer><p>&copy; 2026 CalcPro</p></footer>
+    </div>
+
+    <script>
+        let currentMethod = 'lmp';
+
+        function setMethod(method) {
+            currentMethod = method;
+            document.querySelectorAll('.method-btn').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            document.getElementById('lmpInput').style.display = method === 'lmp' ? 'block' : 'none';
+            document.getElementById('conceptionInput').style.display = method === 'conception' ? 'block' : 'none';
+            document.getElementById('dueInput').style.display = method === 'due' ? 'block' : 'none';
+        }
+
+        function calculatePregnancy() {
+            let lmpDate;
+
+            if (currentMethod === 'lmp') {
+                lmpDate = new Date(document.getElementById('lmpDate').value);
+            } else if (currentMethod === 'conception') {
+                const conception = new Date(document.getElementById('conceptionDate').value);
+                lmpDate = new Date(conception.setDate(conception.getDate() - 14));
+            } else {
+                const due = new Date(document.getElementById('dueDate').value);
+                lmpDate = new Date(due.setDate(due.getDate() - 280));
+            }
+
+            if (!lmpDate || isNaN(lmpDate)) {
+                alert('Please enter a valid date');
+                return;
+            }
+
+            const today = new Date();
+            const dueDate = new Date(lmpDate.setDate(lmpDate.getDate() + 280));
+            const conceptionDate = new Date(lmpDate.getTime());
+            conceptionDate.setDate(conceptionDate.getDate() + 14);
+
+            const daysPassed = Math.floor((today - lmpDate) / (1000 * 60 * 60 * 24));
+            const weeksPregnant = Math.floor(daysPassed / 7);
+            const daysLeft = Math.floor((dueDate - today) / (1000 * 60 * 60 * 24));
+            const weeksLeft = Math.ceil(daysLeft / 7);
+
+            let trimester = 'First';
+            if (weeksPregnant >= 27) trimester = 'Third';
+            else if (weeksPregnant >= 14) trimester = 'Second';
+
+            const trim1End = new Date(lmpDate.getTime());
+            trim1End.setDate(trim1End.getDate() + 91);
+            
+            const trim2End = new Date(lmpDate.getTime());
+            trim2End.setDate(trim2End.getDate() + 182);
+            
+            const fullTerm = new Date(lmpDate.getTime());
+            fullTerm.setDate(fullTerm.getDate() + 259);
+
+            document.getElementById('dueDateResult').textContent = dueDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+            document.getElementById('weeksPregnant').textContent = weeksPregnant + ' weeks, ' + (daysPassed % 7) + ' days';
+            document.getElementById('daysLeft').textContent = daysLeft;
+            document.getElementById('trimester').textContent = trimester;
+            document.getElementById('conceptionEst').textContent = conceptionDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+            document.getElementById('weeksLeft').textContent = weeksLeft;
+            document.getElementById('trim1').textContent = trim1End.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+            document.getElementById('trim2').textContent = trim2End.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+            document.getElementById('fullTerm').textContent = fullTerm.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+
+            document.getElementById('results').classList.add('show');
+        }
+    </script>
+</body>
+</html>

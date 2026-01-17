@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Calculate compound interest with monthly, quarterly, or annual compounding. Free compound interest calculator with detailed breakdown and chart.">
+    <title>Compound Interest Calculator - CalcPro</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: linear-gradient(135deg, #2E7D32 0%, #1B5E20 100%); min-height: 100vh; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; }
+        header { text-align: center; color: white; margin-bottom: 30px; }
+        header h1 { font-size: 2.5em; margin-bottom: 10px; }
+        .nav-link { display: inline-block; margin-top: 10px; color: white; text-decoration: none; opacity: 0.8; }
+        .calculator-card { background: white; border-radius: 20px; padding: 40px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+        .input-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 25px; margin-bottom: 25px; }
+        label { display: block; margin-bottom: 8px; font-weight: 600; color: #333; font-size: 0.95em; }
+        input, select { width: 100%; padding: 12px 15px; border: 2px solid #e0e0e0; border-radius: 10px; font-size: 1em; }
+        input:focus, select:focus { outline: none; border-color: #2E7D32; }
+        .tooltip { font-size: 0.85em; color: #666; margin-top: 5px; font-style: italic; }
+        .calculate-btn { width: 100%; padding: 15px; background: linear-gradient(135deg, #2E7D32 0%, #1B5E20 100%); color: white; border: none; border-radius: 10px; font-size: 1.1em; font-weight: 600; cursor: pointer; margin-top: 10px; }
+        .results { margin-top: 30px; display: none; }
+        .results.show { display: block; animation: slideIn 0.4s ease; }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .summary { padding: 30px; background: linear-gradient(135deg, #2E7D32 0%, #1B5E20 100%); border-radius: 15px; color: white; text-align: center; margin-bottom: 20px; }
+        .summary .main-value { font-size: 3.5em; font-weight: 700; }
+        .summary .subtitle { font-size: 1.2em; opacity: 0.9; margin-top: 10px; }
+        .breakdown-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-bottom: 20px; }
+        .breakdown-item { padding: 20px; background: #E8F5E9; border-radius: 10px; }
+        .breakdown-item h4 { color: #666; font-size: 0.85em; margin-bottom: 8px; text-transform: uppercase; }
+        .breakdown-item .value { font-size: 1.6em; font-weight: 700; color: #333; }
+        .yearly-breakdown { padding: 25px; background: #E8F5E9; border-radius: 15px; margin-top: 20px; }
+        .yearly-breakdown h3 { color: #2E7D32; margin-bottom: 20px; }
+        .year-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #C8E6C9; }
+        .year-row:last-child { border-bottom: none; }
+        .info-section { margin-top: 40px; padding: 30px; background: #E8F5E9; border-radius: 15px; }
+        .info-section h2 { color: #2E7D32; margin-bottom: 15px; }
+        .info-section p { line-height: 1.6; color: #555; margin-bottom: 10px; }
+        .info-section ul { margin-left: 20px; line-height: 1.8; color: #555; }
+        footer { text-align: center; color: white; margin-top: 40px; opacity: 0.9; }
+        @media (max-width: 768px) { .input-grid, .breakdown-grid { grid-template-columns: 1fr; } .summary .main-value { font-size: 2.5em; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📊 CalcPro</h1>
+            <p>Compound Interest Calculator</p>
+            <a href="index.html" class="nav-link">← Back to Home</a>
+        </header>
+
+        <div class="calculator-card">
+            <div class="input-grid">
+                <div>
+                    <label for="principal">Initial Investment ($)</label>
+                    <input type="number" id="principal" placeholder="e.g., 10000" min="0">
+                    <div class="tooltip">Starting amount you're investing</div>
+                </div>
+                <div>
+                    <label for="monthly">Monthly Contribution ($)</label>
+                    <input type="number" id="monthly" placeholder="e.g., 500" min="0" value="0">
+                    <div class="tooltip">How much you add each month</div>
+                </div>
+                <div>
+                    <label for="rate">Annual Interest Rate (%)</label>
+                    <input type="number" id="rate" placeholder="e.g., 7" step="0.1" min="0">
+                    <div class="tooltip">Expected yearly return percentage</div>
+                </div>
+                <div>
+                    <label for="years">Time Period (Years)</label>
+                    <input type="number" id="years" placeholder="e.g., 20" min="1">
+                    <div class="tooltip">How long you'll invest</div>
+                </div>
+                <div>
+                    <label for="compound">Compound Frequency</label>
+                    <select id="compound">
+                        <option value="12">Monthly</option>
+                        <option value="4">Quarterly</option>
+                        <option value="2">Semi-Annually</option>
+                        <option value="1">Annually</option>
+                        <option value="365">Daily</option>
+                    </select>
+                </div>
+            </div>
+
+            <button class="calculate-btn" onclick="calculateCompound()">Calculate Returns 💰</button>
+
+            <div class="results" id="results">
+                <div class="summary">
+                    <h2>Future Value</h2>
+                    <div class="main-value" id="futureValue">$0</div>
+                    <div class="subtitle">Total Interest Earned: <span id="totalInterest">$0</span></div>
+                </div>
+
+                <div class="breakdown-grid">
+                    <div class="breakdown-item">
+                        <h4>Total Contributions</h4>
+                        <div class="value" id="totalContributions">$0</div>
+                    </div>
+                    <div class="breakdown-item">
+                        <h4>Interest Earned</h4>
+                        <div class="value" id="interestEarned">$0</div>
+                    </div>
+                    <div class="breakdown-item">
+                        <h4>Effective Annual Rate</h4>
+                        <div class="value" id="effectiveRate">0%</div>
+                    </div>
+                    <div class="breakdown-item">
+                        <h4>Return on Investment</h4>
+                        <div class="value" id="roi">0%</div>
+                    </div>
+                </div>
+
+                <div class="yearly-breakdown">
+                    <h3>Year-by-Year Breakdown</h3>
+                    <div id="yearlyTable"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h2>Understanding Compound Interest</h2>
+            <p><strong>Compound interest</strong> is interest calculated on both the initial principal and accumulated interest from previous periods. Albert Einstein called it "the eighth wonder of the world."</p>
+            
+            <p style="margin-top: 15px;"><strong>Formula:</strong> A = P(1 + r/n)^(nt) + PMT × [((1 + r/n)^(nt) - 1) / (r/n)]</p>
+            
+            <p style="margin-top: 15px;"><strong>Key Concepts:</strong></p>
+            <ul>
+                <li><strong>Principal:</strong> Your initial investment amount</li>
+                <li><strong>Interest Rate:</strong> Annual percentage return</li>
+                <li><strong>Compound Frequency:</strong> How often interest is calculated and added</li>
+                <li><strong>Time:</strong> The longer you invest, the more powerful compounding becomes</li>
+            </ul>
+
+            <p style="margin-top: 15px;"><strong>Why Compounding Matters:</strong></p>
+            <ul>
+                <li>More frequent compounding = higher returns</li>
+                <li>Time is your biggest advantage - start early</li>
+                <li>Regular contributions dramatically increase final value</li>
+                <li>Even small differences in rate make huge long-term impact</li>
+            </ul>
+        </div>
+
+        <footer><p>&copy; 2026 CalcPro</p></footer>
+    </div>
+
+    <script>
+        function calculateCompound() {
+            const P = parseFloat(document.getElementById('principal').value) || 0;
+            const PMT = parseFloat(document.getElementById('monthly').value) || 0;
+            const r = parseFloat(document.getElementById('rate').value) / 100 || 0;
+            const t = parseFloat(document.getElementById('years').value) || 0;
+            const n = parseFloat(document.getElementById('compound').value);
+
+            if (P === 0 || r === 0 || t === 0) {
+                alert('Please enter principal, rate, and time period');
+                return;
+            }
+
+            // Compound interest formula: A = P(1 + r/n)^(nt)
+            const A = P * Math.pow(1 + r/n, n*t);
+            
+            // Future value of series: PMT × [((1 + r/n)^(nt) - 1) / (r/n)]
+            const FV_PMT = PMT * (Math.pow(1 + r/n, n*t) - 1) / (r/n);
+            
+            const futureValue = A + FV_PMT;
+            const totalContributions = P + (PMT * 12 * t);
+            const totalInterest = futureValue - totalContributions;
+            const effectiveRate = (Math.pow(1 + r/n, n) - 1) * 100;
+            const roi = ((futureValue - totalContributions) / totalContributions) * 100;
+
+            document.getElementById('futureValue').textContent = '$' + futureValue.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+            document.getElementById('totalInterest').textContent = '$' + totalInterest.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+            document.getElementById('totalContributions').textContent = '$' + totalContributions.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+            document.getElementById('interestEarned').textContent = '$' + totalInterest.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+            document.getElementById('effectiveRate').textContent = effectiveRate.toFixed(2) + '%';
+            document.getElementById('roi').textContent = roi.toFixed(1) + '%';
+
+            // Yearly breakdown
+            let yearlyHTML = '';
+            let balance = P;
+            for (let year = 1; year <= Math.min(t, 20); year++) {
+                balance = balance * Math.pow(1 + r/n, n) + (PMT * 12);
+                const yearContributions = P + (PMT * 12 * year);
+                const yearInterest = balance - yearContributions;
+                
+                yearlyHTML += `
+                    <div class="year-row">
+                        <span><strong>Year ${year}</strong></span>
+                        <span>$${balance.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</span>
+                    </div>
+                `;
+            }
+            if (t > 20) {
+                yearlyHTML += '<div class="year-row"><span style="opacity: 0.7;">... (showing first 20 years)</span></div>';
+            }
+            document.getElementById('yearlyTable').innerHTML = yearlyHTML;
+
+            document.getElementById('results').classList.add('show');
+            document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+    </script>
+</body>
+</html>
