@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>More Calculators Coming Soon - CalcPro</title>
-    <meta name="description" content="Upcoming calculator categories: Conversion tools, real estate, marketing, and productivity calculators launching soon.">
+    <meta name="description" content="Upcoming calculator categories: Real estate, marketing, productivity, and sustainability calculators launching soon.">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📊</text></svg>">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -13,6 +13,11 @@
         header { text-align: center; color: white; margin-bottom: 40px; padding: 40px 20px; }
         header h1 { font-size: 3em; margin-bottom: 15px; }
         .nav-link { display: inline-block; margin-top: 15px; color: white; text-decoration: none; opacity: 0.8; font-size: 1.1em; }
+        .current-stats { background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); padding: 30px; border-radius: 20px; color: white; margin-bottom: 40px; text-align: center; }
+        .current-stats h2 { font-size: 2em; margin-bottom: 20px; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 20px; margin-top: 20px; }
+        .stat { text-align: center; }
+        .stat-number { font-size: 2.5em; font-weight: 700; }
         .category-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; }
         .coming-card { background: white; border-radius: 20px; padding: 35px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); position: relative; opacity: 0.95; }
         .coming-badge { position: absolute; top: 20px; right: 20px; background: #667eea; color: white; padding: 8px 16px; border-radius: 20px; font-size: 0.85em; font-weight: 600; }
@@ -36,26 +41,32 @@
             <a href="index.html" class="nav-link">← Back to Home</a>
         </header>
 
+        <div class="current-stats">
+            <h2>🎉 Currently Available</h2>
+            <div class="stats-grid">
+                <div class="stat">
+                    <div class="stat-number">28</div>
+                    <div>Live Calculators</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">6</div>
+                    <div>Active Categories</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">6M+</div>
+                    <div>Monthly Searches</div>
+                </div>
+            </div>
+            <p style="margin-top: 25px; opacity: 0.9; font-size: 1.1em;">
+                ✓ Finance (8) • ✓ Health (5) • ✓ Conversion (3) • ✓ Education (2) • ✓ Creator (5) • ✓ E-Commerce (5)
+            </p>
+        </div>
+
+        <h2 style="color: white; text-align: center; font-size: 2.2em; margin-bottom: 30px;">Next Categories In Development</h2>
+
         <div class="category-grid">
             <div class="coming-card">
                 <span class="coming-badge">Q1 2026 <span class="priority-badge">PRIORITY</span></span>
-                <div class="category-icon">🔄</div>
-                <div class="category-title">Conversion Tools</div>
-                <div class="category-desc">Essential everyday calculators for quick conversions and calculations:</div>
-                <ul class="calculator-list">
-                    <li>Currency Converter (1.2M+ monthly searches)</li>
-                    <li>Percentage Calculator (550K+ searches)</li>
-                    <li>Age Calculator (450K+ searches)</li>
-                    <li>Unit Converter (Distance, Weight, Volume)</li>
-                    <li>GPA Calculator (165K+ searches)</li>
-                    <li>Date Calculator</li>
-                    <li>Time Zone Converter</li>
-                    <li>Fuel Cost Calculator</li>
-                </ul>
-            </div>
-
-            <div class="coming-card">
-                <span class="coming-badge">Q1 2026</span>
                 <div class="category-icon">🏠</div>
                 <div class="category-title">Real Estate</div>
                 <div class="category-desc">Calculate property investments and real estate returns:</div>
@@ -107,18 +118,18 @@
 
             <div class="coming-card">
                 <span class="coming-badge">Q2 2026</span>
-                <div class="category-icon">🎓</div>
-                <div class="category-title">Education & Learning</div>
-                <div class="category-desc">Academic and educational planning calculators:</div>
+                <div class="category-icon">🔧</div>
+                <div class="category-title">Unit Converters</div>
+                <div class="category-desc">Convert between different units of measurement:</div>
                 <ul class="calculator-list">
-                    <li>Grade Calculator (Weighted & Unweighted)</li>
-                    <li>Final Grade Calculator</li>
-                    <li>Student Loan Calculator</li>
-                    <li>College Savings Calculator</li>
-                    <li>Study Time Calculator</li>
-                    <li>GPA to Percentage Converter</li>
-                    <li>Scholarship ROI Calculator</li>
-                    <li>Reading Time Calculator</li>
+                    <li>Length/Distance Converter</li>
+                    <li>Weight/Mass Converter</li>
+                    <li>Temperature Converter</li>
+                    <li>Volume/Capacity Converter</li>
+                    <li>Area Converter</li>
+                    <li>Speed Converter</li>
+                    <li>Time Zone Converter</li>
+                    <li>Data Storage Converter</li>
                 </ul>
             </div>
 
@@ -138,12 +149,29 @@
                     <li>Green Home Savings</li>
                 </ul>
             </div>
+
+            <div class="coming-card">
+                <span class="coming-badge">Q3 2026</span>
+                <div class="category-icon">🏥</div>
+                <div class="category-title">Medical & Healthcare</div>
+                <div class="category-desc">Health planning and medical calculators:</div>
+                <ul class="calculator-list">
+                    <li>Medical Cost Estimator</li>
+                    <li>Insurance Premium Calculator</li>
+                    <li>Medication Dosage Calculator</li>
+                    <li>Blood Sugar Converter</li>
+                    <li>Heart Rate Zone Calculator</li>
+                    <li>Sleep Needs Calculator</li>
+                    <li>Hydration Calculator</li>
+                    <li>Macro Ratio Calculator</li>
+                </ul>
+            </div>
         </div>
 
         <div style="text-align: center; margin: 60px 0; padding: 50px 20px; background: rgba(255,255,255,0.1); border-radius: 20px; color: white;">
             <h2 style="font-size: 2.5em; margin-bottom: 20px;">Want to See Something Specific?</h2>
             <p style="font-size: 1.2em; opacity: 0.9; margin-bottom: 20px; max-width: 600px; margin-left: auto; margin-right: auto;">We're building based on user demand. Let us know what calculators would help you most!</p>
-            <p style="font-size: 1.1em; opacity: 0.9; margin-top: 20px;">Vote for your favorites on our roadmap</p>
+            <p style="font-size: 1.1em; opacity: 0.9; margin-top: 20px;">Vote for your favorites and suggest new ideas</p>
             <p style="font-size: 1em; opacity: 0.8; margin-top: 10px;">Email us: support@calcpro.com</p>
         </div>
 
@@ -152,7 +180,7 @@
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; margin-top: 30px; text-align: left;">
                 <div>
                     <h4 style="margin-bottom: 10px;">🔍 High Demand</h4>
-                    <p style="opacity: 0.9; font-size: 0.95em;">Based on 10M+ monthly searches across these categories</p>
+                    <p style="opacity: 0.9; font-size: 0.95em;">Based on 15M+ monthly searches across these categories</p>
                 </div>
                 <div>
                     <h4 style="margin-bottom: 10px;">💡 Practical Value</h4>
@@ -171,8 +199,8 @@
                 <a href="index.html" style="color: white;">Home</a> | 
                 <a href="finance-calculators.html" style="color: white; margin-left: 15px;">Finance</a> | 
                 <a href="health-calculators.html" style="color: white; margin-left: 15px;">Health</a> | 
-                <a href="creator-calculators.html" style="color: white; margin-left: 15px;">Creator</a> | 
-                <a href="ecommerce-calculators.html" style="color: white; margin-left: 15px;">E-Commerce</a>
+                <a href="conversion-calculators.html" style="color: white; margin-left: 15px;">Conversion</a> | 
+                <a href="education-calculators.html" style="color: white; margin-left: 15px;">Education</a>
             </p>
         </footer>
     </div>
