@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Calculate percentages, percentage increase/decrease, and percentage of a number. Free percentage calculator with multiple calculation modes.">
+    <title>Percentage Calculator - CalcPro</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: linear-gradient(135deg, #6366F1 0%, #4F46E5 100%); min-height: 100vh; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; }
+        header { text-align: center; color: white; margin-bottom: 30px; }
+        header h1 { font-size: 2.5em; margin-bottom: 10px; }
+        .nav-link { display: inline-block; margin-top: 10px; color: white; text-decoration: none; opacity: 0.8; }
+        .calculator-card { background: white; border-radius: 20px; padding: 40px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+        .mode-selector { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin-bottom: 30px; }
+        .mode-btn { padding: 15px; border: 2px solid #e0e0e0; background: white; border-radius: 10px; cursor: pointer; transition: all 0.3s; text-align: center; font-weight: 600; }
+        .mode-btn.active { background: #6366F1; color: white; border-color: #6366F1; }
+        .calc-section { display: none; }
+        .calc-section.active { display: block; }
+        .input-row { display: grid; grid-template-columns: 1fr auto 1fr auto 1fr; gap: 15px; align-items: center; margin-bottom: 25px; }
+        input { width: 100%; padding: 12px 15px; border: 2px solid #e0e0e0; border-radius: 10px; font-size: 1.1em; text-align: center; }
+        input:focus { outline: none; border-color: #6366F1; }
+        .operator { font-size: 1.5em; font-weight: 700; color: #6366F1; text-align: center; }
+        .calculate-btn { width: 100%; padding: 15px; background: linear-gradient(135deg, #6366F1 0%, #4F46E5 100%); color: white; border: none; border-radius: 10px; font-size: 1.1em; font-weight: 600; cursor: pointer; }
+        .result { margin-top: 30px; padding: 30px; background: linear-gradient(135deg, #6366F1 0%, #4F46E5 100%); border-radius: 15px; color: white; text-align: center; display: none; }
+        .result.show { display: block; animation: slideIn 0.4s ease; }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .result-value { font-size: 3.5em; font-weight: 700; margin: 10px 0; }
+        footer { text-align: center; color: white; margin-top: 40px; opacity: 0.9; }
+        @media (max-width: 768px) { .input-row { grid-template-columns: 1fr; gap: 10px; } .operator { display: none; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📊 CalcPro</h1>
+            <p>Percentage Calculator</p>
+            <a href="index.html" class="nav-link">← Back to Home</a>
+        </header>
+
+        <div class="calculator-card">
+            <div class="mode-selector">
+                <button class="mode-btn active" onclick="setMode('basic')">What is X% of Y?</button>
+                <button class="mode-btn" onclick="setMode('reverse')">X is what % of Y?</button>
+                <button class="mode-btn" onclick="setMode('change')">% Change (Increase/Decrease)</button>
+            </div>
+
+            <!-- Basic: What is X% of Y? -->
+            <div id="basic" class="calc-section active">
+                <h3 style="margin-bottom: 20px; color: #333;">Calculate Percentage of a Number</h3>
+                <div class="input-row">
+                    <div>
+                        <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #666;">Percentage</label>
+                        <input type="number" id="basic-percent" placeholder="25" step="0.01">
+                    </div>
+                    <div class="operator">%</div>
+                    <div style="text-align: center; padding: 10px; font-weight: 600; color: #666;">of</div>
+                    <div style="display: none;"></div>
+                    <div>
+                        <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #666;">Number</label>
+                        <input type="number" id="basic-number" placeholder="200" step="0.01">
+                    </div>
+                </div>
+                <button class="calculate-btn" onclick="calculateBasic()">Calculate</button>
+                <div id="basic-result" class="result">
+                    <h3>Result</h3>
+                    <div class="result-value" id="basic-value">0</div>
+                    <p id="basic-text"></p>
+                </div>
+            </div>
+
+            <!-- Reverse: X is what % of Y? -->
+            <div id="reverse" class="calc-section">
+                <h3 style="margin-bottom: 20px; color: #333;">Find What Percentage</h3>
+                <div class="input-row">
+                    <div>
+                        <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #666;">Number 1</label>
+                        <input type="number" id="reverse-num1" placeholder="50" step="0.01">
+                    </div>
+                    <div style="text-align: center; padding: 10px; font-weight: 600; color: #666;">is what % of</div>
+                    <div style="display: none;"></div>
+                    <div style="display: none;"></div>
+                    <div>
+                        <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #666;">Number 2</label>
+                        <input type="number" id="reverse-num2" placeholder="200" step="0.01">
+                    </div>
+                </div>
+                <button class="calculate-btn" onclick="calculateReverse()">Calculate</button>
+                <div id="reverse-result" class="result">
+                    <h3>Result</h3>
+                    <div class="result-value" id="reverse-value">0%</div>
+                    <p id="reverse-text"></p>
+                </div>
+            </div>
+
+            <!-- Change: Percentage Increase/Decrease -->
+            <div id="change" class="calc-section">
+                <h3 style="margin-bottom: 20px; color: #333;">Calculate Percentage Change</h3>
+                <div class="input-row">
+                    <div>
+                        <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #666;">Original Value</label>
+                        <input type="number" id="change-old" placeholder="100" step="0.01">
+                    </div>
+                    <div class="operator">→</div>
+                    <div style="display: none;"></div>
+                    <div style="display: none;"></div>
+                    <div>
+                        <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #666;">New Value</label>
+                        <input type="number" id="change-new" placeholder="150" step="0.01">
+                    </div>
+                </div>
+                <button class="calculate-btn" onclick="calculateChange()">Calculate</button>
+                <div id="change-result" class="result">
+                    <h3>Percentage Change</h3>
+                    <div class="result-value" id="change-value">0%</div>
+                    <p id="change-text"></p>
+                    <div style="margin-top: 20px; font-size: 1.1em;">
+                        <div>Difference: <strong id="change-diff">0</strong></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer><p>&copy; 2026 CalcPro</p></footer>
+    </div>
+
+    <script>
+        function setMode(mode) {
+            document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.calc-section').forEach(s => s.classList.remove('active'));
+            event.target.classList.add('active');
+            document.getElementById(mode).classList.add('active');
+        }
+
+        function calculateBasic() {
+            const percent = parseFloat(document.getElementById('basic-percent').value);
+            const number = parseFloat(document.getElementById('basic-number').value);
+            
+            if (isNaN(percent) || isNaN(number)) {
+                alert('Please enter valid numbers');
+                return;
+            }
+
+            const result = (percent / 100) * number;
+            document.getElementById('basic-value').textContent = result.toFixed(2);
+            document.getElementById('basic-text').textContent = `${percent}% of ${number} equals ${result.toFixed(2)}`;
+            document.getElementById('basic-result').classList.add('show');
+        }
+
+        function calculateReverse() {
+            const num1 = parseFloat(document.getElementById('reverse-num1').value);
+            const num2 = parseFloat(document.getElementById('reverse-num2').value);
+            
+            if (isNaN(num1) || isNaN(num2) || num2 === 0) {
+                alert('Please enter valid numbers');
+                return;
+            }
+
+            const result = (num1 / num2) * 100;
+            document.getElementById('reverse-value').textContent = result.toFixed(2) + '%';
+            document.getElementById('reverse-text').textContent = `${num1} is ${result.toFixed(2)}% of ${num2}`;
+            document.getElementById('reverse-result').classList.add('show');
+        }
+
+        function calculateChange() {
+            const oldVal = parseFloat(document.getElementById('change-old').value);
+            const newVal = parseFloat(document.getElementById('change-new').value);
+            
+            if (isNaN(oldVal) || isNaN(newVal) || oldVal === 0) {
+                alert('Please enter valid numbers');
+                return;
+            }
+
+            const change = ((newVal - oldVal) / oldVal) * 100;
+            const diff = newVal - oldVal;
+            const changeType = change > 0 ? 'Increase' : 'Decrease';
+            
+            document.getElementById('change-value').textContent = Math.abs(change).toFixed(2) + '%';
+            document.getElementById('change-text').textContent = `${changeType} from ${oldVal} to ${newVal}`;
+            document.getElementById('change-diff').textContent = diff > 0 ? '+' + diff.toFixed(2) : diff.toFixed(2);
+            document.getElementById('change-result').classList.add('show');
+        }
+    </script>
+</body>
+</html>

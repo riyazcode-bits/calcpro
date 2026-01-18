@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Calculate your exact age in years, months, days, hours, and minutes. Free age calculator with next birthday countdown.">
+    <title>Age Calculator - CalcPro</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: linear-gradient(135deg, #14B8A6 0%, #0D9488 100%); min-height: 100vh; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; }
+        header { text-align: center; color: white; margin-bottom: 30px; }
+        header h1 { font-size: 2.5em; margin-bottom: 10px; }
+        .nav-link { display: inline-block; margin-top: 10px; color: white; text-decoration: none; opacity: 0.8; }
+        .calculator-card { background: white; border-radius: 20px; padding: 40px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+        label { display: block; margin-bottom: 8px; font-weight: 600; color: #333; }
+        input { width: 100%; padding: 12px 15px; border: 2px solid #e0e0e0; border-radius: 10px; font-size: 1em; margin-bottom: 20px; }
+        input:focus { outline: none; border-color: #14B8A6; }
+        .calculate-btn { width: 100%; padding: 15px; background: linear-gradient(135deg, #14B8A6 0%, #0D9488 100%); color: white; border: none; border-radius: 10px; font-size: 1.1em; font-weight: 600; cursor: pointer; }
+        .results { margin-top: 30px; display: none; }
+        .results.show { display: block; animation: slideIn 0.4s ease; }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .summary { padding: 30px; background: linear-gradient(135deg, #14B8A6 0%, #0D9488 100%); border-radius: 15px; color: white; text-align: center; margin-bottom: 20px; }
+        .summary .main-value { font-size: 3.5em; font-weight: 700; }
+        .age-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 20px; }
+        .age-item { padding: 20px; background: #CCFBF1; border-radius: 10px; text-align: center; }
+        .age-item h4 { color: #666; font-size: 0.85em; margin-bottom: 8px; }
+        .age-item .value { font-size: 1.8em; font-weight: 700; color: #333; }
+        .birthday-section { padding: 25px; background: #CCFBF1; border-radius: 15px; text-align: center; }
+        footer { text-align: center; color: white; margin-top: 40px; opacity: 0.9; }
+        @media (max-width: 768px) { .age-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📊 CalcPro</h1>
+            <p>Age Calculator</p>
+            <a href="index.html" class="nav-link">← Back to Home</a>
+        </header>
+
+        <div class="calculator-card">
+            <label for="birthdate">Date of Birth</label>
+            <input type="date" id="birthdate">
+
+            <button class="calculate-btn" onclick="calculateAge()">Calculate My Age 🎂</button>
+
+            <div class="results" id="results">
+                <div class="summary">
+                    <h2>Your Age</h2>
+                    <div class="main-value" id="ageYears">0</div>
+                    <p style="opacity: 0.9; margin-top: 10px;">Years Old</p>
+                </div>
+
+                <div class="age-grid">
+                    <div class="age-item">
+                        <h4>Months</h4>
+                        <div class="value" id="ageMonths">0</div>
+                    </div>
+                    <div class="age-item">
+                        <h4>Days</h4>
+                        <div class="value" id="ageDays">0</div>
+                    </div>
+                    <div class="age-item">
+                        <h4>Hours</h4>
+                        <div class="value" id="ageHours">0</div>
+                    </div>
+                    <div class="age-item">
+                        <h4>Minutes</h4>
+                        <div class="value" id="ageMinutes">0</div>
+                    </div>
+                    <div class="age-item">
+                        <h4>Weeks</h4>
+                        <div class="value" id="ageWeeks">0</div>
+                    </div>
+                    <div class="age-item">
+                        <h4>Total Days</h4>
+                        <div class="value" id="totalDays">0</div>
+                    </div>
+                </div>
+
+                <div class="birthday-section">
+                    <h3 style="color: #14B8A6; margin-bottom: 15px;">Next Birthday</h3>
+                    <p style="font-size: 1.3em; font-weight: 600; color: #333; margin-bottom: 10px;" id="nextBirthday">---</p>
+                    <p style="color: #666;" id="daysUntil">---</p>
+                </div>
+            </div>
+        </div>
+
+        <footer><p>&copy; 2026 CalcPro</p></footer>
+    </div>
+
+    <script>
+        function calculateAge() {
+            const birthdate = new Date(document.getElementById('birthdate').value);
+            
+            if (!birthdate || isNaN(birthdate)) {
+                alert('Please select your date of birth');
+                return;
+            }
+
+            const today = new Date();
+            const diffMs = today - birthdate;
+            const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+            
+            let years = today.getFullYear() - birthdate.getFullYear();
+            let months = today.getMonth() - birthdate.getMonth();
+            let days = today.getDate() - birthdate.getDate();
+
+            if (days < 0) {
+                months--;
+                const lastMonth = new Date(today.getFullYear(), today.getMonth(), 0);
+                days += lastMonth.getDate();
+            }
+
+            if (months < 0) {
+                years--;
+                months += 12;
+            }
+
+            const totalMonths = years * 12 + months;
+            const totalHours = Math.floor(diffMs / (1000 * 60 * 60));
+            const totalMinutes = Math.floor(diffMs / (1000 * 60));
+            const totalWeeks = Math.floor(diffDays / 7);
+
+            // Next birthday
+            let nextBirthday = new Date(today.getFullYear(), birthdate.getMonth(), birthdate.getDate());
+            if (nextBirthday < today) {
+                nextBirthday.setFullYear(today.getFullYear() + 1);
+            }
+            const daysUntilBirthday = Math.ceil((nextBirthday - today) / (1000 * 60 * 60 * 24));
+
+            document.getElementById('ageYears').textContent = years;
+            document.getElementById('ageMonths').textContent = totalMonths.toLocaleString();
+            document.getElementById('ageDays').textContent = days;
+            document.getElementById('ageHours').textContent = totalHours.toLocaleString();
+            document.getElementById('ageMinutes').textContent = totalMinutes.toLocaleString();
+            document.getElementById('ageWeeks').textContent = totalWeeks.toLocaleString();
+            document.getElementById('totalDays').textContent = diffDays.toLocaleString();
+            
+            document.getElementById('nextBirthday').textContent = nextBirthday.toLocaleDateString('en-US', { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            });
+            document.getElementById('daysUntil').textContent = `${daysUntilBirthday} days until your next birthday! 🎉`;
+
+            document.getElementById('results').classList.add('show');
+        }
+    </script>
+</body>
+</html>

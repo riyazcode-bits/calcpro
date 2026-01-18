@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conversion Tools & Calculators - CalcPro</title>
+    <meta name="description" content="Free conversion calculators: percentage, age, currency converter. Essential everyday calculation tools.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📊</text></svg>">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 20px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        header { text-align: center; color: white; margin-bottom: 40px; padding: 40px 20px; }
+        header h1 { font-size: 3em; margin-bottom: 15px; }
+        .nav-link { display: inline-block; margin-top: 15px; color: white; text-decoration: none; opacity: 0.8; font-size: 1.1em; }
+        .calculator-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; }
+        .calculator-card { background: white; border-radius: 20px; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); transition: transform 0.3s; text-decoration: none; color: inherit; display: block; }
+        .calculator-card:hover { transform: translateY(-5px); }
+        .card-icon { font-size: 3em; margin-bottom: 15px; }
+        .card-title { font-size: 1.5em; font-weight: 700; margin-bottom: 10px; color: #333; }
+        .card-description { color: #666; line-height: 1.6; margin-bottom: 15px; }
+        .card-tags { display: flex; gap: 8px; flex-wrap: wrap; }
+        .card-tag { padding: 5px 12px; background: #f0f0f0; border-radius: 15px; font-size: 0.85em; font-weight: 600; }
+        .tag-popular { background: #ffeaa7; color: #d63031; }
+        .percentage { border-left: 4px solid #6366F1; }
+        .age { border-left: 4px solid #14B8A6; }
+        .currency { border-left: 4px solid #10B981; }
+        footer { text-align: center; color: white; margin-top: 60px; opacity: 0.9; }
+        @media (max-width: 768px) { .calculator-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔄 Conversion Tools & Calculators</h1>
+            <p style="font-size: 1.2em; opacity: 0.9; max-width: 700px; margin: 15px auto;">Essential everyday calculators for quick conversions and calculations</p>
+            <a href="index.html" class="nav-link">← Back to Home</a>
+        </header>
+
+        <div class="calculator-grid">
+            <a href="percentage-calculator.html" class="calculator-card percentage">
+                <div class="card-icon">%</div>
+                <div class="card-title">Percentage Calculator</div>
+                <div class="card-description">Calculate percentages, percentage increase/decrease, and find what percentage one number is of another. Three calculation modes included.</div>
+                <div class="card-tags">
+                    <span class="card-tag tag-popular">⭐ Most Used</span>
+                    <span class="card-tag">3 Modes</span>
+                </div>
+            </a>
+
+            <a href="age-calculator.html" class="calculator-card age">
+                <div class="card-icon">🎂</div>
+                <div class="card-title">Age Calculator</div>
+                <div class="card-description">Calculate your exact age in years, months, days, hours, and minutes. Includes next birthday countdown and total days lived.</div>
+                <div class="card-tags">
+                    <span class="card-tag">Precise</span>
+                    <span class="card-tag">Birthday Countdown</span>
+                </div>
+            </a>
+
+            <a href="currency-converter.html" class="calculator-card currency">
+                <div class="card-icon">💱</div>
+                <div class="card-title">Currency Converter</div>
+                <div class="card-description">Convert between 150+ world currencies with live exchange rates. Popular currency pairs and swap function included.</div>
+                <div class="card-tags">
+                    <span class="card-tag tag-popular">⭐ Daily Essential</span>
+                    <span class="card-tag">150+ Currencies</span>
+                </div>
+            </a>
+        </div>
+
+        <div style="background: rgba(255,255,255,0.1); padding: 40px; border-radius: 20px; color: white; margin-top: 40px;">
+            <h2 style="margin-bottom: 20px; text-align: center;">Why Use Conversion Tools?</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; margin-top: 20px;">
+                <div>
+                    <h3 style="margin-bottom: 10px;">⚡ Instant Results</h3>
+                    <p style="opacity: 0.9;">Get accurate conversions in seconds for everyday tasks</p>
+                </div>
+                <div>
+                    <h3 style="margin-bottom: 10px;">🎯 Multiple Uses</h3>
+                    <p style="opacity: 0.9;">Essential tools for students, travelers, and professionals</p>
+                </div>
+                <div>
+                    <h3 style="margin-bottom: 10px;">📱 Always Available</h3>
+                    <p style="opacity: 0.9;">Free, no installation, works on any device</p>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>&copy; 2026 CalcPro - Free Conversion Tools</p>
+            <p style="margin-top: 10px;"><a href="index.html" style="color: white;">Home</a> | <a href="finance-calculators.html" style="color: white; margin-left: 15px;">Finance</a> | <a href="health-calculators.html" style="color: white; margin-left: 15px;">Health</a></p>
+        </footer>
+    </div>
+</body>
+</html>

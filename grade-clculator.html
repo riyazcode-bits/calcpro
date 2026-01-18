@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Calculate your final grade with weighted assignments. Free grade calculator for students with percentage breakdown.">
+    <title>Grade Calculator - CalcPro</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: linear-gradient(135deg, #8B5CF6 0%, #6D28D9 100%); min-height: 100vh; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; }
+        header { text-align: center; color: white; margin-bottom: 30px; }
+        header h1 { font-size: 2.5em; margin-bottom: 10px; }
+        .nav-link { display: inline-block; margin-top: 10px; color: white; text-decoration: none; opacity: 0.8; }
+        .calculator-card { background: white; border-radius: 20px; padding: 40px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+        .assignment-row { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr auto; gap: 15px; margin-bottom: 15px; align-items: center; }
+        input { padding: 10px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 0.95em; }
+        input:focus { outline: none; border-color: #8B5CF6; }
+        .add-btn, .remove-btn { padding: 10px 15px; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; }
+        .add-btn { background: #8B5CF6; color: white; width: 100%; margin: 15px 0; }
+        .remove-btn { background: #EF4444; color: white; }
+        .calculate-btn { width: 100%; padding: 15px; background: linear-gradient(135deg, #8B5CF6 0%, #6D28D9 100%); color: white; border: none; border-radius: 10px; font-size: 1.1em; font-weight: 600; cursor: pointer; }
+        .result { margin-top: 30px; padding: 30px; background: linear-gradient(135deg, #8B5CF6 0%, #6D28D9 100%); border-radius: 15px; color: white; text-align: center; display: none; }
+        .result.show { display: block; }
+        .result-value { font-size: 4em; font-weight: 700; }
+        footer { text-align: center; color: white; margin-top: 40px; opacity: 0.9; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📊 CalcPro</h1>
+            <p>Grade Calculator</p>
+            <a href="index.html" class="nav-link">← Back to Home</a>
+        </header>
+
+        <div class="calculator-card">
+            <div style="margin-bottom: 20px;">
+                <div style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr auto; gap: 15px; font-weight: 600; color: #666; font-size: 0.9em;">
+                    <div>Assignment Name</div>
+                    <div>Score</div>
+                    <div>Max Points</div>
+                    <div>Weight (%)</div>
+                    <div></div>
+                </div>
+            </div>
+
+            <div id="assignments">
+                <div class="assignment-row">
+                    <input type="text" placeholder="e.g., Homework" class="name">
+                    <input type="number" placeholder="85" class="score">
+                    <input type="number" placeholder="100" class="max">
+                    <input type="number" placeholder="30" class="weight">
+                    <button class="remove-btn" onclick="removeRow(this)" style="display: none;">✕</button>
+                </div>
+            </div>
+
+            <button class="add-btn" onclick="addRow()">+ Add Assignment</button>
+            <button class="calculate-btn" onclick="calculateGrade()">Calculate Final Grade 📝</button>
+
+            <div class="result" id="result">
+                <h2>Final Grade</h2>
+                <div class="result-value" id="grade">0%</div>
+                <p style="opacity: 0.9; margin-top: 15px;" id="letterGrade">Letter Grade: A</p>
+            </div>
+        </div>
+
+        <footer><p>&copy; 2026 CalcPro</p></footer>
+    </div>
+
+    <script>
+        function addRow() {
+            const row = document.createElement('div');
+            row.className = 'assignment-row';
+            row.innerHTML = `
+                <input type="text" placeholder="e.g., Quiz" class="name">
+                <input type="number" placeholder="Score" class="score">
+                <input type="number" placeholder="Max" class="max">
+                <input type="number" placeholder="Weight %" class="weight">
+                <button class="remove-btn" onclick="removeRow(this)">✕</button>
+            `;
+            document.getElementById('assignments').appendChild(row);
+        }
+
+        function removeRow(btn) {
+            btn.parentElement.remove();
+        }
+
+        function calculateGrade() {
+            const rows = document.querySelectorAll('.assignment-row');
+            let totalWeightedScore = 0;
+            let totalWeight = 0;
+
+            rows.forEach(row => {
+                const score = parseFloat(row.querySelector('.score').value);
+                const max = parseFloat(row.querySelector('.max').value);
+                const weight = parseFloat(row.querySelector('.weight').value);
+                
+                if (!isNaN(score) && !isNaN(max) && !isNaN(weight) && max > 0) {
+                    const percentage = (score / max) * 100;
+                    totalWeightedScore += (percentage * weight);
+                    totalWeight += weight;
+                }
+            });
+
+            if (totalWeight === 0) {
+                alert('Please enter at least one assignment with valid data');
+                return;
+            }
+
+            const finalGrade = totalWeightedScore / totalWeight;
+            let letterGrade = 'F';
+            
+            if (finalGrade >= 90) letterGrade = 'A';
+            else if (finalGrade >= 80) letterGrade = 'B';
+            else if (finalGrade >= 70) letterGrade = 'C';
+            else if (finalGrade >= 60) letterGrade = 'D';
+
+            document.getElementById('grade').textContent = finalGrade.toFixed(1) + '%';
+            document.getElementById('letterGrade').textContent = 'Letter Grade: ' + letterGrade;
+            document.getElementById('result').classList.add('show');
+        }
+    </script>
+</body>
+</html>
