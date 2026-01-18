@@ -4,155 +4,452 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CalcPro - Free Calculator Tools | Finance, Health, Education & More</title>
-    <meta name="description" content="Free online calculators: finance (mortgage, loans), health (BMI, calories), education (GPA, grades), conversions, creator tools & e-commerce profit calculators. 28+ calculators available.">
-    <meta name="keywords" content="calculator, mortgage calculator, BMI calculator, GPA calculator, percentage calculator, currency converter, YouTube earnings, age calculator">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📊</text></svg>">
+    <meta name="description" content="Free calculator tools for finance, health, education, conversions & more. Make data-driven decisions with confidence.">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 20px; }
-        .container { max-width: 1200px; margin: 0 auto; }
-        header { text-align: center; color: white; margin-bottom: 30px; padding: 40px 20px 20px; }
-        header h1 { font-size: 3.5em; margin-bottom: 15px; font-weight: 700; }
-        header p { font-size: 1.3em; opacity: 0.95; max-width: 750px; margin: 0 auto 25px; line-height: 1.6; }
-        .trust-badges { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; margin-top: 20px; }
-        .badge { background: rgba(255,255,255,0.2); backdrop-filter: blur(10px); padding: 12px 24px; border-radius: 30px; font-weight: 600; }
-        .stats-section { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin: 40px 0; }
-        .stat-card { background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); padding: 25px; border-radius: 15px; text-align: center; color: white; }
-        .stat-number { font-size: 2.5em; font-weight: 700; }
-        .category-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin: 40px 0; }
-        .category-card { background: white; border-radius: 20px; padding: 35px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); text-decoration: none; color: inherit; display: block; transition: transform 0.3s; }
-        .category-card:hover { transform: translateY(-5px); }
-        .category-icon { font-size: 3.5em; margin-bottom: 20px; }
-        .category-title { font-size: 1.8em; font-weight: 700; color: #333; margin-bottom: 15px; }
-        .category-desc { color: #666; line-height: 1.6; margin-bottom: 20px; }
-        .category-count { display: inline-block; padding: 8px 16px; background: #f0f0f0; border-radius: 20px; font-size: 0.9em; font-weight: 600; color: #667eea; }
-        .cta-section { text-align: center; padding: 50px 20px; background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); border-radius: 20px; margin: 50px 0; color: white; }
-        footer { text-align: center; color: white; margin-top: 60px; padding: 40px 20px; border-top: 1px solid rgba(255,255,255,0.2); }
-        .footer-links { margin: 20px 0; display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; }
-        .footer-links a { color: white; text-decoration: none; opacity: 0.8; }
-        @media (max-width: 768px) { header h1 { font-size: 2.5em; } .category-grid { grid-template-columns: 1fr; } }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 60px 20px;
+            color: white;
+        }
+
+        .hero h1 {
+            font-size: 3.5em;
+            margin-bottom: 20px;
+            font-weight: 800;
+        }
+
+        .hero p {
+            font-size: 1.3em;
+            margin-bottom: 30px;
+            opacity: 0.95;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .features {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+
+        .feature {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 20px 30px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .feature-icon {
+            font-size: 1.2em;
+            margin-right: 10px;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 3em;
+            font-weight: bold;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 1em;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .category-card {
+            background: white;
+            border-radius: 20px;
+            padding: 35px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s;
+            text-decoration: none;
+            color: #333;
+            display: block;
+        }
+
+        .category-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .category-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+
+        .category-card h2 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.6em;
+        }
+
+        .category-card p {
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .calc-count {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 0.9em;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .section-header h2 {
+            font-size: 2.5em;
+            color: white;
+            margin-bottom: 10px;
+        }
+
+        .section-header p {
+            font-size: 1.1em;
+            color: white;
+            opacity: 0.9;
+        }
+
+        .why-calcpro {
+            background: white;
+            border-radius: 30px;
+            padding: 50px;
+            margin-top: 60px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .why-calcpro h2 {
+            text-align: center;
+            color: #667eea;
+            font-size: 2.5em;
+            margin-bottom: 15px;
+        }
+
+        .why-calcpro > p {
+            text-align: center;
+            color: #666;
+            font-size: 1.1em;
+            margin-bottom: 40px;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .benefit {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .benefit-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+
+        .benefit h3 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 1.3em;
+        }
+
+        .benefit p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .coming-soon {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        .coming-soon h3 {
+            color: #667eea;
+            font-size: 1.8em;
+            margin-bottom: 15px;
+        }
+
+        .coming-soon p {
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .coming-soon a {
+            display: inline-block;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 12px 30px;
+            border: 2px solid #667eea;
+            border-radius: 25px;
+            transition: all 0.3s;
+        }
+
+        .coming-soon a:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        footer {
+            background: rgba(0, 0, 0, 0.2);
+            color: white;
+            padding: 40px 20px;
+            margin-top: 60px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+        }
+
+        .footer-section h4 {
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+
+        .footer-section a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            padding: 5px 0;
+            opacity: 0.8;
+            transition: all 0.3s;
+        }
+
+        .footer-section a:hover {
+            opacity: 1;
+            padding-left: 5px;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            opacity: 0.8;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5em;
+            }
+
+            .features {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .stats {
+                gap: 30px;
+            }
+
+            .why-calcpro {
+                padding: 30px 20px;
+            }
+
+            .categories-grid {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>📊 CalcPro</h1>
-            <p>Free calculator tools for finance, health, education, conversions & more. Make data-driven decisions with confidence.</p>
-            <div class="trust-badges">
-                <div class="badge">✓ 100% Free Forever</div>
-                <div class="badge">✓ No Sign-Up Required</div>
-                <div class="badge">✓ Privacy First</div>
+    <div class="hero">
+        <h1>📊 CalcPro</h1>
+        <p>Free calculator tools for finance, health, education, conversions & more. Make data-driven decisions with confidence.</p>
+        
+        <div class="features">
+            <div class="feature">
+                <span class="feature-icon">✓</span> 100% Free Forever
             </div>
-        </header>
-
-        <div class="stats-section">
-            <div class="stat-card">
-                <div class="stat-number">28+</div>
-                <div>Live Calculators</div>
+            <div class="feature">
+                <span class="feature-icon">✓</span> No Sign-Up Required
             </div>
-            <div class="stat-card">
-                <div class="stat-number">6</div>
-                <div>Categories</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number">6M+</div>
-                <div>Monthly Searches</div>
+            <div class="feature">
+                <span class="feature-icon">✓</span> Privacy First
             </div>
         </div>
 
-        <h2 style="color: white; text-align: center; font-size: 2em; margin: 50px 0 30px;">Choose Your Category</h2>
+        <div class="stats">
+            <div class="stat">
+                <span class="stat-number">28+</span>
+                <span class="stat-label">Live Calculators</span>
+            </div>
+            <div class="stat">
+                <span class="stat-number">6</span>
+                <span class="stat-label">Categories</span>
+            </div>
+            <div class="stat">
+                <span class="stat-number">6M+</span>
+                <span class="stat-label">Monthly Searches</span>
+            </div>
+        </div>
+    </div>
 
-        <div class="category-grid">
+    <div class="container">
+        <div class="section-header">
+            <h2>Choose Your Category</h2>
+        </div>
+
+        <div class="categories-grid">
             <a href="finance-calculators.html" class="category-card">
                 <div class="category-icon">💰</div>
-                <div class="category-title">Finance & Investment</div>
-                <div class="category-desc">Mortgage, loans, compound interest, retirement, savings, credit card payoff, EMI & investment calculators.</div>
-                <span class="category-count">8 Calculators</span>
+                <h2>Finance & Investment</h2>
+                <p>Mortgage, loans, compound interest, retirement, savings, credit card payoff, EMI & investment calculators.</p>
+                <span class="calc-count">8 Calculators</span>
             </a>
 
             <a href="health-calculators.html" class="category-card">
                 <div class="category-icon">🏃</div>
-                <div class="category-title">Health & Fitness</div>
-                <div class="category-desc">BMI, calorie needs, body fat percentage, TDEE, and pregnancy calculators for health tracking.</div>
-                <span class="category-count">5 Calculators</span>
+                <h2>Health & Fitness</h2>
+                <p>BMI, calorie needs, body fat percentage, TDEE, and pregnancy calculators for health tracking.</p>
+                <span class="calc-count">5 Calculators</span>
             </a>
 
             <a href="conversion-calculators.html" class="category-card">
                 <div class="category-icon">🔄</div>
-                <div class="category-title">Conversion Tools</div>
-                <div class="category-desc">Percentage calculator, age calculator, currency converter for everyday calculations.</div>
-                <span class="category-count">3 Calculators</span>
+                <h2>Conversion Tools</h2>
+                <p>Unit converter, temperature converter, and time zone converter for everyday calculations.</p>
+                <span class="calc-count">3 Calculators</span>
             </a>
 
             <a href="education-calculators.html" class="category-card">
                 <div class="category-icon">🎓</div>
-                <div class="category-title">Education & Academic</div>
-                <div class="category-desc">GPA calculator, grade calculator with weighted assignments for students and teachers.</div>
-                <span class="category-count">2 Calculators</span>
+                <h2>Education & Academic</h2>
+                <p>GPA calculator, grade calculator with weighted assignments for students and teachers.</p>
+                <span class="calc-count">2 Calculators</span>
             </a>
 
             <a href="creator-calculators.html" class="category-card">
                 <div class="category-icon">🎨</div>
-                <div class="category-title">Creator Economy</div>
-                <div class="category-desc">Calculate earnings from YouTube, TikTok, Instagram, Twitch, and Patreon.</div>
-                <span class="category-count">5 Calculators</span>
+                <h2>Creator Economy</h2>
+                <p>Calculate earnings from YouTube, TikTok, Instagram, Twitch, and Patreon.</p>
+                <span class="calc-count">5 Calculators</span>
             </a>
 
             <a href="ecommerce-calculators.html" class="category-card">
                 <div class="category-icon">🛍️</div>
-                <div class="category-title">E-Commerce</div>
-                <div class="category-desc">Profit calculators for Shopify, Amazon FBA, dropshipping, pricing & break-even analysis.</div>
-                <span class="category-count">5 Calculators</span>
+                <h2>E-Commerce</h2>
+                <p>Profit calculators for Shopify, Amazon FBA, dropshipping, pricing & break-even analysis.</p>
+                <span class="calc-count">5 Calculators</span>
             </a>
         </div>
 
-        <div class="cta-section">
-            <h2 style="font-size: 2.5em; margin-bottom: 20px;">Why CalcPro?</h2>
-            <p style="font-size: 1.2em; margin-bottom: 30px;">Fast, accurate, and completely free tools designed for modern decision-makers</p>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; margin-top: 30px;">
-                <div>
-                    <div style="font-size: 3em; margin-bottom: 10px;">⚡</div>
-                    <div style="font-weight: 600;">Instant Results</div>
+        <div class="why-calcpro">
+            <h2>Why CalcPro?</h2>
+            <p>Fast, accurate, and completely free tools designed for modern decision-makers</p>
+            
+            <div class="benefits-grid">
+                <div class="benefit">
+                    <div class="benefit-icon">⚡</div>
+                    <h3>Instant Results</h3>
+                    <p>No waiting, no loading. Get your calculations instantly with real-time updates.</p>
                 </div>
-                <div>
-                    <div style="font-size: 3em; margin-bottom: 10px;">🔒</div>
-                    <div style="font-weight: 600;">Privacy First</div>
+                <div class="benefit">
+                    <div class="benefit-icon">🔒</div>
+                    <h3>Privacy First</h3>
+                    <p>Your data stays on your device. No tracking, no data collection, no accounts needed.</p>
                 </div>
-                <div>
-                    <div style="font-size: 3em; margin-bottom: 10px;">📱</div>
-                    <div style="font-weight: 600;">Mobile Ready</div>
+                <div class="benefit">
+                    <div class="benefit-icon">📱</div>
+                    <h3>Mobile Ready</h3>
+                    <p>Perfect experience on any device - phone, tablet, or desktop.</p>
                 </div>
-                <div>
-                    <div style="font-size: 3em; margin-bottom: 10px;">🎓</div>
-                    <div style="font-weight: 600;">Educational</div>
+                <div class="benefit">
+                    <div class="benefit-icon">🎓</div>
+                    <h3>Educational</h3>
+                    <p>Learn as you calculate with formulas, examples, and detailed explanations.</p>
                 </div>
             </div>
         </div>
 
-        <div style="text-align: center; padding: 40px 20px; background: rgba(255,255,255,0.1); border-radius: 20px; color: white; margin: 40px 0;">
-            <h3 style="font-size: 1.8em; margin-bottom: 15px;">More Categories Coming Soon</h3>
-            <p style="opacity: 0.9; margin-bottom: 20px;">Real estate, marketing, productivity, and sustainability calculators launching soon!</p>
-            <a href="more-calculators.html" style="color: white; text-decoration: underline;">See what's coming →</a>
+        <div class="coming-soon">
+            <h3>More Categories Coming Soon</h3>
+            <p>Real estate, marketing, productivity, and sustainability calculators launching soon!</p>
+            <a href="more-calculators.html">See what's coming →</a>
         </div>
+    </div>
 
-        <footer>
-            <p style="font-size: 1.2em; margin-bottom: 15px; font-weight: 600;">CalcPro</p>
-            <p style="opacity: 0.9; margin-bottom: 20px;">Empowering better decisions worldwide</p>
-            <div class="footer-links">
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>CalcPro</h4>
+                <p style="opacity: 0.8;">Empowering better decisions worldwide</p>
+            </div>
+            <div class="footer-section">
+                <h4>Calculators</h4>
                 <a href="finance-calculators.html">Finance</a>
                 <a href="health-calculators.html">Health</a>
                 <a href="conversion-calculators.html">Conversion</a>
                 <a href="education-calculators.html">Education</a>
                 <a href="creator-calculators.html">Creator</a>
                 <a href="ecommerce-calculators.html">E-Commerce</a>
+            </div>
+            <div class="footer-section">
+                <h4>Legal</h4>
                 <a href="privacy-policy.html">Privacy</a>
                 <a href="terms-of-use.html">Terms</a>
             </div>
-            <div style="margin-top: 30px; opacity: 0.7;">
-                <p>&copy; 2026 CalcPro. All calculators are free to use.</p>
-                <p style="margin-top: 10px;">Made with ❤️ for creators, entrepreneurs, students & everyone in between</p>
-            </div>
-        </footer>
-    </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 CalcPro. All calculators are free to use.</p>
+            <p style="margin-top: 10px;">Made with ❤️ for creators, entrepreneurs, students & everyone in between</p>
+        </div>
+    </footer>
 </body>
 </html>
