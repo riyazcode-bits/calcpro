@@ -12,18 +12,127 @@
         header { text-align: center; color: white; margin-bottom: 30px; }
         header h1 { font-size: 2.5em; margin-bottom: 10px; }
         .nav-link { display: inline-block; margin-top: 10px; color: white; text-decoration: none; opacity: 0.8; }
-        .calculator-card { background: white; border-radius: 20px; padding: 40px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
-        .assignment-row { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr auto; gap: 15px; margin-bottom: 15px; align-items: center; }
-        input { padding: 10px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 0.95em; }
+        .calculator-card { background: white; border-radius: 20px; padding: 40px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); overflow: hidden; }
+        
+        .header-row { 
+            display: grid; 
+            grid-template-columns: 2fr 1fr 1fr 1fr 40px; 
+            gap: 10px; 
+            margin-bottom: 15px; 
+            font-weight: 600; 
+            color: #666; 
+            font-size: 0.85em;
+            padding: 0 2px;
+        }
+        
+        .assignment-row { 
+            display: grid; 
+            grid-template-columns: 2fr 1fr 1fr 1fr 40px; 
+            gap: 10px; 
+            margin-bottom: 12px; 
+            align-items: center; 
+        }
+        
+        .input-wrapper {
+            position: relative;
+        }
+        
+        .mobile-label {
+            display: none;
+            font-size: 0.75em;
+            color: #666;
+            margin-bottom: 4px;
+            font-weight: 600;
+        }
+        
+        input { 
+            width: 100%;
+            padding: 10px 8px; 
+            border: 2px solid #e0e0e0; 
+            border-radius: 8px; 
+            font-size: 0.95em; 
+        }
+        
         input:focus { outline: none; border-color: #8B5CF6; }
-        .add-btn, .remove-btn { padding: 10px 15px; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; }
-        .add-btn { background: #8B5CF6; color: white; width: 100%; margin: 15px 0; }
-        .remove-btn { background: #EF4444; color: white; }
-        .calculate-btn { width: 100%; padding: 15px; background: linear-gradient(135deg, #8B5CF6 0%, #6D28D9 100%); color: white; border: none; border-radius: 10px; font-size: 1.1em; font-weight: 600; cursor: pointer; }
-        .result { margin-top: 30px; padding: 30px; background: linear-gradient(135deg, #8B5CF6 0%, #6D28D9 100%); border-radius: 15px; color: white; text-align: center; display: none; }
+        
+        .add-btn, .remove-btn { 
+            padding: 10px 15px; 
+            border: none; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            font-weight: 600; 
+        }
+        
+        .add-btn { 
+            background: #8B5CF6; 
+            color: white; 
+            width: 100%; 
+            margin: 15px 0; 
+        }
+        
+        .remove-btn { 
+            background: #EF4444; 
+            color: white; 
+            width: 40px;
+            height: 40px;
+            padding: 0;
+            font-size: 1.2em;
+            flex-shrink: 0;
+        }
+        
+        .calculate-btn { 
+            width: 100%; 
+            padding: 15px; 
+            background: linear-gradient(135deg, #8B5CF6 0%, #6D28D9 100%); 
+            color: white; 
+            border: none; 
+            border-radius: 10px; 
+            font-size: 1.1em; 
+            font-weight: 600; 
+            cursor: pointer; 
+        }
+        
+        .result { 
+            margin-top: 30px; 
+            padding: 30px; 
+            background: linear-gradient(135deg, #8B5CF6 0%, #6D28D9 100%); 
+            border-radius: 15px; 
+            color: white; 
+            text-align: center; 
+            display: none; 
+        }
+        
         .result.show { display: block; }
         .result-value { font-size: 4em; font-weight: 700; }
+        
         footer { text-align: center; color: white; margin-top: 40px; opacity: 0.9; }
+        
+        @media (max-width: 768px) { 
+            .calculator-card { padding: 20px; }
+            .header-row { display: none; }
+            .mobile-label { display: block; }
+            .assignment-row { 
+                grid-template-columns: 1fr; 
+                gap: 0;
+                padding: 15px;
+                background: #f9fafb;
+                border-radius: 10px;
+                margin-bottom: 15px;
+            }
+            .input-wrapper {
+                margin-bottom: 12px;
+            }
+            .input-wrapper:last-of-type {
+                margin-bottom: 0;
+            }
+            .remove-btn { 
+                width: 100%; 
+                height: auto;
+                padding: 10px;
+                margin-top: 12px;
+            }
+            input { font-size: 0.9em; }
+        }
     </style>
 </head>
 <body>
@@ -35,23 +144,33 @@
         </header>
 
         <div class="calculator-card">
-            <div style="margin-bottom: 20px;">
-                <div style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr auto; gap: 15px; font-weight: 600; color: #666; font-size: 0.9em;">
-                    <div>Assignment Name</div>
-                    <div>Score</div>
-                    <div>Max Points</div>
-                    <div>Weight (%)</div>
-                    <div></div>
-                </div>
+            <div class="header-row">
+                <div>Assignment Name</div>
+                <div>Score</div>
+                <div>Max Points</div>
+                <div>Weight (%)</div>
+                <div></div>
             </div>
 
             <div id="assignments">
                 <div class="assignment-row">
-                    <input type="text" placeholder="e.g., Homework" class="name">
-                    <input type="number" placeholder="85" class="score">
-                    <input type="number" placeholder="100" class="max">
-                    <input type="number" placeholder="30" class="weight">
-                    <button class="remove-btn" onclick="removeRow(this)" style="display: none;">✕</button>
+                    <div class="input-wrapper">
+                        <div class="mobile-label">Assignment Name</div>
+                        <input type="text" placeholder="e.g., Homework" class="name">
+                    </div>
+                    <div class="input-wrapper">
+                        <div class="mobile-label">Score</div>
+                        <input type="number" placeholder="85" class="score">
+                    </div>
+                    <div class="input-wrapper">
+                        <div class="mobile-label">Max Points</div>
+                        <input type="number" placeholder="100" class="max">
+                    </div>
+                    <div class="input-wrapper">
+                        <div class="mobile-label">Weight (%)</div>
+                        <input type="number" placeholder="30" class="weight">
+                    </div>
+                    <button class="remove-btn" onclick="removeRow(this)" style="visibility: hidden;">×</button>
                 </div>
             </div>
 
@@ -73,17 +192,31 @@
             const row = document.createElement('div');
             row.className = 'assignment-row';
             row.innerHTML = `
-                <input type="text" placeholder="e.g., Quiz" class="name">
-                <input type="number" placeholder="Score" class="score">
-                <input type="number" placeholder="Max" class="max">
-                <input type="number" placeholder="Weight %" class="weight">
-                <button class="remove-btn" onclick="removeRow(this)">✕</button>
+                <div class="input-wrapper">
+                    <div class="mobile-label">Assignment Name</div>
+                    <input type="text" placeholder="e.g., Quiz" class="name">
+                </div>
+                <div class="input-wrapper">
+                    <div class="mobile-label">Score</div>
+                    <input type="number" placeholder="Score" class="score">
+                </div>
+                <div class="input-wrapper">
+                    <div class="mobile-label">Max Points</div>
+                    <input type="number" placeholder="Max" class="max">
+                </div>
+                <div class="input-wrapper">
+                    <div class="mobile-label">Weight (%)</div>
+                    <input type="number" placeholder="Weight %" class="weight">
+                </div>
+                <button class="remove-btn" onclick="removeRow(this)">× Remove</button>
             `;
             document.getElementById('assignments').appendChild(row);
         }
 
         function removeRow(btn) {
-            btn.parentElement.remove();
+            if (document.querySelectorAll('.assignment-row').length > 1) {
+                btn.parentElement.remove();
+            }
         }
 
         function calculateGrade() {
